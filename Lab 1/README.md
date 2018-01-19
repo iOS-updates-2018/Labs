@@ -87,5 +87,60 @@
     }
     ```
 
+    We now have a decent temp converter class and gotten our feet wet with Swift. We'll come back to this next week to do a little more, but for now let's move on to building our first iOS app.
+
 ### Part 2: Stopwatch (App)
 
+For this part of the lab, we will now focus on creating our first actual iOS app: a stopwatch. At the end of this portion of the lab, you will have a working iOS stopwatch app that you can deploy onto your own iOS device (more on deployment later).
+
+The final app should look as follows:
+
+**FINAL APP IMAGE**
+
+Now to actually construct it.
+
+1. First, we will need to setup a new XCode project. To do this, open XCode, and then either navigate to `File > New > Project` or use the `shift-command-N` keyboard shortcut. From here, choose the `Single View App` option and click `Next` on the bottom right. Set the Project Name to be **Stopwatch** and then click `Next`. You can uncheck the three options at the bottom if you wish, we will learn about them in the coming weeks.
+
+    ![Opening New Project](https://i.imgur.com/m1C7DBz.png)
+
+2. XCode now opens a larger interface than you used for the `TempConverter` playground from before. If you click on the files on the left, the will open in the middle pane of the UI. Check out the contents of some of the files, including `AppDelegate.swift` and `ViewController.swift`, just skimming the files to get a sense of what they are about.
+
+3. Now, we will take a look at the `MainStoryboard.swift` file, which is used to, in short, graphically manage elements on the iOS device's screen. If you click the **Close left tab** button on the bottom of the middle pane, then you can maximize the middle, graphical pane.
+
+    Click the main canvas rectangle. Notice how there are now options on the right side (also known as the Inspector Pane) for you to investigate. In the Inspector Pane, click the leftmost icon on the top bar (this should look like a folded piece of paper, this is the File Inspector option). Here, uncheck the `Use Auto Layout` option.
+
+    A dialog should ask if you wish to disable the Trait Variations option. Do so as well. We will talk about the importance of Auto Layout for creating responsive UIs later in the semester. For now, we will optimize for one screen size.
+
+4. With that done, now note that the bottom portion of the rightmost pane contains a list of ViewController elements for you to use in your application. Here find the `Label` object and drag it onto the interface. Now, go back to the inspector pane and click the downward-arrow looking item in the top bar (also known as the attribute inspector). Now, change the starting text to '00:00.0', the font color to blue, and the size to be reasonably large.
+
+5. Now add two `Button` objects to the interface in the same manner you did with the `Label` in step 4. Set one to have a green background and have the label 'Start', and the other one to have a red background and have the label 'Stop'. At this point, your interface should look something like the one below:
+
+    ![Interface after buttons](https://i.imgur.com/RkpJhkS.png)
+
+6. Now, this might not be 272, but that doesn't mean we can forget about source control! Put this project into a Git repository from the command line and commit our progress so far.
+
+7. XCode features handy iOS simulators which we can use to test our app without deployment. In the upper-left of the XCode UI is a Play Button (>) that will build the project and run it on a simulator. By default, XCode will build this project to an iPhone 8 Plus simulator, but this can be changed by clicking 'iPhone 8 Plus' nearby in the top left corner. Run the build and see it works on the simulator (aside from the buttons working as expected, but we will fix that next).
+
+8. Now we are going to have to create functions which will be called upon clicking the `Start` and `Stop` buttons. These actions are written in the `ViewController.swift` file. Go there and add the following functions:
+
+  ```swift 
+  @IBAction func startButtonTapped(sender: UIButton) {
+    // code to start the clock
+  }
+
+  @IBAction func stopButtonTapped(sender: UIButton) {
+    // code to stop the clock
+  }
+  ```
+
+9. Now in the storyboard, it's time to "wire up" each button to its respective action. To do this, click on a button while holding the control key and drag the cursor to the `View Controller` as seen in the image below. When you release, the popup that you see in the image should appear and just select the action you want associated with the button. Verify that this was done correctly by looking at the Connections Inspector (last icon on the right in the rightmost Inspector Pane) and seeing the connection of each button to their respective actions.
+
+    ![Interface Wiring](https://i.imgur.com/6vULX0N.png)
+
+10. We now need an Outlet variable for the time display. Add this line to the top of the `ViewController` class.
+
+    ```swift
+    @IBOutlet weak var elapsedTimeLabel: UILabel!
+    ```
+
+    Now connect the outlet by selecting our time display label while holding the control key. A series of options pops up. Under `Referencing Outlets` there is a suboption for `New Referencing Outlet` and there is an open circle at the end of the option. Holding the control key, click and drag that circle to the `View Controller` under the `View Controller Scene` to the left of the storyboard. When you let go, you should get a option for the outlet we added, `elapsedTimeLabel`; select that option. Again, the Connections Inspector should verify the connection was properly made.

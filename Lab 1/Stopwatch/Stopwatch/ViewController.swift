@@ -9,6 +9,8 @@
 import UIKit
 
 class ViewController: UIViewController {
+  
+  @IBOutlet weak var elapsedTimeLabel: UILabel!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -20,6 +22,13 @@ class ViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
 
+  @IBAction func startButtonTapped(sender: UIButton) {
+    // code to start the clock
+  }
+  
+  @IBAction func stopButtonTapped(sender: UIButton) {
+    // code to stop the clock
+  }
 
 }
 
