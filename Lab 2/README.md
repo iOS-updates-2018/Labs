@@ -118,15 +118,19 @@ Part 1: Temp Converter (iOS app)
 Part 2: Stacks and Queues (Swift)
 ---
 
-1. Over the next few weeks we are going to review some basic data structures using Swift. The purpose is twofold: first, to help you get more familiar with the Swift language and second, to help refresh your knowledge of basic data structures in advance of fall job interviews.  We are starting today with stacks and queues and will do a little review of each.
+Over the next few weeks we are going to review some basic data structures using Swift. The purpose is twofold: first, to help you get more familiar with the Swift language and second, to help refresh your knowledge of basic data structures in advance of fall job interviews.  We are starting today with stacks and queues and will do a little review of each.
 
-1. Let's start with stacks.  A stack is like an array but with limited functionality. You can only *push* to add a new element to the top of the stack, *pop* to remove the element from the top, and *peek* at the top element without popping it off.
+### Stacks
+
+Let's start with **stacks**.  A stack is like an array but with limited functionality. You can only *push* to add a new element to the top of the stack, *pop* to remove the element from the top, and *peek* at the top element without popping it off.
 
   Why would you want to do this? Well, in many algorithms you want to add objects to a temporary list at some point and then pull them off this list again at a later time. Often the order in which you add and remove these objects matters.
 
   A stack gives you a LIFO or last-in first-out order. The element you pushed last is the first one to come off with the next pop.
 
-  For example, let's push a number on the stack:
+  For our stack, we will represent the end of an array as the top of the stack, meaning this is where elements are pushed/popped from.
+
+  For example, let's push a number on an initially empty stack `[ ]`:
 
   ```swift
   stack.push(10)
@@ -138,7 +142,7 @@ Part 2: Stacks and Queues (Swift)
   stack.push(3)
   ```
 
-  The stack is now `[ 10, 3 ]`. Push one more number:
+  The stack is now `[ 10, 3 ]`. This is because we will choose to represent the end of our array as the top of our stack, where elements are pushed/pulled from. Push one more number:
 
   ```swift
   stack.push(57)
@@ -158,10 +162,16 @@ Part 2: Stacks and Queues (Swift)
 
   This returns `3`, and so on. If the stack is empty, popping returns `nil` or in some implementations it gives an error message ("stack underflow").
 
-1. A stack is easy to create in Swift. It's just a wrapper around an array that just lets you push, pop, and peek. To get you started, we've created a basic playground with a little framing in place. Grab the [zipped files for lab2](http://67442.cmuis.net/files/67442/lab2_swift.zip) and open up the `Stack_lab2.playground`.  In it you have been given a basic shell for a stack and some simple tests that should pass if you set your stack up properly.  Add the code to the appropriate places and verify that everything is in working order.
+#### Stacks Requirements
+
+1. A stack is easy to create in Swift. It's just a wrapper around an array that just lets you push, pop, and peek. To get you started, we've created a basic playground with a little framing in place. Grab the [starter files for lab2](https://github.com/iOS-updates-2018/Labs/tree/master/Lab%202/Starter) and open up the `Stack_lab2.playground`.  In it you have been given a basic shell for a stack and some simple print tests that should help confirm if you set your stack up properly.  Add the code to the appropriate places and verify that everything is in working order.
 
 
-1. Now let's turn to a very similar data structure: queues. A queue is a list where you can only insert new items at the back and remove items from the front. This ensures that the first item you enqueue is also the first item you dequeue. We often refer to a queue as FIFO or first-in, first-out order. Since the element you inserted first is also the first one to come out again, using queues to manage events, etc. tend to appeal to our sense of fairness. 
+2. Finally, we'd like to be able to confirm our data structures with something more rigorous than just the informal testing of a playground. In the [starter files for lab2](https://github.com/iOS-updates-2018/Labs/tree/master/Lab%202/Starter) there is a folder called 'StackTests' - open `Tests.xcodeproj` with XCode and replace your code in the gaps of the `Stack.swift` file.  Then to run the tests, hover over the `Run` button in upper left corner of XCode until you see a little triangle appear; hold that down and the `test` option (with image of a wrench) will appear as the second option - select that option to run the tests.  Verify that all your tests passed. Looking at the test code (read it so you understand what is being tested and how) you see green checkmarks to passing tests. Change on the the tests so that it fails and rerun to see how XCode handles failing tests, but then revert it back so you can be checked off by the TAs.
+
+### Queues
+
+Now let's turn to a very similar data structure: **queues**. A queue is a list where you can only insert new items at the back and remove items from the front. This ensures that the first item you enqueue is also the first item you dequeue. We often refer to a queue as FIFO or first-in, first-out order. Since the element you inserted first is also the first one to come out again, using queues to manage events, etc. tend to appeal to our sense of fairness. 
 
   Why would you need this? Well, in many algorithms you want to add objects to a temporary list at some point and then pull them off this list again at a later time. Often the order in which you add and remove these objects matters.
 
@@ -197,11 +207,12 @@ Part 2: Stacks and Queues (Swift)
 
   This returns `3`, the next dequeue returns `57`, and so on. If the queue is empty, dequeuing returns `nil` or in some implementations it gives an error message.
 
-1.  In the [zipped files for lab2](http://67442.cmuis.net/files/67442/lab2_swift.zip) find and open up the `Queue_lab2.playground`.  In it you have been given a basic shell for a queue and some simple tests that should pass if you set your queue up properly.  Add the code to the appropriate places and verify that everything is in working order.
+#### Queues Requirements
 
-1. Finally, we'd like to be able to confirm our data structures with something more rigorous than just the informal testing of a playground. In the [zipped files for lab2](http://67442.cmuis.net/files/67442/lab2_swift.zip) there is a folder called 'StackTests' - open `Tests.xcodeproj` with XCode and replace your code in the gaps of the `Stack.swift` file.  Then to run the tests, hover over the `Run` button in upper left corner of XCode until you see a little triangle appear; hold that down and the `test` option (with image of a wrench) will appear as the second option - select that option to run the tests.  Verify that all your tests passed. Looking at the test code (read it so you understand what is being tested and how) you see green checkmarks to passing tests. Change on the the tests so that it fails and rerun to see how XCode handles failing tests, but then revert it back so you can be checked off by the TAs.
+1.  In the [starter files for lab2](https://github.com/iOS-updates-2018/Labs/tree/master/Lab%202/Starter) find and open up the `Queue_lab2.playground`.  In it you have been given a basic shell for a queue and some simple tests that should pass if you set your queue up properly.  Add the code to the appropriate places and verify that everything is in working order.
 
-1. Now in the interest of time we'll stop here, but there are two options for going forward. First is to write a similar test suite for the queue and test it. (Good practice because in future weeks you will be writing tests.) The second is to optimize our queue. You may recognize from your earlier data structures class that we could be a little more efficient with our basic queue. Either or both of these would be good extensions to work on by yourselves, but strictly optional today -- you are done with this lab after the tests pass on the stacks.
+
+2. Now we will write a similar test suite for the queue and test it. In the [starter files for lab2](https://github.com/iOS-updates-2018/Labs/tree/master/Lab%202/Starter) there is a folder called 'QueueTests' - open `Tests.xcodeproj` with XCode and replace your code in the gaps of the `Queue.swift` file. Then, check out the tests in `QueueTests.swift` and add in XCTests for the functions given. For more on XCTest syntax, check out the `StackTests.swift` file from before.
 
 
 - - -
