@@ -12,42 +12,42 @@
 */
 
 public struct Queue<T> {
-  private var array = [T]()
+  public var array = [T]()
 
   public var isEmpty: Bool {
-    
+    return array.count == 0
   }
 
   public var count: Int {
-
+    return array.count
   }
 
   public mutating func enqueue(element: T) {
-
+    array.append(element)
   }
 
   public mutating func dequeue() -> T? {
-
-    
-    
-    
-    
-    
+    if (isEmpty){
+      return nil
+    }
+    let firstElement = array[0]
+    array.removeFirst()
+    return firstElement
   }
 
   public func peek() -> T? {
-
+    if (isEmpty){
+      return nil
+    }
+    return array[0]
   }
 }
-
-
-
 
 // Create a queue and put some elements on it already.
 var queueOfNames = Queue(array: ["Carl", "Lisa", "Stephanie", "Jeff", "Wade"])
 
 // Adds an element to the end of the queue.
-queueOfNames.enqueue("Mike")
+queueOfNames.enqueue(element: "Mike")
 
 // Queue is now ["Carl", "Lisa", "Stephanie", "Jeff", "Wade", "Mike"]
 print(queueOfNames.array)
