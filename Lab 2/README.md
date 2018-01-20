@@ -15,7 +15,7 @@ Part 1: Temp Converter (iOS app)
 
   ![](http://67442.cmuis.net/screenshots/67442/lab4/lab4-1.png)
 
-1. Create a new project which is a single page application and call it TempConverterApp. After you have the basic project, add a new Swift file called `TempConverter.swift` to hold your model. At the end of the lab is a partial model file if you are completely stuck and need a jump start to get going, but given your previous experience you can probably figure out an appropriate model on your own and I strongly urge you to try as it will maximize your learning experience. 
+1. Create a new project which is a "Single View App" and call it "TempConverterApp". After you have the basic project, add a new Swift file called `TempConverter.swift` to hold your model. At the end of the lab is a partial model file if you are completely stuck and need a jump start to get going, but given your previous experience you can probably figure out an appropriate model on your own and I strongly urge you to try as it will maximize your learning experience. 
 
   The model should be able to convert Fahrenheit temps to Celsius and likewise convert Celsius to Fahrenheit if the user wants to go the other way. Remember that you will have to deal with the absolute zero case for both metric and English units.  Lastly, it should display 'N/A' if the temperature the user inputs is invalid because either below absolute zero or the input is not a number.
 
@@ -27,7 +27,7 @@ Part 1: Temp Converter (iOS app)
 
   ![](http://67442.cmuis.net/screenshots/67442/lab4/lab4-3.png)
 
-1. In the view controller, create some outlets that can be used for views to hook into. As we've seen before, outlets that are labels are of type `UILabel!`, but `inputTemperature` outlet in this case is of type `UITextField!`, not label. Once you have these outlets, wire them up to the storyboard.
+1. In the view controller, create some outlets that can be used for views to hook into. As we've seen before, outlets that are labels are of type `UILabel!`, but `inputTemperature` outlet in this case is of type `UITextField!`, not label. Once you have these outlets, wire them up to the storyboard. If you are stuck on how to create new outlets, check out the `ViewController.swift` file in the slider game code on the lectures portion of the course site.
 
 1. In the view controller, create an instance of the TempConverter model that the controller can work with. In the function `viewDidLoad()` be sure to set the initial tempLabel to "--". In the view controller you might also want to create a method called `updateLabels()` and another called `updateDisplay()` that other methods might call later, similar to what we did with the demo app in class.
 
@@ -187,7 +187,7 @@ Now let's turn to a very similar data structure: **queues**. A queue is a list w
   queue.enqueue(3)
   ```
 
-  The queue is now `[ 10, 3 ]`. Add one more number:
+  The queue is now `[ 10, 3 ]`. Note here we will designate the first element of the array as the front of the queue, and enqueue new elements to the end of the array. Add one more number:
 
   ```swift
   queue.enqueue(57)
