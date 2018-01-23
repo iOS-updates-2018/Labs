@@ -95,7 +95,7 @@ For this part of the lab, we will now focus on creating our first actual iOS app
 
 The final app should look as follows:
 
-    ![Final Product](https://i.imgur.com/xiEpUzv.png)
+![Final Product](https://i.imgur.com/xiEpUzv.png)
 
 Now to actually construct it.
 
