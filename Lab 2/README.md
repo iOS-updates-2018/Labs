@@ -11,108 +11,109 @@ CONTENTS
 ===
 Part 1: Temp Converter (iOS app)
 ---
-1. This lab will build our TempConverter that we have been working with in 67-272 and in lab 1 of 67-442 and turn it into a working iOS app. The app will take some user input, convert it (if valid) from either metric to English or English to metric. There will also be a toggle switch to change the direction of the conversion and a simple about page describing your app. A screenshot of the app can be seen below. (You are free to use different colors, etc.; I just like blue.) 
+This lab will build off our TempConverter that we have been working with in 67-272 and in the previous lab and turn it into a working iOS app. The app will take some user input, convert it (if valid) from either Celsius to Fahrenheit or Fahrenheit to Celsius. There will also be a toggle switch to change the direction of the conversion and a simple about page describing your app. A sample screenshot of the app can be seen below. (You are free to use different colors, etc.; I just like blue.) 
 
-  ![](http://67442.cmuis.net/screenshots/67442/lab4/lab4-1.png)
+![](http://67442.cmuis.net/screenshots/67442/lab4/lab4-1.png)
 
 1. Create a new project which is a "Single View App" and call it "TempConverterApp". After you have the basic project, add a new Swift file called `TempConverter.swift` to hold your model. At the end of the lab is a partial model file if you are completely stuck and need a jump start to get going, but given your previous experience you can probably figure out an appropriate model on your own and I strongly urge you to try as it will maximize your learning experience. 
 
-  The model should be able to convert Fahrenheit temps to Celsius and likewise convert Celsius to Fahrenheit if the user wants to go the other way. Remember that you will have to deal with the absolute zero case for both metric and English units.  Lastly, it should display 'N/A' if the temperature the user inputs is invalid because either below absolute zero or the input is not a number.
+    The model should be able to convert Fahrenheit temps to Celsius and likewise convert Celsius to Fahrenheit if the user wants to go the other way. The model should be sure to have a variable which will interact with the ViewController to display the temperature as a string. This variable should either be the final temperature after conversion, or should display 'N/A' if the temperature the user inputs is invalid because it is either below absolute zero or is not a number. Check the code at the bottom of the lab for a better idea on this (using the variable `convertedTempDisplay`).
 
-1. Now we will move to the storyboard to mock up the interface. For this first part we will just assume all temp conversions are from Fahrenheit to Celsius (will add the switch later) but we want to be mindful when we build the storyboard that the switch is coming and labels will have to adjust. Below is a screenshot of the initial storyboard to help guide you:
+2. Now we will move to the storyboard to mock up the interface. Open the `Main.storyboard` file in the XCode file explorer to see a blank iPhone canvas. For now we will just assume all temp conversions are from Fahrenheit to Celsius (will add the switch later) but we want to be mindful when we build the storyboard that the switch is coming and labels will have to adjust. Below is a screenshot of the initial storyboard to help guide you:
 
-  ![](http://67442.cmuis.net/screenshots/67442/lab4/lab4-2.png)
+    ![Sliderless Interface](http://67442.cmuis.net/screenshots/67442/lab4/lab4-2.png)
 
-  Adjust the view background to whatever color you wish (ice blue not a requirement but some background customization is). Set the text field so that the input (which will be numerical) is right-aligned.  Note that the temp display is actually two different labels -- one which will show the numeric value and the other to show the units it's being converted to. Later the units in that label will toggle when we hit a switch, so better to keep them separate from the start.  Also note that there are some [graphic resources](http://67442.cmuis.net/files/67442/lab4/resources_for_lab_4.zip) if you want to use them for customizing the button. (You must customize the button, but you can create your own resources if you want.) To add these resources, click on the `Images.xassets` folder, then hit the `+` button as seen in the screenshot below and choose `Import...` option and then navigate to your resources. Import any or all of the assets you wish. Once imported, you can use the `background` for the button to apply the appropriate image for the default button and then customize the text as you see fit. (You can also set up the highlighted state if you wish...)
+    Adjust the view background to some color. Set the text field so that the input (which will be numerical) is right-aligned.  **Note that the final temp display is actually two different labels** -- one which will show the numeric value and the other to show the units it's being converted to. Later the units in that label will toggle when we hit a switch, so better to keep them separate from the start.  Also note that there are some [graphic resources](http://67442.cmuis.net/files/67442/lab4/resources_for_lab_4.zip) if you want to use them for customizing the button. (You must customize the button, but you can create your own resources if you want.) To add these resources, click on the `Assets.xcassets` folder, then hit the `+` button as seen in the screenshot below and choose `Import...` option and then navigate to your resources. Import any or all of the assets you wish. Once imported, you can use the `background` for the button to apply the appropriate image for the default button and then customize the text as you see fit. (You can also set up the highlighted state if you wish...)
 
-  ![](http://67442.cmuis.net/screenshots/67442/lab4/lab4-3.png)
+    ![Assets Folder](https://i.imgur.com/6Xyf686.png)
 
-1. In the view controller, create some outlets that can be used for views to hook into. As we've seen before, outlets that are labels are of type `UILabel!`, but `inputTemperature` outlet in this case is of type `UITextField!`, not label. Once you have these outlets, wire them up to the storyboard. If you are stuck on how to create new outlets, check out the `ViewController.swift` file in the slider game code on the lectures portion of the course site.
+3. In `ViewController.swift`, create some outlets that can be used for views to hook into. As we've seen before, outlets that are labels are of type `UILabel!`, but the `tempInput` outlet, for the input text field, is of type `UITextField!`. Once you have these outlets, wire them up to the storyboard (control-click, drag from Referencing Outlets to View Controller on the left). If you are stuck on how to create new outlets, check out the `ViewController.swift` file in the slider game code on the lectures portion of the course site.
 
-1. In the view controller, create an instance of the TempConverter model that the controller can work with. In the function `viewDidLoad()` be sure to set the initial tempLabel to "--". In the view controller you might also want to create a method called `updateLabels()` and another called `updateDisplay()` that other methods might call later, similar to what we did with the demo app in class.
+4. In the view controller, create an instance of the TempConverter model that the controller can work with. In the function `viewDidLoad()` **be sure to set the initial tempLabel to "--"**. In the view controller you might also want to create a method called `updateLabels()` and another called `updateDisplay()` that other methods might call later, similar to what we did with the demo app in class. `updateLabels` will eventually update the temperature labels upon switching the input temperature (to be added later) while `updateDisplay` will update the final temperature label with the converted temperature, after converting the input temperature through the model.
 
-1. Now we need to make an action that will convert the temperature when the button is pushed. My outlet for the text field is called `inputTemperature` and I can get the text from that outlet by typing `inputTemperature.text` If I just put in 
+5. Now we need to make an action in the View Controller that will convert the temperature when the button is pushed. My outlet for the text field is called `tempInput` and I can get the text from that outlet by typing `tempInput.text` If I just put in 
 
-  ```swift
-  let userData:String = inputTemperature.text
-  ```
+    ```swift
+    let userData:String = tempInput.text
+    ```
 
-  then I get an error because the text field might not have any value and is an optional. I can force unpack it with `.text!` but then the interesting thing is that a blank text field will now have the value "".  I can handle that case (set blank to -500 so the 'N/A' message appears) as follows:
+    then I get an error because the text field might not have any value and is an optional. I can force unpack it with `.text!` but then the interesting thing is that a blank text field will now have the value "".  I can handle that case (set blank to -500 so the 'N/A' message appears) as follows:
 
-  ```swift
-  let userData:String = inputTemperature.text!
-  if (userData == "") {
-    converter.inputTemp = -500
-  }
-  else { ...
-  ```
+    ```swift
+    let userData:String = tempInput.text!
 
-  Now I just have to convert `userData` to an integer temp, which I could do with `Int(userData)`. But if the user puts in nonsense text like 'fred', this method would return nil. How do I handle that? Treat it as an optional with `if let ...` and if it exists then just set the converter's input temp to that value; otherwise set to -500 as we did earlier.  Once the converter's input temp is properly set, call the converter's `convert()` method and update labels and you're set.
-
-  Once you have an action created, don't forget to wire it up to the storyboard. Build and run your app in the simulator to be sure it is working appropriately.
-
-1. Now that this is working, we can add a `UISwitch` via the storyboard and some labels to indicate the direction of conversion. We can customize the switch using the attributes inspector on the right (I changed the switch's `on tint` to blue as a simple example). We now need to create an action in the view controller which will have the model toggle the units and then call our method to update the labels so we see the switch is working.  Below is the method I used (very simple):
-
-  ```swift
-  @IBAction func switchChanged() {
-    converter.toggleUnits()
-    updateLabels()
-  }
-  ```
-
-  Once you have the action, wire it up to the switch on the storyboard. A simple test in the simulator should show the temp labels toggle between C and F as the switch is tapped.
-
-1. Finally, add an `info-light` button at the lower right corner of the app that will be used to take us to our about page. Then add a new file to the app -- make it a iOS source file of type `Cocoa Touch Class` and then call it `AboutViewController` and make it a subclass of `UIViewController` as seen below:
-
-  ![](http://67442.cmuis.net/screenshots/67442/lab4/lab4-4.png)
-  ...
-  ![](http://67442.cmuis.net/screenshots/67442/lab4/lab4-5.png)
-
-  Once you have that file, you can add the following code to it:
-
-  ```swift
-  import UIKit
-
-  class AboutViewController: UIViewController {
-  
-    override func viewDidLoad() {
-      super.viewDidLoad()
+    if (userData == "") {
+      converter.inputTemp = -500
     }
-  
-    @IBAction func close() {
-      dismissViewControllerAnimated(true, completion: nil)
+    else { ...
+    ```
+
+    Now we just have to convert `userData` from the string with the user's input to an integer, which I could do with `Int(userData)`. But if the user puts in some nonsense text like 'tom brady', this method would return nil. How do I handle that? Treat it as an optional with `if let ...` and if it exists then just set the converter's input temp to that value; otherwise set to -500 as we did earlier.  Once the converter class instance's input temp is properly set in the ViewController, call the converter class instance's `convert()` method, update the temperature display in the View Controller and we are set.
+
+    Once you have this `@IBAction` function created, don't forget to wire it up to the storyboard. Build and run your app in the simulator to be sure it is working appropriately.
+
+6. Now that this is working, we can go back to the storyboard and add a `UISwitch` element as well as some labels to indicate the direction of conversion. We can customize the switch using the attributes inspector on the right. We now need to create an action in the View Controller which will have the model toggle the units and then call our other View Controller method to update the temperature labels so we see the switch is working.  Below is a simple method to do so:
+
+    ```swift
+    @IBAction func switchChanged() {
+      converter.toggleUnits()
+      updateLabels()
     }
-  }
-  ```
+    ```
 
-1. Go to the storyboard and drag a `ViewController` object onto it to the right of the main view. Select that new `ViewController` object and go to the `identity inspector` (third icon from the left in the upper right; there are tooltips to help) and make sure that the class is set to `AboutViewController`.  Add a `TextView` object to the new view controller and replace the lorem ipsum text with something more appropriate. Add a close button beneath that and wire it up to the close action in `AboutViewController`. Finally create a seque between the two view controllers but pressing `control` and dragging the cursor from the info button in the main view controller to the about view controller; choose the `modal` option and your two view controllers will be connected as seen below:
+    Once you have the action, wire it up to the switch on the storyboard. A simple test in the simulator should show the temp labels toggle between C and F as the switch is tapped.
 
-  ![](http://67442.cmuis.net/screenshots/67442/lab4/lab4-6.png) 
+7. Finally, add an `info-light` button at the lower right corner of the app that will be used to take us to an about page. Then add a new file to the app -- make it a iOS source file of type `Cocoa Touch Class` and then call it `AboutViewController` and make it a subclass of `UIViewController` as seen below:
 
-1. I assume to this point you've been running your app in the simulator and using your laptop keyboard for input. Now try to deploy the app to your iPhone by plugging in your device via USB and selecting it rather than iPhone 6 simulator. (May take a few moments for your laptop to finish its usual updating whenever a device is connected before you can actually deploy.) Move the switch and see the labels update appropriately. Hit the convert button without entering any data and see "N/A" appear. Try typing data into the box and you run into a problem -- you can't submit and the keyboard is in the way and can't be dismissed.  (Finding this snafu is an example of why it's nice to test on a device.) We are going to solve the problem for you, but the full explanation will have to come a little later once we've talked about delegates and the use of the delegation pattern. For now, stop the deploy and go back the the ViewController code.
+    ![Cocoa Touch Class](https://i.imgur.com/DCrVS4e.png)
+    ...
+    ![AboutViewController](https://i.imgur.com/fs1y0Eg.png)
 
-1. We need to tell the ViewController to adopt the UITextFieldDelegate protocol; to do that change the first line of the ViewController to now read as follows:
+    Once you have that file, replace its contents with the following code:
 
-  ```swift
-  class ViewController: UIViewController, UITextFieldDelegate { ...
-  ```
+    ```swift
+    import UIKit
 
-  Now in the method `viewDidLoad` add to the end of the method (after `super.viewDidLoad()`) the following line: 
+    class AboutViewController: UIViewController {
+    
+      override func viewDidLoad() {
+        super.viewDidLoad()
+      }
+    
+      @IBAction func close() {
+        dismissViewControllerAnimated(true, completion: nil)
+      }
+    }
+    ```
 
-  ```swift
-  self.inputTemperature.delegate = self
-  ```
+8. Go back to the storyboard and drag a `ViewController` object onto it to the right of the main view. Select that new `ViewController` object and go to the `identity inspector` (third icon from the left in the upper right; there are tooltips to help) and make sure that the class is set to `AboutViewController`.  Add a `TextView` object to the new view controller and replace the lorem ipsum text with something more appropriate. Add a close button beneath that and wire it up to the close action in `AboutViewController`. Finally create a seque between the two view controllers by clicking over the info button while holding `control` and dragging the cursor from the info button in the main view controller to the about view controller; choose the `show` option and your two view controllers will be connected as seen below:
 
-  Finally, add the following method to the ViewController:
+    ![](http://67442.cmuis.net/screenshots/67442/lab4/lab4-6.png) 
 
-  ```swift
-  func textFieldShouldReturn(textField: UITextField) -> Bool {
-    inputTemperature.resignFirstResponder()
-    return true
-  }
-  ```
+9. To this point you've likely been running your app in the simulator and using your laptop keyboard for input. Now try to deploy the app to your iPhone by plugging in your device via USB and selecting it rather than iPhone 8 Plus simulator. (May take a few moments for your laptop to finish its usual updating whenever a device is connected before you can actually deploy.) Move the switch and see the labels update appropriately. Hit the convert button without entering any data and see "N/A" appear. Try typing data into the box and you run into a problem -- you can't submit and the keyboard is in the way and can't be dismissed.  (Finding this snafu is an example of why it's nice to test on a device.) We are going to solve the problem for you, but the full explanation will have to come a little later once we've talked about delegates and the use of the delegation pattern. For now, stop the deploy and go back the the ViewController code.
 
-  Redeploy to your device and see that this now works fine.  Of course, we might want other things to happen too, such as the text field automatically clearing or being selected when the app opens or automatically convert the temp when return is hit and as we learn more about delegates and the UITextFieldDelegate we can go back and modify this app as we see fit.  But for now, onto a quick refresher of data structures so we can sharpen our Swift skills.
+10. We need to tell the ViewController to adopt the UITextFieldDelegate protocol; to do that change the first line of the original View Controller to now read as follows:
+
+    ```swift
+    class ViewController: UIViewController, UITextFieldDelegate { ...
+    ```
+
+    Now in the method `viewDidLoad` add to the end of the method the following line: 
+
+    ```swift
+    self.inputTemperature.delegate = self
+    ```
+
+    Finally, add the following method to the ViewController:
+
+    ```swift
+    func textFieldShouldReturn(textField: UITextField) -> Bool {
+      inputTemperature.resignFirstResponder()
+      return true
+    }
+    ```
+
+    Redeploy to your device and see that this now works fine.  Of course, we might want other things to happen too, such as the text field automatically clearing or being selected when the app opens or automatically convert the temp when return is hit and as we learn more about delegates and the UITextFieldDelegate we can go back and modify this app as we see fit.  But for now, onto a quick refresher of data structures so we can sharpen our Swift skills.
 
 
 Part 2: Stacks and Queues (Swift)
@@ -234,17 +235,14 @@ Model starter code:
     var newUnits: String = "°C"
   
     func convert() {
-
-      // logic for converting temps and setting display string
+      // Logic for converting the temperature
       // must check that the temp is valid (above absolute zero)
       // if temp is not valid, display string should be set to 'N/A'
-		 
     }
   
-    func tempIsValid() -> Bool {
-    
+    func tempBelowAbsoluteZero() -> Bool {
       // test to make sure above absolute zero for either Fahrenheit or Celsius
-
+      // Note testing for datatype correctness can happen in the ViewController
     }
   
     func toggleUnits() {
