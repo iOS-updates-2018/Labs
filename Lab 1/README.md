@@ -144,3 +144,153 @@ Now to actually construct it.
     ```
 
     Now connect the outlet by selecting our time display label while holding the control key. A series of options pops up. Under `Referencing Outlets` there is a suboption for `New Referencing Outlet` and there is an open circle at the end of the option. Holding the control key, click and drag that circle to the `View Controller` under the `View Controller Scene` to the left of the storyboard. When you let go, you should get a option for the outlet we added, `elapsedTimeLabel`; select that option. Again, the Connections Inspector should verify the connection was properly made.
+
+11. We can save and build the project right now, but unfortunately our actions are pretty much useless and serving as just a placeholder right now. To make them more useful, we need a model that will handle the logic of finding the current time, calculating the elapsed time and converting that time into a string can be displayed through our outlet onto the time display label.  Add a new Swift file called 'Stopwatch.swift' and add the following code to create a basic framework for our model:
+
+  ```swift
+  import Foundation
+
+  class Stopwatch {
+    
+    private var startTime: NSDate?
+
+    func start() {
+
+    }
+
+    func stop() {
+
+    }
+     
+  }
+  ```
+
+12. Before we write the code for this model, let's experiment with dates and times in Swift using a playground. (Playgrounds are great places for us to experiment with Swift code much like we did with rails console.)  Open a new playground and call it something like 'DatePlayground' (what you actually call it is not important).  Once it is open, add the following:
+
+  ```swift
+  import Foundation 
+
+  let startTime: NSDate = NSDate()
+  ```
+
+  We see that when we create a new instance of `NSDate`, it defaults to the current datetime.  To create an older date is a little more effort, unfortunately, but it will give us a chance to play with `NSCalendar`.  Let's create two more dates in our playground with the following code:
+
+  ```swift
+  let calendar = NSCalendar.currentCalendar()
+
+  let newYearsDayComponents = NSDateComponents()
+  newYearsDayComponents.year = 2015
+  newYearsDayComponents.month = 1
+  newYearsDayComponents.day = 1
+  let newYearsDay = calendar.dateFromComponents(newYearsDayComponents)! 
+
+  let valentinesDayComponents = NSDateComponents()
+  valentinesDayComponents.year = 2015
+  valentinesDayComponents.month = 2
+  valentinesDayComponents.day = 14
+  valentinesDayComponents.hour = 9  // start the day at 9am for now
+  let valentinesDay = calendar.dateFromComponents(valentinesDayComponents)!
+  ```
+
+  We can find the difference between these dates using the `timeIntervalSinceDate` method:
+
+  ```swift
+  let diffVD2NYD = valentinesDay.timeIntervalSinceDate(newYearsDay)
+  let diffNYD2VD = newYearsDay.timeIntervalSinceDate(valentinesDay)
+  ```
+
+  What this is giving us is the time between these as seconds. In the case of `diffNYD2VD` the value is negative because when I subtract a larger number (Valentines Day) from a smaller number (New Years Day) it is negative, but that is easy to correct by multiplying by -1 if needed. What if I wanted the number of days between these dates? And what if after I wanted the number of hours that remained between them (since one starts at midnight and the other at 9am)?  We could do the following:
+
+  ```swift
+  let diffDays = Int(diffVD2NYD / 86400)
+  let diffHours = Int((diffVD2NYD % 86400)/(3600))
+  ```
+
+  To combine these into a string (that I might send to update a view, for example) all we need to do is the following:
+
+  ```swift
+  let diffVD2NYDAsString: String = String(format: "%02d:%02d", diffDays, diffHours)
+  ```
+
+  Likewise, we can easily find the time that has elapsed from `startTime` and now with the following:
+
+  ```swift
+  var elapsedTime = startTime.timeIntervalSinceNow
+  ```
+
+13. Having played with dates and times in the playground, let's return to the model and start filling it out.  Replace the start and stop functions with the following:
+
+  ```swift
+  func start() {
+    startTime = NSDate()
+  }
+  
+  func stop() {
+    startTime = nil
+  }
+  ```
+
+  We have no problem with start, but as soon as I set `startTime` to nil in `stop()` we get an error.  What do I have to do to correct that error?  (Hint: in class on Thursday we discussed Optionals; that could be useful here.)
+
+14. One thing I'd expect my model to do is calculate the elapsed time.  I can do this by adding the following method to my model:
+
+  ```swift
+  var elapsedTime: TimeInterval {
+    if let startTime = self.startTime {
+      return -1 * startTime.timeIntervalSinceNow // could also just say -startTime.timeIntervalSinceNow
+    } else {
+      return 0
+    }
+  }
+  ```
+
+  Remember that since we just made `startTime` an optional in the previous step, I need to unpack that optional safely here with the `if let ...` approach discussed in class.
+
+  While this is nice, what we really need is a function that will return a string of format `00:00.0` (minutes,seconds,fractions of a second) that can be used by the ViewController to pass along to the view.  Write that function using the following starter code and drawing on lessons from our playground (you can test your ideas in the playground as well before writing the model method):
+
+  ```swift
+  var elapsedTimeAsString: String {
+    // return the formatted string...
+  }
+  ```
+
+15. One last thing we need in our model: a variable called `isRunning` which has two states:  true if the stopwatch is running and false otherwise. The existence of what variable indicates to us that the stopwatch is running? Use that information to create this simple variable now.
+
+16. With the model done, we come back to the ViewController and create an instance of our model to work with. At the beginning of the class add the following:
+
+  ```swift
+  let stopwatch = Stopwatch()
+  ```
+
+  Now that we have an instance of Stopwatch to work with, we can add to our IBActions either `stopwatch.start()` or `stopwatch.stop()` as appropriate. Do that and then build and run the project. Problem is that still nothing is happening when I press start. Why? Well, I haven't updated the `elapsedTimeLabel` so there is no way to see what (if anything) I've done.
+
+17. To fix this, create a method called `updateElapsedTimeLabel`. This will be a little tricky because we need this label to continually update until we press stop.  To do this, our method will take as an argument [Timer](https://developer.apple.com/documentation/foundation/timer); read the documentation linked to get an idea of what this class does. The code for our method is as follows:
+
+  ```swift
+  func updateElapsedTimeLabel(timer: Timer) {
+    if stopwatch.isRunning {
+      elapsedTimeLabel.text = stopwatch.elapsedTimeAsString
+    } else {
+      timer.invalidate()
+    }
+  }
+  ```
+  
+  Now call this method just prior to `stopwatch.start` in the action with the following code:
+
+  ```swift
+  Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(ViewController.updateElapsedTimeLabel), userInfo: nil, repeats: true)
+  ```
+
+  You now need to annote the `updateElapsedTimeLabel` with the `@objc` attribute. This allows the function to be accessed and used by Objective-C. Swift and Objective-C can be used in the same project for more information about how this works read the [documentation](https://developer.apple.com/library/content/documentation/Swift/Conceptual/BuildingCocoaApps/MixandMatch.html) linked. The method signature should now look like this:
+
+  ```swift
+    @objc func updateElapsedTimeLabel(timer: Timer)
+  ```
+
+18. Finally, as a minor tweak, download the AppIcon for [Stopwatch](http://67442.cmuis.net/files/67442/lab3/AppIcon.appiconset.zip) and add this to your Images.xcassets folder, replacing the generic AppIcon set.  Rebuild your project and run it again.  When you press home (`shift`+`command`+`H`) you will see the new icon on the simulator home screen. As of Xcode 7.x you have the option to deploy directly to a device as well without a developer license, so if you plug in your iPhone to your laptop, you can also choose that device to deploy too as well.
+
+- - -
+# <span class="mega-icon mega-icon-issue-opened"></span> Stop
+**Be sure that the lab is checked-off by the TAs when complete. If for some reason you don't finish during this session, you may complete it on your own and show the TAs prior to the beginning of the next lab.**
+- - - 
