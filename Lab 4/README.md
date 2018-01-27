@@ -78,7 +78,7 @@ Flashcards Part 1: Representing, Creating, and Displaying Cards
 
     ```swift
     let deck = Deck()
-    var flashcard: Flashcard? = nil
+    var flashcard: Flashcard?
     ```
  
 4. We need some way to display this information. Add some labels to the main storyboard as seen below.  Then turn the second label into an outlet called `commandLabel`.
@@ -102,67 +102,69 @@ Flashcards Part 1: Representing, Creating, and Displaying Cards
 
 Flashcards Part 2: Adding Navigation
 ---
-1. Add a second view controller similar to what we did last week that we will use to display the definition part of the card.  First is to add a new file to the project called `DefinitionViewController.swift` and then add a new view controller to the storyboard to the right of the current one.  Make sure that in the Identity inspector you set the class on the new view controller to `DefinitionViewController`. (In some cases you might have Xcode issue a warning after selecting the custom class; if so click into the module text box just below and just hit enter.)
+1. Now we will go through creating a second view controller which we will use to display the definition part of the card.  First is to add a new Cocoa Touch Class file to the project called `DefinitionViewController.swift`, with the class of `DefinitionViewController` and is a subclass of `UIViewController`. 
 
-1. To add the navigation bar to the app, select the first view controller and then go to the menu `Editor` option and select `Embed in...` > `Navigation Controller`.  This will add the navigation controller and a navbar to the view controller.  In the Object Library select the `Bar Button Item` and drag it to the right side of the navbar.  Double-click on navbar and add in 'Command' in the text box that appears.
+    Then in the storyboard add a new view controller to the storyboard to the right of the current one.  Make sure that in the Identity inspector you set the class on the new view controller to `DefinitionViewController`. (In some cases you might have Xcode issue a warning after selecting the custom class; if so click into the module text box just below and just hit enter.)
 
-1. In the Attribute Inspector look at the options under `Identifier` to see how many built-in options are available, but in our case choose 'custom' and set the title to 'Definition'. Now `control click` on the button and drag it to the definition view controller.  Choose the `show` option when creating the seque. Click on the seque in the storyboard and look at Attribute Inspector; change the identifier to `showDefinition`.  Build and run the app and see how the two pages are connected via the navbar.
+2. To add the navigation bar to the app, select the first view controller and then, on the top XCode menu, select the `Editor` option and select `Embed in...` > `Navigation Controller`.  This will add the navigation controller and a navbar to the View Controller.  In the Object Library select the `Bar Button Item` and drag it to the right side of the top navbar on the original View Controller.  Replace the button text of this new button with 'Definition' and set the navbar title to 'Command'.
 
-1. Now we need to add some labels to the definition view controller as seen below.  Make outlets for these labels; the top one in Courier New font is `commandLabel` and the bottom one is `definitionLabel` and you should adjust both to allow for multiple lines. 
+3. Now `control click` on the button and drag it to the definition view controller.  Choose the `show` option when creating the seque. Click on the seque in the storyboard and look at Attribute Inspector; change the identifier to `showDefinition`.  Build and run the app and see how the two pages are connected via the navbar. Also note how the title of the navbar in the first View Controller automatically set the back button in the second View Controller.
 
-  ![](http://67442.cmuis.net/screenshots/67442/lab5/lab5-3.png)
+4. Now we need to add some labels to the Definition View Controller as seen below.  Make outlets for these labels; the top one is `commandLabel`, the bottom one is `definitionLabel` and you should adjust both to allow for multiple lines. 
 
-  In the code for `DefinitionViewController` add in an instance variable for the flashcard:
+    ![](http://67442.cmuis.net/screenshots/67442/lab5/lab5-3.png)
 
-  ```swift
-  var flashcard: Flashcard?
-  ```
+    In the code for `DefinitionViewController` add in an instance variable for the flashcard:
 
-  And then in the `viewDidLoad()` method add in:
+    ```swift
+    var flashcard: Flashcard?
+    ```
 
-  ```swift
-    // we need to safely unpack the flashcard and display the data, if present
-    if let card = flashcard {
-      commandLabel.text = card.command
-      definitionLabel.text = card.definition
+    And then in the `viewDidLoad()` method add in:
+
+    ```swift
+      // we need to safely unpack the flashcard and display the data, if present
+      if let card = flashcard {
+        commandLabel?.text = card.command
+        definitionLabel?.text = card.definition
+      }
+    ```
+
+    We can run it now, but it won't do anything because `flashcard` is an optional (rightly so) and in this case, it is `nil` -- we haven't transferred the flashcard object from the main view controller to this one.
+
+5. To do this, go back to the main view controller and add in the following code:
+
+    ```swift
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+      if segue.identifier == "showDefinition" {
+        let showDefinition:DefinitionViewController = segue.destination as! DefinitionViewController
+        showDefinition.flashcard = self.flashcard
+      }
     }
-  ```
+    ```
 
-  We can run it now, but it won't do anything because `flashcard` is an optional (rightly so) and in this case, it is `nil` -- we haven't transferred the flashcard object from the main view controller to this one.
+    This is what we saw in the class demo this past week. This function is run just before we seque to the definition view controller and basically sets the instance variable in the definition view controller to our flashcard object that was randomly drawn.  Build and run this project now and you should see the data connected.
 
-1. To do this, go back to the main view controller and add in the following code:
+6. One problem is that when you go back, you still see the same rails command; do you have to keep quitting and reloading the app to get new questions? No, but first we need to recognize that iOS gives us a lot of [valid state transitions](https://developer.apple.com/library/ios/documentation/UIKit/Reference/UIViewController_Class/#//apple_ref/occ/instm/UIViewController/viewWillAppear:) to work with as seen at link and in the image below:
 
-  ```swift
-  override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-    if segue.identifier == "showDefinition" {
-      let showDefinition:DefinitionViewController = segue.destinationViewController as! DefinitionViewController
-      showDefinition.flashcard = self.flashcard
+    ![](http://67442.cmuis.net/screenshots/67442/lab5/lab5-4.png)
+
+    If we override the built-in iOS function `viewWillAppear()` then we can make sure a new card is drawn each time we return to this view.  In the code for the main view controller, comment out the lines in `viewDidLoad()` that generated the card and instead add the following:
+
+    ```swift
+    // because we really want a new card every time this view appears
+    override func viewWillAppear(_ animated: Bool) {
+      super.viewWillAppear(animated)
+      if let flashcard = deck.drawRandomCard() {
+        self.flashcard = flashcard
+        commandLabel?.text = flashcard.command
+      }
     }
-  }
-  ```
+    ```
 
-  This is what we saw in the class demo this past week. This function is run just before we seque to the definition view controller and basically sets the instance variable in the definition view controller to our flashcard object that was randomly drawn.  Build and run this project now and you should see the data connected.
+    Now build and run and we should be getting the behavior we anticipated.
 
-1. One problem is that when you go back, you still see the same rails command; do you have to keep quitting and reloading the app to get new questions? No, but first we need to recognize that iOS gives us a lot of [valid state transitions](https://developer.apple.com/library/ios/documentation/UIKit/Reference/UIViewController_Class/#//apple_ref/occ/instm/UIViewController/viewWillAppear:) to work with as seen at link and in the image below:
-
-  ![](http://67442.cmuis.net/screenshots/67442/lab5/lab5-4.png)
-
-  If we override the built-in iOS function `viewWillAppear()` then we can make sure a new card is drawn each time we return to this view.  In the code for the main view controller, comment out the lines in `viewDidLoad()` that generated the card and instead add the following:
-
-  ```swift
-  // because we really want a new card every time this view appears
-  override func viewWillAppear(animated: Bool) {
-    super.viewWillAppear(animated)
-    if let flashcard = deck.drawRandomCard() {
-      self.flashcard = flashcard
-      commandLabel.text = flashcard.command
-    }
-  }
-  ```
-
-  Now build and run and we should be getting the behavior we anticipated.
-
-1. Bonus time: use AutoLayout to set up constraints so that all the elements on your storyboards are displayed accurately on multiple devices. You can look at the slider game project for examples (use the size inspector to see the constraints more precisely).
+7. **Bonus time**: use AutoLayout to set up constraints so that all the elements on your storyboards are displayed accurately on multiple devices. You can look at the slider game project for examples (use the size inspector to see the constraints more precisely).
 
 
 ---
