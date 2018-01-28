@@ -175,6 +175,131 @@ Part B: Binary Trees and Heaps (Swift)
 
 On to data structures...
 
+This week, we will be revisiting the Binary Tree and Heap data structures. Below, we will lay out the general interface for trees and heaps you are expected to implement, with testing. For Binary Trees, you are to write tests to cover the functions defined in the enum, and then implement the Binary Tree. For Heaps, you are to implement the interface to have the given tests pass! Download the starter code here and fill in the interfaces for Heaps, and test!
+
+For more information on trees, review this document.
+
+For more information on heaps, review this document.
+
+### Binary Trees Interface (Using Enums)
+
+```swift
+public indirect enum BinaryTree<T> {
+  case Node(BinaryTree<T>, T, BinaryTree<T>)
+  case Empty
+
+  public var count: Int {
+    // Dynamically updated property: the number of non-empty nodes in the binary tree
+  }
+
+  public func traverseInOrder(): [T] {
+    // Returns a list of the objects in the tree in left subtree, current node, right subtree order
+  }
+
+  public func isEmpty(): Bool {
+    // Returns true if this tree is Empty and false otherwise
+    // Note that this is a more convenient way than switching on .Empty
+  } 
+}
+```
+
+
+### Heaps Interface (Using Array-List Representation)
+
+```swift
+public struct Heap<T> {
+  // The array that stores the heap's nodes.
+  var elements = [T]()
+
+  // Determines whether this is a max-heap (>) or min-heap (<).
+  private var isOrderedBefore: (T, T) -> Bool
+
+  // Init for creating an empty heap.
+  // The sort function determines whether this is a min-heap or max-heap.
+  // For integers, > makes a max-heap, < makes a min-heap.
+  public init(sort: (T, T) -> Bool) {
+    self.isOrderedBefore = sort
+  }
+
+  // Init for creating a heap from an array. 
+  public init(array: [T], sort: (T, T) -> Bool) {
+    self.isOrderedBefore = sort
+    buildHeap(array)
+  }
+
+
+  // Converts an array to a max-heap or min-heap in a bottom-up manner.
+  private mutating func buildHeap(array: [T]) {
+ 
+  }
+
+  // Returns true if the tree is empty and false otherwise
+  public var isEmpty: Bool {
+
+  }
+
+  // Returns the number of non-empty nodes in the tree
+  public var count: Int {
+
+  }
+
+  // Returns the index of the parent of the element at index i.
+  // The element at index 0 is the root of the tree and has no parent.
+  @inline(__always) func indexOfParent(i: Int) -> Int {
+
+  }
+
+  // Returns the index of the left child of the element at index i.
+  // Note that this index can be greater than the heap size, in which
+  // case there is no left child.
+  @inline(__always) func indexOfLeftChild(i: Int) -> Int {
+
+  }
+
+  // Returns the index of the right child of the element at index i.
+  // Note that this index can be greater than the heap size, in which 
+  // case there is no right child.
+  @inline(__always) func indexOfRightChild(i: Int) -> Int {
+
+  }
+
+  // Returns the maximum value in the heap (for a max-heap) or the minimum
+  public func peek() -> T? {
+
+  }
+
+  // Adds a new value to the heap. This reorders the heap 
+  // so that the max-heap or min-heap property still holds.
+  public mutating func insert(value: T) {
+
+  }
+  
+  public mutating func insert<S: SequenceType>(sequence: S) where S.Generator.Element == T {
+    for value in sequence {
+      insert(value)
+    }
+  }
+
+  // Removes the root node from the heap. For a max-heap, this 
+  // is the maximum value; for a min-heap it is the minimum value.
+  public mutating func remove() -> T? {
+
+  }
+
+  // Takes a child node and looks at its parents; if a parent is 
+  // not larger (max-heap) or not smaller (min-heap) than the 
+  // child, we exchange them.
+  mutating func shiftUp(index: Int) {
+
+  }
+
+  // Looks at a parent node and makes sure it is still larger 
+  // (max-heap) or smaller (min-heap) than its children.
+  mutating func shiftDown(index: Int, heapSize: Int) {
+  }
+}
+```
+
 A tree is a foundational data structure that represents hierarchical relationships between objects. A tree consists of nodes, and these nodes are linked to one another. Nodes have links to their children and usually to their parent as well. The children are the nodes below a given node; the parent is the node above. A node always has just one parent but can have multiple children.
 
 A binary tree is a specific type of tree where each node has either 0, 1, or 2 children. The image below is an example of a binary tree:
