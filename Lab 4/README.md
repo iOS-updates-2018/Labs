@@ -177,9 +177,9 @@ On to data structures...
 
 This week, we will be revisiting the Binary Tree and Heap data structures. Below, we will lay out the general interface for trees and heaps you are expected to implement, with testing. For Binary Trees, you are to write tests to cover the functions defined in the enum, and then implement the Binary Tree. For Heaps, you are to implement the interface to have the given tests pass! Download the starter code here and fill in the interfaces for Heaps, and test!
 
-For more information on trees, ![review the README here](https://github.com/iOS-updates-2018/Labs/tree/master/Lab%204/Trees:Heaps/Tree_starter).
+For more information on trees, [review the README here](https://github.com/iOS-updates-2018/Labs/tree/master/Lab%204/Trees:Heaps/Tree_starter) if need be and [work off of this starter code](https://github.com/iOS-updates-2018/Labs/tree/master/Lab%204/Trees:Heaps/Tree_starter).
 
-For more information on heaps, ![review the README here](https://github.com/iOS-updates-2018/Labs/tree/master/Lab%204/Trees:Heaps/Heap_starter).
+For more information on heaps, [review the README here](https://github.com/iOS-updates-2018/Labs/tree/master/Lab%204/Trees:Heaps/Heap_starter) if need be and [work off of this starter code](https://github.com/iOS-updates-2018/Labs/tree/master/Lab%204/Trees:Heaps/Heap_starter).
 
 ### Binary Trees Interface (Using Enums)
 
