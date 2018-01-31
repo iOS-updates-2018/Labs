@@ -1,11 +1,11 @@
 OBJECTIVES
 ===
-- teach students about using WebKit framework
-- have students interact with NSURL and related classes
-- have students practice implementing methods from iOS delegates
-- reinforce previous iOS development lessons
-- refresh student knowledge of linked lists
-- give students practice with programming and testing in Swift
+- Teach students about using WebKit framework
+- Have students interact with URL and related classes
+- Have students practice implementing methods from iOS delegates
+- Reinforce previous iOS development lessons
+- Refresh student knowledge of linked lists
+- Give students practice with programming and testing in Swift
 
 
 CONTENTS
@@ -27,19 +27,19 @@ In this lab we will use WebKit to help us build our own browser for the iPhone. 
 
 4. In the top nav bar, drag over a bar button item over to the right and set it to custom with the word 'Go'. After that, drag a text field into the middle of the nav bar and expand its size so that it takes up most of the remaining space (with a small buffer between the button, of course).  Make an outlet for the text field called `locationField` in the view controller and make sure it is properly connected. (You know the drill.)
 
-5. In the toolbar at the bottom, drag over 5 bar button items and 4 fixed space bar items. Give the first a title of `<`. Convert the second a title of `>`. The third should be the system item `Action`, the fourth `Refresh` and then the last to `Stop`. Note that you can manually adjust the fixed space bar button (experiment by expanding and contracting until it's the size you want; mine is very minimal in width). 
-
-    ![Buttons](https://i.imgur.com/O95Yu6w.png)
+5. In the toolbar at the bottom, drag over 5 bar button items and 4 fixed space bar items. Give the first a title of `<`. Convert the second a title of `>`. The third should be the system item `Action`, the fourth `Refresh` and then the last to `Stop`. Note that you can manually adjust the fixed space bar button (experiment by expanding and contracting until it's the size you want; mine is very minimal in width). For each of the buttons make an outlet with an appropriate name.
 
 6. Now we want to work with the view itself. We want the entire view (minus the nav bars) to be the web view in this case.  To do this, we start off by creating a web view object to work with. Drag into your storyboard a WebKit View.
 
-7. Now we are going to override the method `viewDidAppear()`. Let's start by adding in a call to its super method. Following that we want to create a swift URL using the following code:
+    ![Buttons](https://i.imgur.com/O95Yu6w.png)
+
+7. Now we are going to override the method `viewDidAppear()`. You will need to create this method yourself. Let's start by adding in a call to its super method. Following that we want to create a swift URL using the following code:
   ```swift
         let urlString:String = "https://www.apple.com" // default page
         let url:URL = URL(string: urlString)!
   ``` 
 
-8. Where you put in the default page you want your browser to open to. (Choose your favorite site if you'd like; doesn't really matter.) The [URLRequest](https://developer.apple.com/library/mac/documentation/Cocoa/Reference/Foundation/Classes/NSURLRequest_Class/) object handles loading the resource from the URL we specified. Of course, the [URL](https://developer.apple.com/library/mac/documentation/Cocoa/Reference/Foundation/Classes/NSURL_Class/) object helps us construct proper URLs but doesn't actually load them into the web view; to do that we add the following code:
+8. The urlString will be the default page for your browser. (Choose your favorite site if you'd like; doesn't really matter.) The [URLRequest](https://developer.apple.com/library/mac/documentation/Cocoa/Reference/Foundation/Classes/NSURLRequest_Class/) object handles loading the resource from the URL we specified. Of course, the [URL](https://developer.apple.com/library/mac/documentation/Cocoa/Reference/Foundation/Classes/NSURL_Class/) object helps us construct proper URLs but doesn't actually load them into the web view; to do that we add the following code:
   ```swift
         let urlRequest:URLRequest = URLRequest(url: url)
         webView.load(urlRequest)
@@ -59,19 +59,19 @@ Now build your project and you should see the default web page and the text box 
 
   In this case we will append the https:// for the user and then load the new request.  Connect the button to this action, rebuild the app and see that it now works.
 
-11. We also need actions for back, forward, refresh and stop, but luckily the `webView` object we created earlier makes this super easy with built-in methods for us to use.  Add to the view controller the following code:
+11. We also need actions for back, forward, refresh and stop, luckily the `webView` object we created earlier makes this super easy with built-in methods for us to use.  Add to the view controller the following code:
   ```swift
   @IBAction func refreshTapped(_ sender: Any) {
     webView.reload()
   }
 
-  @IBAction func backButtonTapped(_ sender: Any) {
+  @IBAction func backTapped(_ sender: Any) {
     if webView.canGoBack {
       webView.goBack()
     }
   }
   
-  @IBAction func forwardButtonTapped(_ sender: Any) {
+  @IBAction func forwardTapped(_ sender: Any) {
     if webView.canGoForward {
       webView.goForward()
     }
@@ -84,48 +84,48 @@ Now build your project and you should see the default web page and the text box 
 
   Wire these buttons up to their actions, rebuild and verify the app is working properly.
 
-<!-- 1. Now this seems great, but what if the user adds an inappropriate URL, like 'george'. We need to tell the user this is not acceptable.  We've used alerts in past projects so we can easily add one here.  We will take advantage of the [WKNavigationDelegate](https://developer.apple.com/library/prerelease/ios/documentation/WebKit/Reference/WKNavigationDelegate_Ref/index.html) protocol to help us. Looking over the documentation, we see there is a webView method `didFailProvisionalNavigation:withError` that seems to be exactly what we need.  We can implement that method and get it to add in our alert message: 
+12. Now this seems great, but what if the user adds an inappropriate URL, like 'george'. We need to tell the user this is not acceptable.  We've used alerts in past projects so we can easily add one here.  We will take advantage of the [WKNavigationDelegate](https://developer.apple.com/library/prerelease/ios/documentation/WebKit/Reference/WKNavigationDelegate_Ref/index.html) protocol to help us. Looking over the documentation, we see there is a webView method `didFail:withError` that seems to be exactly what we need.  We can implement that method and get it to add in our alert message: 
 
 ```swift
-  func webView(webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError error: NSError) {
-      let alert = UIAlertController(title: "Error", message: error.localizedDescription, preferredStyle: .Alert)
-      alert.addAction(UIAlertAction(title: "Ok", style: .Default, handler: nil))
-      presentViewController(alert, animated: true, completion: nil)
-  }
+    func webView(_ webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError error: Error) {
+      let alert = UIAlertController(title: "Error", message: error.localizedDescription, preferredStyle: .alert)
+      alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
+      present(alert, animated: true, completion: nil)
+    }
   ```
 
-  If we build it again and run it, we see it works when we type in 'george' in the location field, but after dismissing the alert the invalid URL still appears with the old page and that could be confusing. To fix this, add some code to the method above so that it clears the location field and resets the focus to that field to accept user input right away.  Do this and rebuild to verify the app is working. -->
+  If we build it again and run it, we see it works when we type in 'george' in the location field, but after dismissing the alert the invalid URL still appears with the old page and that could be confusing. To fix this, add some code to the method above so that it clears the location field and resets the focus to that field to accept user input right away.  Do this and rebuild to verify the app is working.
 
-12. We have a pretty nice browser, but one thing seems a little clunky about it (okay, probably several) that we want to fix.  After entering a new URL the user presses enter and expects to go to that page, but that won't happen until we move the cursor over and hit `Go`. We can make the browser reload upon hitting enter in the location field by taking advantage of the [UITextFieldDelegate](https://developer.apple.com/library/ios/documentation/UIKit/Reference/UITextFieldDelegate_Protocol/) that we also worked with in lab 2. Review those instructions and apply those ideas to this lab as well.  Once the the view controller adopts the `UITextFieldDelegate` protocol we have to let the location field know that by control-clicking on the location field and dragging over to the view controller; in the popup window choose `Outlet -delegate`.  Finally, implement the method from the `UITextFieldDelegate` protocol:
+13. We have a pretty nice browser, but one thing seems a little clunky about it (okay, probably several) that we want to fix.  After entering a new URL the user presses enter and expects to go to that page, but that won't happen until we move the cursor over and hit `Go`. We can make the browser reload upon hitting enter in the location field by taking advantage of the [UITextFieldDelegate](https://developer.apple.com/library/ios/documentation/UIKit/Reference/UITextFieldDelegate_Protocol/) that we also worked with in lab 2. Review those instructions and apply those ideas to this lab as well.  Once the the view controller adopts the `UITextFieldDelegate` protocol we have to let the location field know that by control-clicking on the location field and dragging over to the view controller; in the popup window choose `Outlet -delegate`.  Finally, implement the method from the `UITextFieldDelegate` protocol:
   ```swift
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        let urlString:String = textInput.text!
+        let urlString:String = locationField.text!
         let url:URL = URL(string: urlString)!
         let urlRequest:URLRequest = URLRequest(url: url)
         
         webView.load(urlRequest)
 
-        textField.resignFirstResponder()
+        locationField.resignFirstResponder()
         return true
     }
   ```
 
   Picking some nits here, we notice that the middle two lines are a repeat from the code in `viewDidLoad()`. Let's refactor this into a new method `goToPage()` and make both `viewDidLoad()` and `textFieldShouldReturn()` utilize this new method.
 
-13. It would be nice if the user could see when the back button and forward buttons would actually take them somewhere. We can add the following method to set the backButton and forwardButton as enabled.
+14. It would be nice if the user could see when the back button and forward buttons would actually take them somewhere. We can add the following method to set the backButton and forwardButton as enabled.
   ```swift
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
         backButton.isEnabled = webView.canGoBack
         // [Add Code for Forward Button]
         
-        textInput.text = webView.url?.absoluteString
+        locationField.text = webView.url?.absoluteString
     }
   ```
 
-14. Now we just have the Share button left. Apple makes sharing very easy for the developer to incorporate into their applications. The UIActivityViewController will take care of almost everything if you build it the proper way. 
+15. Now we just have the Share button left. Apple makes sharing very easy for the developer to incorporate into their applications. The UIActivityViewController will take care of almost everything if you build it the proper way. 
   ```swift    
      @IBAction func shareButtonTapped(_ sender: Any) {
-        let urlString:String = textInput.text!
+        let urlString:String = locationField.text!
         let url:URL = URL(string: urlString)!
         
         let activityViewController = UIActivityViewController(activityItems: [url], applicationActivities: nil)
@@ -143,8 +143,7 @@ Part 2: Linked Lists (Swift)
 #### Building a linked list
 
 We will begin building our linked list structure in a playground and then later move this to a more formal project that we can test using XCTest.  Opening up a playground, we'll start by defining a type to describe the nodes:
-
-    ```swift
+  ```swift
 public class LinkedListNode<T> {
   var value: T
   var next: LinkedListNode?
@@ -154,7 +153,7 @@ public class LinkedListNode<T> {
     self.value = value
   }
 }
-    ```
+  ```
 
 This is a generic type, so `T` can be any kind of data that you'd like to store in the node. We'll be using strings in the examples that follow.
 
@@ -163,8 +162,7 @@ Ours is a doubly-linked list and each node has a `next` and `previous` pointer. 
 > **Note:** To avoid ownership cycles, we declare the `previous` pointer to be weak. If you have a node `A` that is followed by node `B` in the list, then `A` points to `B` but also `B` points to `A`. In certain circumstances, this ownership cycle can cause nodes to be kept alive even after you deleted them. We don't want that, so we make one of the pointers `weak` to break the cycle.
 
 Let's start building `LinkedList`. Here's the first bit:
-
-     ```swift
+  ```swift
 public class LinkedList<T> {
   public typealias Node = LinkedListNode<T>
 
@@ -178,7 +176,7 @@ public class LinkedList<T> {
     return head
   }
 }
-    ```
+  ```
 
 Ideally, I'd like to put the `LinkedListNode` class inside `LinkedList` but Swift currently doesn't allow generic types to have nested types. Instead we're using a typealias so inside `LinkedList` we can write the shorter `Node` instead of `LinkedListNode<T>`.
 
@@ -187,16 +185,14 @@ This linked list only has a `head` pointer, not a tail. Adding a tail pointer is
 The list is empty if `head` is nil. Because `head` is a private variable, I've added the property `first` to return a reference to the first node in the list.
 
 You can try it out in a playground like this:
-
-     ```swift
+  ```swift
 let list = LinkedList<String>()
 list.isEmpty   // true
 list.first     // nil
-     ```
+  ```
 
 Let's also add a property that gives you the last node in the list. This is where it starts to become interesting:
-
-     ```swift
+  ```swift
   public var last: Node? {
     if var node = head {
       while case let next? = node.next {
@@ -207,7 +203,7 @@ Let's also add a property that gives you the last node in the list. This is wher
       return nil
     }
   }
-     ```
+  ```
 
 In class we talked about `if let` but not `if var`. It does the same thing -- it unwraps the `head` optional and puts the result in a new local variable named `node`. The difference is that `node` is not a constant but an actual variable, so we can change it inside the loop.
 
@@ -216,8 +212,7 @@ The loop also does some Swift magic. The `while case let next? = node.next` bit 
 > **Note:** If we kept a tail pointer, `last` would simply do `return tail`. But we don't, so it has to step through the entire list from beginning to the end. It's an expensive operation, especially if the list is long.
 
 Of course, `last` only returns nil because we don't have any nodes in the list. Let's add a method that adds a new node to the end of the list:
-
-     ```swift
+  ```swift
   public func append(value: T) {
     let newNode = Node(value: value)
     if let lastNode = last {
@@ -227,18 +222,17 @@ Of course, `last` only returns nil because we don't have any nodes in the list. 
       head = newNode
     }
   }
-     ```
+  ```
 
 The `append()` method first creates a new `Node` object and then asks for the last node using the `last` property we've just added. If there is no such node, the list is still empty and we make `head` point to this new `Node`. But if we did find a valid node object, we connect the `next` and `previous` pointers to link this new node into the chain. A lot of linked list code involves this kind of `next` and `previous` pointer manipulation.
 
 Let's test it in the playground:
-
-     ```swift
+  ```swift
 list.append("Hello")
 list.isEmpty         // false
 list.first!.value    // "Hello"
 list.last!.value     // "Hello"
-     ```
+  ```
 
 The list looks like this:
 
@@ -249,12 +243,11 @@ The list looks like this:
 	         +---------+
 
 Now add a second node:
-
-     ```swift
+  ```swift
 list.append("World")
 list.first!.value    // "Hello"
 list.last!.value     // "World"
-     ```
+  ```
 
 And the list looks like:
 
@@ -265,17 +258,15 @@ And the list looks like:
 	         +---------+    +---------+
 
 You can verify this for yourself by looking at the `next` and `previous` pointers:
-
-    ```swift
+  ```swift
 list.first!.previous          // nil
 list.first!.next!.value       // "World"
 list.last!.previous!.value    // "Hello"
 list.last!.next               // nil
-    ```
+  ```
 
 Let's add a method to count how many nodes are in the list. This will look very similar to what we did already:
-
-    ```swift
+  ```swift
   public var count: Int {
     if var node = head {
       var c = 1
@@ -288,15 +279,14 @@ Let's add a method to count how many nodes are in the list. This will look very 
       return 0
     }
   }
-    ```
+  ```
 
 It loops through the list in the same manner but this time increments a counter as well.
 
 > **Note:** One way to speed up `count` from **O(n)** to **O(1)** is to keep track of a variable that counts how many nodes are in the list. Whenever you add or remove a node, you also update this variable.
 
 What if we wanted to find the node at a specific index in the list? With an array we can just write `array[index]` and it's an **O(1)** operation. It's a bit more involved with linked lists, but again the code follows a similar pattern:
-
-    ```swift
+  ```swift
   public func nodeAtIndex(index: Int) -> Node? {
     if index >= 0 {
       var node = head
@@ -309,43 +299,39 @@ What if we wanted to find the node at a specific index in the list? With an arra
     }
     return nil
   }
-    ```
+  ```
 
 The loop looks a little different but it does the same thing: it starts at `head` and then keeps following the `node.next` pointers to step through the list. We're done when we've seen `index` nodes, i.e. when the counter has reached 0.
 
 Try it out:
-
-```swift
+  ```swift
 list.nodeAtIndex(0)!.value    // "Hello"
 list.nodeAtIndex(1)!.value    // "World"
 list.nodeAtIndex(2)           // nil
-```
+  ```
 
 For fun we can implement a `subscript` method too:
-
-```swift
+  ```swift
   public subscript(index: Int) -> T {
     let node = nodeAtIndex(index)
     assert(node != nil)
     return node!.value
   }
-```
+  ```
 
 Now you can write the following:
-
-```swift
+  ```swift
 list[0]   // "Hello"
 list[1]   // "World"
 list[2]   // crash!
-```
+  ```
 
 It crashes on `list[2]` because there is no node at that index.
 
 So far we've written code to add new nodes to the end of the list, but that's slow because you need to find the end of the list first. (It would be fast if we used a tail pointer.) For this reason, if the order of the items in the list doesn't matter, you should insert at the front of the list instead. That's always an **O(1)** operation.
 
 Let's write a method that lets you insert a new node at any index in the list. First, we'll define a helper function:
-
-```swift
+  ```swift
   private func nodesBeforeAndAfter(index: Int) -> (Node?, Node?) {
     assert(index >= 0)
     
@@ -362,7 +348,7 @@ Let's write a method that lets you insert a new node at any index in the list. F
 
     return (prev, next)
   }
-```
+  ```
 
 This returns a tuple containing the node currently at the specified index and the node that immediately precedes it, if any. The loop is very similar to `nodeAtIndex()`, except that here we also keep track of what the previous node is as we iterate through the list. 
 
@@ -397,8 +383,7 @@ The `assert()` after the loop checks whether there really were enough nodes in t
 For this example, the function returns `("C", "D")` because `"D"` is the node at index 3 and `"C"` is the one right before that.
 
 Now that we have this helper function, we can write the method for inserting nodes:
-
-```swift
+  ```swift
   public func insert(value: T, atIndex index: Int) {
     let (prev, next) = nodesBeforeAndAfter(index)     // 1
     
@@ -412,7 +397,7 @@ Now that we have this helper function, we can write the method for inserting nod
       head = newNode
     }
   }
-```
+  ```
 
 Some remarks about this method:
 
@@ -423,20 +408,18 @@ Some remarks about this method:
 3. If the new node is being inserted at the front of the list, we need to update the `head` pointer. (Note: If the list had a tail pointer, you'd also need to update that pointer here if `next == nil`, because that means the last element has changed.)
 
 Try it out:
-
-```swift
+  ```swift
 list.insert("Swift", atIndex: 1)
 list[0]     // "Hello"
 list[1]     // "Swift"
 list[2]     // "World"
-```
+  ```
 
 Also try adding new nodes to the front and back of the list, to verify that this works properly.
 
 > **Note:** The `nodesBeforeAndAfter()` and `insert(atIndex)` functions can also be used with a singly linked list because we don't depend on the node's `previous` pointer to find the previous element.
 
 What else do we need? Removing nodes, of course! First we'll do `removeAll()`, which is really simple:
-
 ```swift
   public func removeAll() {
     head = nil
@@ -446,7 +429,6 @@ What else do we need? Removing nodes, of course! First we'll do `removeAll()`, w
 If you had a tail pointer, you'd set it to `nil` here too.
 
 Next we'll add some functions that let you remove individual nodes. If you already have a reference to the node, then using `removeNode()` is the most optimal because you don't need to iterate through the list to find the node first. 
-
 ```swift
   public func removeNode(node: Node) -> T {
     let prev = node.previous
@@ -470,7 +452,6 @@ When we take this node out of the list, we break the links to the previous node 
 Don't forget the `head` pointer! If this was the first node in the list then `head` needs to be updated to point to the next node. (Likewise for when you have a tail pointer and this was the last node). Of course, if there are no more nodes left, `head` should become nil.
 
 Try it out:
-
 ```swift
 list.removeNode(list.first!)   // "Hello"
 list.count                     // 2
@@ -479,7 +460,6 @@ list[1]                        // "World"
 ```
 
 If you don't have a reference to the node, you can use `removeLast()` or `removeAtIndex()`:
-
 ```swift
   public func removeLast() -> T {
     assert(!isEmpty)
@@ -494,7 +474,6 @@ If you don't have a reference to the node, you can use `removeLast()` or `remove
 ```
 
 All these removal functions also return the value from the removed element. 
-
 ```swift
 list.removeLast()              // "World"
 list.count                     // 1
@@ -507,7 +486,6 @@ list.count                     // 0
 > **Note:** For a singly linked list, removing the last node is slightly more complicated. You can't just use `last` to find the end of the list because you also need a reference to the second-to-last node. Instead, use the `nodesBeforeAndAfter()` helper method. If the list has a tail pointer, then `removeLast()` is really quick, but you do need to remember to make `tail` point to the previous node.
 
 There's a few other fun things we can do with our `LinkedList` class. It's handy to have some sort of readable debug output:
-
 ```swift
 extension LinkedList: CustomStringConvertible {
   public var description: String {
@@ -528,7 +506,6 @@ This will print the list like so:
 	[Hello, Swift, World]
 
 How about reversing a list, so that the head becomes the tail and vice versa? There is a very fast algorithm for that:
-
 ```swift
   public func reverse() {
     var node = head
@@ -549,7 +526,6 @@ This loops through the entire list and simply swaps the `next` and `previous` po
 	         +--------+    +--------+    +--------+    +--------+
 
 Arrays have `map()` and `filter()` functions, and there's no reason why linked lists shouldn't either.
-
 ```swift
   public func map<U>(transform: T -> U) -> LinkedList<U> {
     let result = LinkedList<U>()
@@ -563,7 +539,6 @@ Arrays have `map()` and `filter()` functions, and there's no reason why linked l
 ```
 
 You can use it like this:
-
 ```swift
 let list = LinkedList<String>()
 list.append("Hello")
@@ -575,7 +550,6 @@ m  // [5, 6, 8]
 ```
 
 And here's filter:
-
 ```swift
   public func filter(predicate: T -> Bool) -> LinkedList<T> {
     let result = LinkedList<T>()
@@ -591,7 +565,6 @@ And here's filter:
 ```
 
 And a silly example:
-
 ```swift
 let f = list.filter { s in s.characters.count > 5 }
 f    // [Universe, Swifty]

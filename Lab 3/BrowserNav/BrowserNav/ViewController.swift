@@ -92,5 +92,11 @@ class ViewController: UIViewController, UITextFieldDelegate, WKNavigationDelegat
         let activityViewController = UIActivityViewController(activityItems: [url], applicationActivities: nil)
         navigationController?.present(activityViewController, animated: true)
     }
+    
+    public func webView(_ webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError error: Error) {
+        let alert = UIAlertController(title: "Error", message: error.localizedDescription, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
+        present(alert, animated: true, completion: nil)
+    }
 }
 
