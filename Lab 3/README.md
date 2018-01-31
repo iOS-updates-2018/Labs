@@ -15,7 +15,7 @@ Part 1: SimpleBrowser (iOS app)
 
 In this lab we will use WebKit to help us build our own browser for the iPhone.  It's a scaled down browser, but it should have a navigation bar so we can enter in URLs, have both a reload and a stop button, and have a set of back and forward buttons for simple navigation.  Below is a screenshot of what this app will look like when finished:
 
-  ![Final Product](https://i.imgur.com/Tt2fgRW.jpg)
+  ![Final Product](https://i.imgur.com/X3xoC8J.jpg)
 
 1. Start a new project called 'SimpleBrowser' as a single page application. Once this is created, go to the main storyboard and drag in a navigation controller.  Keep the navigation controller but remove the root view controller completely. Right-click (press control first) on the navigation view controller and drag to the view controller; choose the root view controller. 
 
