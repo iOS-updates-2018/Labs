@@ -40,14 +40,12 @@ In this lab we will use WebKit to help us build our own browser for the iPhone. 
         let url:URL = URL(string: urlString)!
   ``` 
 
-    where you put in the default page you want your browser to open to. (Choose your favorite site if you'd like; doesn't really matter.)  Of course, the [URL](https://developer.apple.com/library/mac/documentation/Cocoa/Reference/Foundation/Classes/NSURL_Class/) object helps us construct proper URLs but doesn't actually load them into the web view; to do that we add the following code:
+1. Where you put in the default page you want your browser to open to. (Choose your favorite site if you'd like; doesn't really matter.) The [URLRequest](https://developer.apple.com/library/mac/documentation/Cocoa/Reference/Foundation/Classes/NSURLRequest_Class/) object handles loading the resource from the URL we specified. Of course, the [URL](https://developer.apple.com/library/mac/documentation/Cocoa/Reference/Foundation/Classes/NSURL_Class/) object helps us construct proper URLs but doesn't actually load them into the web view; to do that we add the following code:
 
   ```swift
         let urlRequest:URLRequest = URLRequest(url: url)
         webView.load(urlRequest)
   ```
-
-    The [URLRequest](https://developer.apple.com/library/mac/documentation/Cocoa/Reference/Foundation/Classes/NSURLRequest_Class/) object handles loading the resource from the URL we specified.  
 
 1. There is just one more change we want to make to `viewDidAppear()`. We want the text box at the top of the page to be set to the initial URl that we provided. Set the ```.text``` attribute of the text box object equal to the URL string. 
 
