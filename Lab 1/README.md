@@ -293,14 +293,14 @@ Now to actually construct it.
 Now that your app is working, it's time to add a little style to it. 
 
 18. Let's start by adding a background image. You can grab any image you would like. I personally like [unsplash.com](https://unsplash.com/wallpaper/1065412/iphone-wallpapers). All of the images here are licensed under Creative Commons Zero which means that you are free to use them however you would like. Find an image and save it to your project folder. 
+    
+    To add the image to the project, right click on the project folder and click "Add Files to [Project Name]" and find the image you had downloaded. If you are doing a larger project with multiple images, you should first create a Group within your project to organize all of your external assets better. 
 
-To add the image to the project, right click on the project folder and click "Add Files to [Project Name]" and find the image you had downloaded. If you are doing a larger project with multiple images, you should first create a Group within your project to organize all of your external assets better. 
+  In order to handle different sized screens and layouts, Swift and XCode have what's called an Asset Catalog which allows you to upload different sized media for different devices. For this assignment we will keep it simple with just one size. Go into the Assets.xcassets and create a new Image Set called ```BackgroundImage``` you can do this by right clicking inside of the Assets Catalog and selecting "New Image Set". 
 
-In order to handle different sized screens and layouts, Swift and XCode have what's called an Asset Catalog which allows you to upload different sized media for different devices. For this assignment we will keep it simple with just one size. Go into the Assets.xcassets and create a new Image Set called ```BackgroundImage``` you can do this by right clicking inside of the Assets Catalog and selecting "New Image Set". 
+  Now drag the image from the project directory on the left to the "1X" section of the BackgroundImage Catalog. 
 
-Now drag the image from the project directory on the left to the "1X" section of the BackgroundImage Catalog. 
-
-Go to your Main.storyboard file and add an Image Layout to the story board and resize it so that it fits the entire screen. You will also want to move it to the back so that you can still see and click on the buttons. In the Attributes Inspector for the Image Layout select your background image and you now have a nice background image. 
+  Go to your Main.storyboard file and add an Image Layout to the story board and resize it so that it fits the entire screen. You will also want to move it to the back so that you can still see and click on the buttons. In the Attributes Inspector for the Image Layout select your background image and you now have a nice background image. 
 
 ![Asset Catalog](https://i.imgur.com/ymEH9Vu.png)
 
@@ -308,13 +308,13 @@ Go to your Main.storyboard file and add an Image Layout to the story board and r
     * ```layer.masksToBounds``` - Boolean - True
     * ```layer.cornerRadius``` - Number - 15 (This could be any number you would like)
 
-Note that these changes will not affect the button until you run the app.
+  Note that these changes will not affect the button until you run the app.
 
-![Identity Inspector](https://i.imgur.com/moDGBau.png)
+  ![Identity Inspector](https://i.imgur.com/moDGBau.png)
 
 20. Finally, as a minor tweak, download the AppIcon for [Stopwatch](http://67442.cmuis.net/files/67442/lab3/AppIcon.appiconset.zip) and add this to your Images.xcassets folder, replacing the generic AppIcon set.  Rebuild your project and run it again.  When you press home (`shift`+`command`+`H`) you will see the new icon on the simulator home screen. As of Xcode 7.x you have the option to deploy directly to a device as well without a developer license, so if you plug in your iPhone to your laptop, you can also choose that device to deploy too as well.
 
-Feel free to change any other fonts and colors to make your app unique!
+  Feel free to change any other fonts and colors to make your app unique!
 
 - - -
 # <span class="mega-icon mega-icon-issue-opened"></span> Stop

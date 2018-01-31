@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="LtC-9e-RmS">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--View Controller-->
+        <scene sceneID="tne-QT-ifu">
+            <objects>
+                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="BrowserNav" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <wkWebView contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="41y-kR-xUh">
+                                <rect key="frame" x="0.0" y="64" width="375" height="559"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" red="0.36078431370000003" green="0.38823529410000002" blue="0.4039215686" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <wkWebViewConfiguration key="configuration">
+                                    <audiovisualMediaTypes key="mediaTypesRequiringUserActionForPlayback" none="YES"/>
+                                    <wkPreferences key="preferences"/>
+                                </wkWebViewConfiguration>
+                            </wkWebView>
+                        </subviews>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
+                    </view>
+                    <toolbarItems>
+                        <barButtonItem title="&lt;" id="dqV-UX-db6"/>
+                        <barButtonItem width="50" style="plain" systemItem="fixedSpace" id="nq8-dv-0pR"/>
+                        <barButtonItem title="&gt;" id="C8g-ev-bIM"/>
+                        <barButtonItem width="58" style="plain" systemItem="fixedSpace" id="MlX-R0-yuP"/>
+                        <barButtonItem systemItem="action" id="uVZ-j1-hE9">
+                            <connections>
+                                <action selector="shareButtonTapped:" destination="BYZ-38-t0r" id="xL3-Jr-4jo"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem width="57" style="plain" systemItem="fixedSpace" id="NDu-Xr-QAb"/>
+                        <barButtonItem systemItem="refresh" id="AGe-cP-2iO"/>
+                        <barButtonItem width="52" style="plain" systemItem="fixedSpace" id="NeV-5E-xyj"/>
+                        <barButtonItem systemItem="stop" id="wWx-cA-0fy"/>
+                    </toolbarItems>
+                    <navigationItem key="navigationItem" id="9Ct-M0-nnU">
+                        <nil key="title"/>
+                        <textField key="titleView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" id="gDG-fd-VUk">
+                            <rect key="frame" x="60.5" y="7" width="254" height="30"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <nil key="textColor"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                            <textInputTraits key="textInputTraits"/>
+                        </textField>
+                        <barButtonItem key="rightBarButtonItem" title="Go" id="aZt-Lk-6US">
+                            <connections>
+                                <action selector="goButtonTapped:" destination="BYZ-38-t0r" id="H5H-lf-DFd"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
+                    <connections>
+                        <outlet property="backButton" destination="dqV-UX-db6" id="X6Z-XH-BXm"/>
+                        <outlet property="cancelButton" destination="wWx-cA-0fy" id="vYc-r3-ZZW"/>
+                        <outlet property="forwardButton" destination="C8g-ev-bIM" id="FyO-Jj-6s5"/>
+                        <outlet property="goButton" destination="aZt-Lk-6US" id="tPX-2f-NoQ"/>
+                        <outlet property="refreshButton" destination="AGe-cP-2iO" id="L1H-8z-Jeo"/>
+                        <outlet property="shareButton" destination="uVZ-j1-hE9" id="c4j-JL-57X"/>
+                        <outlet property="textInput" destination="gDG-fd-VUk" id="LfI-Of-Z9x"/>
+                        <outlet property="webView" destination="41y-kR-xUh" id="ca1-P2-Cgf"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="136.80000000000001" y="358.4707646176912"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="r3A-pN-tIo">
+            <objects>
+                <navigationController toolbarHidden="NO" id="LtC-9e-RmS" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="pN8-xX-fTU">
+                        <rect key="frame" x="0.0" y="20" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <toolbar key="toolbar" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="EMO-Lf-CHq">
+                        <rect key="frame" x="0.0" y="623" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </toolbar>
+                    <connections>
+                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="rootViewController" id="9Td-Pe-j5i"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="QHi-lK-x92" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-671" y="358"/>
+        </scene>
+    </scenes>
+</document>
