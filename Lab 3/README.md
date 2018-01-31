@@ -55,7 +55,7 @@ Now build your project and you should see the default web page and the text box 
 
 1. The problem with the app right now is that if you change the URL and click `Go`, nothing happens. To correct this we need to add some actions for our buttons.  The first will be to make the `Go` button go somewhere:
 
-```swift
+     ```swift
   @IBAction func goTapped(_ sender: Any) {
     let url = URL(string: "https://" + locationField!.text)!
     webView.loadRequest(URLRequest(URL: url))
@@ -66,7 +66,7 @@ Now build your project and you should see the default web page and the text box 
 
 1. We also need actions for back, forward, refresh and stop, but luckily the `webView` object we created earlier makes this super easy with built-in methods for us to use.  Add to the view controller the following code:
 
-```swift
+    ```swift
   @IBAction func refreshTapped(_ sender: Any) {
     webView.reload()
   }
@@ -104,7 +104,7 @@ Now build your project and you should see the default web page and the text box 
 
 1. We have a pretty nice browser, but one thing seems a little clunky about it (okay, probably several) that we want to fix.  After entering a new URL the user presses enter and expects to go to that page, but that won't happen until we move the cursor over and hit `Go`. We can make the browser reload upon hitting enter in the location field by taking advantage of the [UITextFieldDelegate](https://developer.apple.com/library/ios/documentation/UIKit/Reference/UITextFieldDelegate_Protocol/) that we also worked with in lab 2. Review those instructions and apply those ideas to this lab as well.  Once the the view controller adopts the `UITextFieldDelegate` protocol we have to let the location field know that by control-clicking on the location field and dragging over to the view controller; in the popup window choose `Outlet -delegate`.  Finally, implement the method from the `UITextFieldDelegate` protocol:
 
-```swift
+    ```swift
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         let urlString:String = textInput.text!
         let url:URL = URL(string: urlString)!
@@ -121,18 +121,18 @@ Now build your project and you should see the default web page and the text box 
 
 1. It would be nice if the user could see when the back button and forward buttons would actually take them somewhere. We can add the following method to set the backButton and forwardButton as enabled.
 
-```swift
+    ```swift
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
         backButton.isEnabled = webView.canGoBack
         // [Add Code for Forward Button]
         
         textInput.text = webView.url?.absoluteString
     }
-```
+    ```
 
 1. Now we just have the Share button left. Apple makes sharing very easy for the developer to incorporate into their applications. The UIActivityViewController will take care of almost everything if you build it the proper way. 
 
-```swift    
+     ```swift    
      @IBAction func shareButtonTapped(_ sender: Any) {
         let urlString:String = textInput.text!
         let url:URL = URL(string: urlString)!
@@ -140,7 +140,7 @@ Now build your project and you should see the default web page and the text box 
         let activityViewController = UIActivityViewController(activityItems: [url], applicationActivities: nil)
         navigationController?.present(activityViewController, animated: true)
     }
-```
+    ```
 
 There is much more you might choose to do with this app to really build out the browser now, but we have a basic functioning web browser for our mobile devices. There is a lot of more power in WebKit and in various iOS delegates that we can utilize on our own later. If you choose to experiment more (a great idea) I suggest doing so on a new branch so you can revert back easily if things go awry.  Time now, however, to do some functional programming exercises.
 
@@ -153,7 +153,7 @@ Part 2: Linked Lists (Swift)
 
 We will begin building our linked list structure in a playground and then later move this to a more formal project that we can test using XCTest.  Opening up a playground, we'll start by defining a type to describe the nodes:
 
-```swift
+    ```swift
 public class LinkedListNode<T> {
   var value: T
   var next: LinkedListNode?
@@ -163,7 +163,7 @@ public class LinkedListNode<T> {
     self.value = value
   }
 }
-```
+    ```
 
 This is a generic type, so `T` can be any kind of data that you'd like to store in the node. We'll be using strings in the examples that follow.
 
@@ -173,7 +173,7 @@ Ours is a doubly-linked list and each node has a `next` and `previous` pointer. 
 
 Let's start building `LinkedList`. Here's the first bit:
 
-```swift
+     ```swift
 public class LinkedList<T> {
   public typealias Node = LinkedListNode<T>
 
@@ -187,7 +187,7 @@ public class LinkedList<T> {
     return head
   }
 }
-```
+    ```
 
 Ideally, I'd like to put the `LinkedListNode` class inside `LinkedList` but Swift currently doesn't allow generic types to have nested types. Instead we're using a typealias so inside `LinkedList` we can write the shorter `Node` instead of `LinkedListNode<T>`.
 
@@ -197,15 +197,15 @@ The list is empty if `head` is nil. Because `head` is a private variable, I've a
 
 You can try it out in a playground like this:
 
-```swift
+     ```swift
 let list = LinkedList<String>()
 list.isEmpty   // true
 list.first     // nil
-```
+     ```
 
 Let's also add a property that gives you the last node in the list. This is where it starts to become interesting:
 
-```swift
+     ```swift
   public var last: Node? {
     if var node = head {
       while case let next? = node.next {
@@ -216,7 +216,7 @@ Let's also add a property that gives you the last node in the list. This is wher
       return nil
     }
   }
-```
+     ```
 
 In class we talked about `if let` but not `if var`. It does the same thing -- it unwraps the `head` optional and puts the result in a new local variable named `node`. The difference is that `node` is not a constant but an actual variable, so we can change it inside the loop.
 
@@ -226,7 +226,7 @@ The loop also does some Swift magic. The `while case let next? = node.next` bit 
 
 Of course, `last` only returns nil because we don't have any nodes in the list. Let's add a method that adds a new node to the end of the list:
 
-```swift
+     ```swift
   public func append(value: T) {
     let newNode = Node(value: value)
     if let lastNode = last {
@@ -236,18 +236,18 @@ Of course, `last` only returns nil because we don't have any nodes in the list. 
       head = newNode
     }
   }
-```
+     ```
 
 The `append()` method first creates a new `Node` object and then asks for the last node using the `last` property we've just added. If there is no such node, the list is still empty and we make `head` point to this new `Node`. But if we did find a valid node object, we connect the `next` and `previous` pointers to link this new node into the chain. A lot of linked list code involves this kind of `next` and `previous` pointer manipulation.
 
 Let's test it in the playground:
 
-```swift
+     ```swift
 list.append("Hello")
 list.isEmpty         // false
 list.first!.value    // "Hello"
 list.last!.value     // "Hello"
-```
+     ```
 
 The list looks like this:
 
@@ -259,11 +259,11 @@ The list looks like this:
 
 Now add a second node:
 
-```swift
+     ```swift
 list.append("World")
 list.first!.value    // "Hello"
 list.last!.value     // "World"
-```
+     ```
 
 And the list looks like:
 
@@ -275,16 +275,16 @@ And the list looks like:
 
 You can verify this for yourself by looking at the `next` and `previous` pointers:
 
-```swift
+    ```swift
 list.first!.previous          // nil
 list.first!.next!.value       // "World"
 list.last!.previous!.value    // "Hello"
 list.last!.next               // nil
-```
+    ```
 
 Let's add a method to count how many nodes are in the list. This will look very similar to what we did already:
 
-```swift
+    ```swift
   public var count: Int {
     if var node = head {
       var c = 1
@@ -297,7 +297,7 @@ Let's add a method to count how many nodes are in the list. This will look very 
       return 0
     }
   }
-```
+    ```
 
 It loops through the list in the same manner but this time increments a counter as well.
 
@@ -305,7 +305,7 @@ It loops through the list in the same manner but this time increments a counter 
 
 What if we wanted to find the node at a specific index in the list? With an array we can just write `array[index]` and it's an **O(1)** operation. It's a bit more involved with linked lists, but again the code follows a similar pattern:
 
-```swift
+    ```swift
   public func nodeAtIndex(index: Int) -> Node? {
     if index >= 0 {
       var node = head
@@ -318,7 +318,7 @@ What if we wanted to find the node at a specific index in the list? With an arra
     }
     return nil
   }
-```
+    ```
 
 The loop looks a little different but it does the same thing: it starts at `head` and then keeps following the `node.next` pointers to step through the list. We're done when we've seen `index` nodes, i.e. when the counter has reached 0.
 
