@@ -35,14 +35,14 @@ In this lab we will use WebKit to help us build our own browser for the iPhone. 
 
 1. Now we are going to override the method `viewDidAppear()`. Let's start by adding in a call to its super method. Following that we want to create a swift URL using the following code:
 
-  ```swift
+    ```swift
         let urlString:String = "https://www.apple.com" // default page
         let url:URL = URL(string: urlString)!
   ``` 
 
 1. Where you put in the default page you want your browser to open to. (Choose your favorite site if you'd like; doesn't really matter.) The [URLRequest](https://developer.apple.com/library/mac/documentation/Cocoa/Reference/Foundation/Classes/NSURLRequest_Class/) object handles loading the resource from the URL we specified. Of course, the [URL](https://developer.apple.com/library/mac/documentation/Cocoa/Reference/Foundation/Classes/NSURL_Class/) object helps us construct proper URLs but doesn't actually load them into the web view; to do that we add the following code:
 
-  ```swift
+    ```swift
         let urlRequest:URLRequest = URLRequest(url: url)
         webView.load(urlRequest)
   ```
@@ -53,12 +53,12 @@ Now build your project and you should see the default web page and the text box 
 
 1. The problem with the app right now is that if you change the URL and click `Go`, nothing happens. To correct this we need to add some actions for our buttons.  The first will be to make the `Go` button go somewhere:
 
-  ```swift
+    ```swift
   @IBAction func goTapped(_ sender: Any) {
     let url = URL(string: "https://" + locationField!.text)!
     webView.loadRequest(URLRequest(URL: url))
   }
-  ```
+    ```
 
   In this case we will append the https:// for the user and then load the new request.  Connect the button to this action, rebuild the app and see that it now works.
 
