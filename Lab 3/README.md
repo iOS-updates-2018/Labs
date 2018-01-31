@@ -55,7 +55,7 @@ Now build your project and you should see the default web page and the text box 
 
 1. The problem with the app right now is that if you change the URL and click `Go`, nothing happens. To correct this we need to add some actions for our buttons.  The first will be to make the `Go` button go somewhere:
 
-     ```swift
+  ```swift
   @IBAction func goTapped(_ sender: Any) {
     let url = URL(string: "https://" + locationField!.text)!
     webView.loadRequest(URLRequest(URL: url))
@@ -66,7 +66,7 @@ Now build your project and you should see the default web page and the text box 
 
 1. We also need actions for back, forward, refresh and stop, but luckily the `webView` object we created earlier makes this super easy with built-in methods for us to use.  Add to the view controller the following code:
 
-    ```swift
+  ```swift
   @IBAction func refreshTapped(_ sender: Any) {
     webView.reload()
   }
