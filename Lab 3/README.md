@@ -29,7 +29,7 @@ In this lab we will use WebKit to help us build our own browser for the iPhone. 
 
 1. In the toolbar at the bottom, drag over 5 bar button items and 4 fixed space bar items. Give the first a title of `<`. Convert the second a title of `>`. The third should be the system item `Action`, the fourth `Refresh` and then the last to `Stop`. Note that you can manually adjust the fixed space bar button (experiment by expanding and contracting until it's the size you want; mine is very minimal in width). 
 
-    [Buttons](https://i.imgur.com/O95Yu6w.png)
+    ![Buttons](https://i.imgur.com/O95Yu6w.png)
 
 1. Now we want to work with the view itself. We want the entire view (minus the nav bars) to be the web view in this case.  To do this, we start off by creating a web view object to work with. Drag into your storyboard a WebKit View.
 
