@@ -15,13 +15,13 @@ Part 1: SimpleBrowser (iOS app)
 
 In this lab we will use WebKit to help us build our own browser for the iPhone.  It's a scaled down browser, but it should have a navigation bar so we can enter in URLs, have both a reload and a stop button, and have a set of back and forward buttons for simple navigation.  Below is a screenshot of what this app will look like when finished:
 
-  ![](http://67442.cmuis.net/screenshots/67442/lab8/lab8-1.png)
+  ![Final Product](https://i.imgur.com/RO1FqmS.png)
 
 1. Start a new project called 'SimpleBrowser' as a single page application. Once this is created, go to the main storyboard and drag in a navigation controller.  Keep the navigation controller but remove the root view controller completely. Right-click (press control first) on the navigation view controller and drag to the view controller; choose the root view controller. 
 
 1. Click on the navigation view controller, go to the attributes inspector and click on bar visibility, `Shows Toolbar`.  This will allow the toolbar at the bottom of the view controller storyboard to appear and for us to drag items over to it. Also, click the 'is initial view controller' option.
 
-<!-- ![]() Insert picture 1 -->
+    ![Navigation Controller](https://i.imgur.com/rKs3qEE.png)
 
 1. There are some [SimpleBrowser icons](http://67442.cmuis.net/files/67442/simple_browser_icons.zip) you can use or you are free to create your own.  The site [MakeAppicon](https://makeappicon.com/) is really nice for taking png, jpg and psd files and turning them into Appicons that can be easily integrated into our app (as we did in the first two labs).
 
@@ -29,7 +29,7 @@ In this lab we will use WebKit to help us build our own browser for the iPhone. 
 
 1. In the toolbar at the bottom, drag over 5 bar button items and 4 fixed space bar items. Give the first a title of `<`. Convert the second a title of `>`. The third should be the system item `Action`, the fourth `Refresh` and then the last to `Stop`. Note that you can manually adjust the fixed space bar button (experiment by expanding and contracting until it's the size you want; mine is very minimal in width). 
 
-<!-- ![]() Insert picture 2 -->
+    [Buttons](https://i.imgur.com/O95Yu6w.png)
 
 1. Now we want to work with the view itself. We want the entire view (minus the nav bars) to be the web view in this case.  To do this, we start off by creating a web view object to work with. Drag into your storyboard a WebKit View.
 
