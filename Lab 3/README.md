@@ -138,6 +138,7 @@ There is much more you might choose to do with this app to really build out the 
 Part 2: Linked Lists (Swift)
 ---
 
+For more information on Linked Lists, [review the README here](https://github.com/iOS-updates-2018/Labs/blob/master/Lab%203/linkedLists.md).
 
 
 #### Building a linked list
