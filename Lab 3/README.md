@@ -65,16 +65,16 @@ Now build your project and you should see the default web page and the text box 
     webView.reload()
   }
 
-  @IBAction func backTapped(_ sender: Any) {
-        if webView.canGoBack {
-            webView.goBack()
-        }
+  @IBAction func backButtonTapped(_ sender: Any) {
+    if webView.canGoBack {
+      webView.goBack()
+    }
   }
-
-  @IBAction func forwardTapped(_ sender: Any) {
-        if webView.canGoForward {
-            webView.goForward()
-        }
+  
+  @IBAction func forwardButtonTapped(_ sender: Any) {
+    if webView.canGoForward {
+      webView.goForward()
+    }
   }
 
   @IBAction func stopTapped(_ sender: Any) {
