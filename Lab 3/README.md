@@ -228,7 +228,7 @@ The `append()` method first creates a new `Node` object and then asks for the la
 
 Let's test it in the playground:
   ```swift
-list.append("Hello")
+list.append(value:"Hello")
 list.isEmpty         // false
 list.first!.value    // "Hello"
 list.last!.value     // "Hello"
@@ -244,7 +244,7 @@ The list looks like this:
 
 Now add a second node:
   ```swift
-list.append("World")
+list.append(value:"World")
 list.first!.value    // "Hello"
 list.last!.value     // "World"
   ```
@@ -305,15 +305,15 @@ The loop looks a little different but it does the same thing: it starts at `head
 
 Try it out:
   ```swift
-list.nodeAtIndex(0)!.value    // "Hello"
-list.nodeAtIndex(1)!.value    // "World"
-list.nodeAtIndex(2)           // nil
+list.nodeAtIndex(index:0)!.value    // "Hello"
+list.nodeAtIndex(index:1)!.value    // "World"
+list.nodeAtIndex(index:2)           // nil
   ```
 
 For fun we can implement a `subscript` method too:
   ```swift
   public subscript(index: Int) -> T {
-    let node = nodeAtIndex(index)
+    let node = nodeAtIndex(index: index)
     assert(node != nil)
     return node!.value
   }
@@ -385,7 +385,7 @@ For this example, the function returns `("C", "D")` because `"D"` is the node at
 Now that we have this helper function, we can write the method for inserting nodes:
   ```swift
   public func insert(value: T, atIndex index: Int) {
-    let (prev, next) = nodesBeforeAndAfter(index)     // 1
+    let (prev, next) = nodesBeforeAndAfter(index: index)     // 1
     
     let newNode = Node(value: value)    // 2
     newNode.previous = prev
@@ -409,7 +409,7 @@ Some remarks about this method:
 
 Try it out:
   ```swift
-list.insert("Swift", atIndex: 1)
+list.insert(value:"Swift", atIndex: 1)
 list[0]     // "Hello"
 list[1]     // "Swift"
 list[2]     // "World"
@@ -453,7 +453,7 @@ Don't forget the `head` pointer! If this was the first node in the list then `he
 
 Try it out:
 ```swift
-list.removeNode(list.first!)   // "Hello"
+list.removeNode(node:list.first!)   // "Hello"
 list.count                     // 2
 list[0]                        // "Swift"
 list[1]                        // "World"
@@ -462,14 +462,14 @@ list[1]                        // "World"
 If you don't have a reference to the node, you can use `removeLast()` or `removeAtIndex()`:
 ```swift
   public func removeLast() -> T {
-    assert(!isEmpty)
-    return removeNode(last!)
+      assert(!isEmpty)
+      return removeNode(node:last!)
   }
 
   public func removeAtIndex(index: Int) -> T {
-    let node = nodeAtIndex(index)
-    assert(node != nil)
-    return removeNode(node!)
+      let node = nodeAtIndex(index: index)
+      assert(node != nil)
+      return removeNode(node: node!)
   }
 ```
 
@@ -479,7 +479,7 @@ list.removeLast()              // "World"
 list.count                     // 1
 list[0]                        // "Swift"
 
-list.removeAtIndex(0)          // "Swift"
+list.removeAtIndex(index:0)          // "Swift"
 list.count                     // 0
 ```
 
@@ -531,7 +531,7 @@ Arrays have `map()` and `filter()` functions, and there's no reason why linked l
     let result = LinkedList<U>()
     var node = head
     while node != nil {
-      result.append(transform(node!.value))
+      result.append(value:transform(node!.value))
       node = node!.next
     }
     return result
@@ -556,7 +556,7 @@ And here's filter:
     var node = head
     while node != nil {
       if predicate(node!.value) {
-        result.append(node!.value)
+        result.append(value:node!.value)
       }
       node = node!.next
     }
