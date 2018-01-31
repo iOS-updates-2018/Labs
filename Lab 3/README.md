@@ -40,14 +40,14 @@ In this lab we will use WebKit to help us build our own browser for the iPhone. 
         let url:URL = URL(string: urlString)!
   ``` 
 
-  where you put in the default page you want your browser to open to. (Choose your favorite site if you'd like; doesn't really matter.)  Of course, the [URL](https://developer.apple.com/library/mac/documentation/Cocoa/Reference/Foundation/Classes/NSURL_Class/) object helps us construct proper URLs but doesn't actually load them into the web view; to do that we add the following code:
+    where you put in the default page you want your browser to open to. (Choose your favorite site if you'd like; doesn't really matter.)  Of course, the [URL](https://developer.apple.com/library/mac/documentation/Cocoa/Reference/Foundation/Classes/NSURL_Class/) object helps us construct proper URLs but doesn't actually load them into the web view; to do that we add the following code:
 
   ```swift
         let urlRequest:URLRequest = URLRequest(url: url)
         webView.load(urlRequest)
   ```
 
-  The [URLRequest](https://developer.apple.com/library/mac/documentation/Cocoa/Reference/Foundation/Classes/NSURLRequest_Class/) object handles loading the resource from the URL we specified.  
+    The [URLRequest](https://developer.apple.com/library/mac/documentation/Cocoa/Reference/Foundation/Classes/NSURLRequest_Class/) object handles loading the resource from the URL we specified.  
 
 1. There is just one more change we want to make to `viewDidAppear()`. We want the text box at the top of the page to be set to the initial URl that we provided. Set the ```.text``` attribute of the text box object equal to the URL string. 
 
@@ -104,7 +104,7 @@ Now build your project and you should see the default web page and the text box 
 
 1. We have a pretty nice browser, but one thing seems a little clunky about it (okay, probably several) that we want to fix.  After entering a new URL the user presses enter and expects to go to that page, but that won't happen until we move the cursor over and hit `Go`. We can make the browser reload upon hitting enter in the location field by taking advantage of the [UITextFieldDelegate](https://developer.apple.com/library/ios/documentation/UIKit/Reference/UITextFieldDelegate_Protocol/) that we also worked with in lab 2. Review those instructions and apply those ideas to this lab as well.  Once the the view controller adopts the `UITextFieldDelegate` protocol we have to let the location field know that by control-clicking on the location field and dragging over to the view controller; in the popup window choose `Outlet -delegate`.  Finally, implement the method from the `UITextFieldDelegate` protocol:
 
-    ```swift
+  ```swift
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         let urlString:String = textInput.text!
         let url:URL = URL(string: urlString)!
@@ -121,18 +121,18 @@ Now build your project and you should see the default web page and the text box 
 
 1. It would be nice if the user could see when the back button and forward buttons would actually take them somewhere. We can add the following method to set the backButton and forwardButton as enabled.
 
-    ```swift
+  ```swift
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
         backButton.isEnabled = webView.canGoBack
         // [Add Code for Forward Button]
         
         textInput.text = webView.url?.absoluteString
     }
-    ```
+  ```
 
 1. Now we just have the Share button left. Apple makes sharing very easy for the developer to incorporate into their applications. The UIActivityViewController will take care of almost everything if you build it the proper way. 
 
-     ```swift    
+  ```swift    
      @IBAction func shareButtonTapped(_ sender: Any) {
         let urlString:String = textInput.text!
         let url:URL = URL(string: urlString)!
@@ -140,7 +140,7 @@ Now build your project and you should see the default web page and the text box 
         let activityViewController = UIActivityViewController(activityItems: [url], applicationActivities: nil)
         navigationController?.present(activityViewController, animated: true)
     }
-    ```
+  ```
 
 There is much more you might choose to do with this app to really build out the browser now, but we have a basic functioning web browser for our mobile devices. There is a lot of more power in WebKit and in various iOS delegates that we can utilize on our own later. If you choose to experiment more (a great idea) I suggest doing so on a new branch so you can revert back easily if things go awry.  Time now, however, to do some functional programming exercises.
 
