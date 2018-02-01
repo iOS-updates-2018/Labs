@@ -9,34 +9,36 @@ CONTENTS
 ===
 Part 1: Creating a basic map
 ---
-1. Create a new single page project in Xcode called FindMyCar. Once created, go to the main storyboard and on the first view add two buttons: "Here's My Car" and "Where's My Car?" This app is really designed for an iPhone, but you should still use Auto Layout constraints to make sure it works on different size phones (plus good practice).
+1. Create a new "Single View App" project in Xcode called "FindMyCar". Once created, go to the main storyboard and on the first view add two buttons: "Here's My Car" and "Where's My Car?" This app is really designed for an iPhone, but you should still use Auto Layout constraints to make sure it works on different size phones (plus good practice).
 
-1. Create a new View Controller file called `MapViewController.swift` and drag a corresponding view onto the main storyboard.  Make sure you connect that view to the `MapViewController` class. Connect the "Where's My Car?" button from the previous view to this new view, creating a seque; be sure to give the seque an identifier in the Attributes inspector.
+2. Create a new View Controller file called `MapViewController.swift` and drag a corresponding view onto the main storyboard.  Make sure you connect that view to the `MapViewController` class. Connect the "Where's My Car?" button from the previous view to this new view, creating a segue; be sure to give the segue an identifier in the Attributes inspector.
 
-1. In the `MapViewController.swift` file, add the directive `import MapKit` right after `import UIKit`. Now build the project and go to the map page in the simulator. Right now you are likely looking at a map of North America.  Glad that we got a map, but not all that helpful at the moment; not to worry, we will make it better soon.
+3. In the new view, drag over a `MapKit View` (about halfway down the options in the Object Library) and have it fill the view.
 
-1. In the new view, drag over a `MapKit View` (about halfway down the options in the Object Library) and have it fill the view. Create an outlet called `mapView` for this MapKit View in the `MapViewController.swift` file.
+4. In the `MapViewController.swift` file, add the directive `import MapKit` right after `import UIKit`. Go back to the Map storyboard and create an outlet called `mapView` for this MapKit View in the `MapViewController.swift` file (note this outlet should be of type `MKMapView`).
 
-1. In the `MapViewController` file add in the following code after `viewDidLoad()` to help us focus in on the area we really want to map:
+5. Now build the project and go to the map page in the simulator. Right now you are likely looking at a map of North America.  Glad that we got a map, but not all that helpful at the moment; not to worry, we will make it better soon.
 
-  ```swift
-  let regionRadius: CLLocationDistance = 400
-  
-  func centerMapOnLocation(location: CLLocation) {
-    let coordinateRegion = MKCoordinateRegionMakeWithDistance(location.coordinate, regionRadius * 2.0, regionRadius * 2.0)
-    mapView.setRegion(coordinateRegion, animated: true)
-  }
-  ```
+6. In the `MapViewController` file add in the following code after the `viewDidLoad()` function to help focus in on the area we really want to map:
 
-  Now in the `viewDidLoad()` method itself, add in the following code:
+    ```swift
+    let regionRadius: CLLocationDistance = 400
+    
+    func centerMapOnLocation(location: CLLocation) {
+      let coordinateRegion = MKCoordinateRegionMakeWithDistance(location.coordinate, regionRadius * 2.0, regionRadius * 2.0)
+      mapView.setRegion(coordinateRegion, animated: true)
+    }
+    ```
 
-  ```swift
-  super.viewDidLoad()
-  let initialLocation = CLLocation(latitude: 40.4426092, longitude: -79.9454014)
-  centerMapOnLocation(initialLocation)
-  ```
+    Now replace the code in the `viewDidLoad()` method with the following code which will start us over a very familiar spot:
 
-  Build this project again and see the results on the map page. The revised map should put us a lot closer to our current location.  Feel free to experiment with `regionRadius` (measured in meters) to find a radius that you like best.
+    ```swift
+    super.viewDidLoad()
+    let initialLocation = CLLocation(latitude: 40.4426092, longitude: -79.9454014)
+    centerMapOnLocation(location: initialLocation)
+    ```
+
+7. Build this project again and see the results on the map page. The revised map should put us a lot closer to our current location.  Feel free to experiment with the `regionRadius` property (measured in meters) to find a radius that you like best.
 
 Part 2: Adding in current location
 ---

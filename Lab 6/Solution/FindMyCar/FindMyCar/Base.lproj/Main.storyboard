@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--View Controller-->
+        <scene sceneID="tne-QT-ifu">
+            <objects>
+                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="FindMyCar" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YNy-7R-JWy">
+                                <rect key="frame" x="136" y="250" width="102" height="30"/>
+                                <state key="normal" title="Here's My Car!"/>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zFd-51-tnL">
+                                <rect key="frame" x="129" y="320" width="117" height="30"/>
+                                <state key="normal" title="Where's My Car?"/>
+                                <connections>
+                                    <segue destination="5cp-To-uyc" kind="show" identifier="showMap" id="1hE-oh-dFC"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Find My Car!" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rG8-L9-kqT">
+                                <rect key="frame" x="102.5" y="164" width="169" height="37"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="31"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="rG8-L9-kqT" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="2H6-sd-Zh5"/>
+                            <constraint firstItem="zFd-51-tnL" firstAttribute="top" secondItem="YNy-7R-JWy" secondAttribute="bottom" constant="40" id="QLh-L3-ffE"/>
+                            <constraint firstItem="zFd-51-tnL" firstAttribute="top" secondItem="rG8-L9-kqT" secondAttribute="bottom" constant="119" id="R5U-SC-zVF"/>
+                            <constraint firstItem="YNy-7R-JWy" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="dDw-HF-i2r"/>
+                            <constraint firstItem="zFd-51-tnL" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="jlv-Xl-zjL"/>
+                            <constraint firstItem="YNy-7R-JWy" firstAttribute="top" secondItem="rG8-L9-kqT" secondAttribute="bottom" constant="49" id="mwt-I7-U12"/>
+                            <constraint firstItem="rG8-L9-kqT" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="144" id="yYV-Xb-qlT"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="133.59999999999999" y="128.18590704647679"/>
+        </scene>
+        <!--Map View Controller-->
+        <scene sceneID="R1r-z1-hel">
+            <objects>
+                <viewController id="5cp-To-uyc" customClass="MapViewController" customModule="FindMyCar" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="ylo-sC-Akk">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="teA-7L-ToN">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                            </mapView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="teA-7L-ToN" firstAttribute="top" secondItem="ylo-sC-Akk" secondAttribute="top" id="KSA-Y0-2Ig"/>
+                            <constraint firstItem="teA-7L-ToN" firstAttribute="trailing" secondItem="gfX-vN-bWC" secondAttribute="trailing" id="Vjz-M2-8nR"/>
+                            <constraint firstItem="teA-7L-ToN" firstAttribute="leading" secondItem="gfX-vN-bWC" secondAttribute="leading" id="sEr-cj-huE"/>
+                            <constraint firstItem="teA-7L-ToN" firstAttribute="bottom" secondItem="gfX-vN-bWC" secondAttribute="bottom" id="vSk-fc-g5H"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="gfX-vN-bWC"/>
+                    </view>
+                    <connections>
+                        <outlet property="mapView" destination="teA-7L-ToN" id="ME3-hw-WK1"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="9gA-6C-zNv" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="884" y="127.28635682158921"/>
+        </scene>
+    </scenes>
+</document>
