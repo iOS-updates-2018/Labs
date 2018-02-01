@@ -44,61 +44,62 @@ Part 2: Adding in current location
 ---
 1. Your simulator doesn't have GPS in it, but you can give it coordinates that it might have gotten from a GPS unit. To do this, go to your simulator and choose `Debug... Location...` and then choose the `Custom Location` option.  Add in the coordinates of (40.4454261, -79.9437277) for latitude and longitude, respectively.  These coordinates should put us in the Morewood parking lot. (A reasonable place to park one's car...)
 
-1. Go into the `info.plist` file found in the Supporting Files folder and add a new property list item called `NSLocationWhenInUseUsageDescription` and add in the text "This app would like to use your location." This is the message that will be displayed when your app requests permission from the phone to use location services.
+2. Go into the `info.plist` file found in the file explorer and add a new property list item called `NSLocationWhenInUseUsageDescription` and add in the text "This app would like to use your location." (this can be done by clicking the + icon shown by hovering over "Information Property List"). This is the message that will be displayed when your app requests permission from the phone to use location services.
 
-1. Create a model file called `Location.swift`. After `import Foundation` add in the directive `import CoreLocation`.  Then add in the following code:
+3. Create a model file called `Location.swift`. After `import Foundation` add in the directive `import CoreLocation`.  Then add in the following code:
 
-  ```swift
-  class Location: NSObject {
-  
-    var latitude: CLLocationDegrees
-    var longitude: CLLocationDegrees
-    var locationManager = CLLocationManager()
-  
-    override init() {
-      self.latitude = 0.00
-      self.longitude = 0.00
-      super.init()
-    }
-  
-    func getCurrentLocation() {
-      locationManager.requestWhenInUseAuthorization()  
-      if CLLocationManager.locationServicesEnabled() {
-        locationManager.distanceFilter = kCLDistanceFilterNone
-        locationManager.desiredAccuracy = kCLLocationAccuracyBest
-        locationManager.startUpdatingLocation()
+    ```swift
+    class Location: NSObject {
+    
+      var latitude: CLLocationDegrees
+      var longitude: CLLocationDegrees
+      var locationManager = CLLocationManager()
+    
+      override init() {
+        self.latitude = 0.00
+        self.longitude = 0.00
+        super.init()
       }
-      
-      if let currLocation = locationManager.location {
-        self.latitude = currLocation.coordinate.latitude
-        self.longitude = currLocation.coordinate.longitude
+    
+      func getCurrentLocation() {
+        locationManager.requestWhenInUseAuthorization()  
+        if CLLocationManager.locationServicesEnabled() {
+          locationManager.distanceFilter = kCLDistanceFilterNone
+          locationManager.desiredAccuracy = kCLLocationAccuracyBest
+          locationManager.startUpdatingLocation()
+        }
+        
+        if let currLocation = locationManager.location {
+          self.latitude = currLocation.coordinate.latitude
+          self.longitude = currLocation.coordinate.longitude
+        }
       }
     }
-  }
-  ``` 
+    ``` 
 
-  Right now this class mostly tracks (and will later store) a location's latitude and longitude, but it also has the `getCurrentLocation()` method. One thing to note in `getCurrentLocation()` is that the first thing the app will do is verify that it has permission to use the phone's location services. The user will only have to give permission once (they can later change it in their phone's settings) but the app will always check to see that it has permission before calculating the current location. In some cases the initial granting of approval can take a second or two for the device to process, so the initial location will be at (0.00, 0.00) because the authorization hasn't been processed yet even though the user literally just gave permission. 
+    Right now this class mostly tracks (and will later store) a location's latitude and longitude, but it also has the `getCurrentLocation()` method. One thing to note in `getCurrentLocation()` is that the first thing the app will do is verify that it has permission to use the phone's location services. The user will only have to give permission once (they can later change it in their phone's settings) but the app will always check to see that it has permission before calculating the current location. In some cases the initial granting of approval can take a second or two for the device to process, so the initial location will be at (0.00, 0.00) because the authorization hasn't been processed yet even though the user literally just gave permission. 
 
-1. Back in the `MapViewController`, add `let location = Location()` after the outlet is declared. Then in the `viewDidLoad()` method, revise the code as follows:
+4. Back in the `MapViewController`, add `let location = Location()` after the outlet is declared. Then in the `viewDidLoad()` method, revise the code so it is as follows:
 
-  ```swift
-  super.viewDidLoad()
-  location.getCurrentLocation()
-  let initialLocation = CLLocation(latitude: location.latitude, longitude: location.longitude)
-  centerMapOnLocation(initialLocation)
-  ```
+    ```swift
+    super.viewDidLoad()
+    location.getCurrentLocation()
+    let initialLocation = CLLocation(latitude: location.latitude, longitude: location.longitude)
+    centerMapOnLocation(location: initialLocation)
+    ```
 
-  Rebuild the project and see that it is all working as it should.
+5. Actually, if you were to re-build the app, you may think it's working, but are you sure? Where are you on the map? It would be nice if we could drop on pin of our coordinates. Luckly, doing this in iOS is super easy; just add the following code to the end within the `viewDidLoad()` function:
 
-1. Actually, you think it's working, but are you sure? Where are you on the map? It would be nice if we could drop on pin of our coordinates. Luckly, doing this in iOS is super easy; just add the following code to `viewDidLoad()`:
+    ```swift
+    let droppedPin = MKPointAnnotation()
+    droppedPin.coordinate = CLLocationCoordinate2D(latitude: location.latitude, longitude: location.longitude)
+    droppedPin.title = "You Are Here"
+    droppedPin.subtitle = "Look it's you!"
+    mapView.addAnnotation(droppedPin)
+    ```
+    Rerun the project to see the pin and the title beneath.
 
-  ```swift
-  let droppedPin = MKPointAnnotation()
-  droppedPin.coordinate = CLLocationCoordinate2D(latitude: location.latitude, longitude: location.longitude)
-  droppedPin.title = "You Are Here"
-  mapView.addAnnotation(droppedPin)
-  ```
-  Rerun the project to see the pin and click on the pin to get the title. Now clean up this code so `viewDidLoad()` calls an appropriate pin-dropping method with one line rather than these four lines.
+6. Note the subtitle after you click on the pin. Now replace these four lines with a helper method within `MapViewController` which performs these pin-dropping lines and is called in `viewDidLoad()`.
 
 
 Part 3: Finding and mapping car location and current location
