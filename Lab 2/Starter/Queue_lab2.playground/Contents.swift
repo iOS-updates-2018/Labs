@@ -12,7 +12,7 @@
 */
 
 public struct Queue<T> {
-  private var array = [T]()
+  public var array = [T]()
 
   public var isEmpty: Bool {
     
@@ -47,7 +47,7 @@ public struct Queue<T> {
 var queueOfNames = Queue(array: ["Carl", "Lisa", "Stephanie", "Jeff", "Wade"])
 
 // Adds an element to the end of the queue.
-queueOfNames.enqueue("Mike")
+queueOfNames.enqueue(element: "Mike")
 
 // Queue is now ["Carl", "Lisa", "Stephanie", "Jeff", "Wade", "Mike"]
 print(queueOfNames.array)

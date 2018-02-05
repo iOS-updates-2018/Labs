@@ -99,25 +99,27 @@ Part 2: Adding in current location
     ```
     Rerun the project to see the pin and the title beneath.
 
-6. Note the subtitle after you click on the pin. Now replace these four lines with a helper method within `MapViewController` which performs these pin-dropping lines and is called in `viewDidLoad()`.
+6. Note the subtitle after you click on the pin. Now replace these five lines with a helper method within `MapViewController` which performs these pin-dropping lines and is called in `viewDidLoad()`.
 
 
 Part 3: Finding and mapping car location and current location
 ---
 
-1. We want to go back to the main view controller and add an action that we can connect to the "Here's my car" button. This action should find our current location using the method we already have in the `Location` class and then store it in location object. Once it has been handled, an alert should pop up to let us know the data has been saved. The title of the alert should just be "Car Location Saved" and the message for now will be a little verbose; below is a method to generate that message:
+1. We want to go back to the main view controller and add an action that we can connect to the "Here's my car" button. First, we need to create a new instance of the `Location` class within the `ViewController` class. This new action to be created in the `ViewController` class should find our current location using the method we already have in the `Location` class and then store it in the new location object instance. 
 
-  ```swift
-  func generateMessage() -> String {
-    let message = "Your car is currently at: \n( \(location.latitude), \(location.longitude) )\n\nWhen you want a map to this location, simply press the 'Where is my car?' button."
-    return message
-  }
-  ```
+2. Once location has been updated, an alert should pop up to let us know the data has been saved. The title of the alert should just be "Car Location Saved" and the message for now will be a little verbose; below is a method to generate that message:
 
-  Run your project and verify it is working as expected by tweaking the locations in the simulator to map to different locations.  FYI, the British Prime Minister's home is at (51.5034070, -0.1275920) and the White House is at (38.8976090, -77.0367350) if you want to try funky, non-Pittsburgh places to test. 
+    ```swift
+    func generateMessage() -> String {
+      let message = "Your car is currently at: \n( \(location.latitude), \(location.longitude) )\n\nWhen you want a map to this location, simply press the 'Where is my car?' button."
+      return message
+    }
+    ```
 
-1. We want to make sure that this is all linked to the "Where's my car?" button. The action associated with the button is actually a seque to the MapViewController, so all we need to do is make sure in the controller that the pin we dropped earlier on our current location is eliminated and a new pin is now dropped on the car's location and the title associated with the pin should be changed to "Your Car" or something to that effect. In addition, change the map to center to on the car's location and not the initial location as we did earlier.
+    Run your project and verify it is working as expected by tweaking the locations in the simulator to map to different locations.  FYI, the British Prime Minister's home is at (51.5034070, -0.1275920) and the White House is at (38.8976090, -77.0367350) if you want to try funky, non-Pittsburgh places to test. 
 
-1. We know where our car is and there is a pin dropped on the map to make it clear, but it'd be nice if we knew that location relative to our current position. This is easy. Go to the attributes inspector for the map view object in our storyboards and the first (unchecked) item in the map view attributes is to show the user location. Check it now and rebuild. In the simulator, assuming the car is still parked in Morewood (40.4454261, -79.9437277), change the location to Wean Hall (40.4426092, -79.9454014). When you press on the show me the car button, the red pin drops on the car and your location has a blue glowing button.  In a real mobile device with GPS, this blue dot will readjust as you move. 
+3. Going back, we want to test that the location we saved is reflected upon pressing the "Where's my car?" button. The action associated with the button is just a segue to the `MapViewController`, so all we need to do is make sure in the `MapViewController` that the pin we dropped earlier on our current location is eliminated and a new pin is now dropped on the current car's location. Feel free to also change the Title/Subtitle of the pin accordingly. In addition, change the map to center to on the car's location and not the initial location as we did earlier.
 
-1. We will in future weeks tweak this lab and add some additional features (including saving the car data on the phone so it's not lost due to power failure, etc.) so be sure to save this code.  (If you want to explore on your own and make sure the data is saved, feel free to do so; exploration is a great way to learn.)  In the meantime, get cracking on that midterm exam prep. Qapla'
+4. We know where our car is and there is a pin dropped on the map to make it clear, but it'd be nice if we knew that location relative to our current position. This is easy. Go to the attributes inspector for the map view object in our storyboards and the first (unchecked) item in the map view attributes is to show the user location. Check it now and rebuild. In the simulator, assuming the car is still parked in Morewood (40.4454261, -79.9437277), change the location to Wean Hall (40.4426092, -79.9454014). When you press on the show me the car button, the red pin drops on the car and your location has a blue glowing button.  In a real mobile device with GPS, this blue dot will readjust as you move. 
+
+5. **We will in future weeks tweak this lab and add some additional features (including saving the car data on the phone so it's not lost due to power failure, etc.) so be sure to save this code.**  (If you want to explore on your own and make sure the data is saved, feel free to do so; exploration is a great way to learn.)  In the meantime, get cracking on that midterm exam prep. Qapla'

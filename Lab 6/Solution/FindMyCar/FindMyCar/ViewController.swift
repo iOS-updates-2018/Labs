@@ -9,6 +9,8 @@
 import UIKit
 
 class ViewController: UIViewController {
+  
+  let location = Location()
 
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -18,6 +20,20 @@ class ViewController: UIViewController {
   override func didReceiveMemoryWarning() {
     super.didReceiveMemoryWarning()
     // Dispose of any resources that can be recreated.
+  }
+  
+  @IBAction func saveCar(button: UIButton!){
+    location.getCurrentLocation()
+    let alert = UIAlertController(title: "Saved", message: generateMessage(), preferredStyle: UIAlertControllerStyle.alert)
+    alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: { (action: UIAlertAction!) in
+      print("Handle Ok logic here")
+    }))
+    present(alert, animated: true, completion: nil)
+  }
+  
+  func generateMessage() -> String {
+    let message = "Your car is currently at: \n( \(location.latitude), \(location.longitude) )\n\nWhen you want a map to this location, simply press the 'Where is my car?' button."
+    return message
   }
 
 

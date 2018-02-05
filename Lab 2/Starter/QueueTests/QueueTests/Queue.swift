@@ -4,7 +4,7 @@
 //
 
 public struct Queue<T> {
-  private var array = [T]()
+  public var array = [T]()
   
   public var isEmpty: Bool {
     

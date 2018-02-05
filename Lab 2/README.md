@@ -81,7 +81,7 @@ This lab will build off our TempConverter that we have been working with in 67-2
       }
     
       @IBAction func close() {
-        dismissViewControllerAnimated(true, completion: nil)
+        dismiss(animated: true, completion: nil)
       }
     }
     ```
@@ -107,7 +107,7 @@ This lab will build off our TempConverter that we have been working with in 67-2
     Finally, add the following method to the ViewController:
 
     ```swift
-    func textFieldShouldReturn(textField: UITextField) -> Bool {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
       inputTemperature.resignFirstResponder()
       return true
     }
@@ -168,7 +168,7 @@ Let's start with **stacks**.  A stack is like an array but with limited function
 1. A stack is easy to create in Swift. It's just a wrapper around an array that just lets you push, pop, and peek. To get you started, we've created a basic playground with a little framing in place. Grab the [starter files for lab2](https://github.com/iOS-updates-2018/Labs/tree/master/Lab%202/Starter) and open up the `Stack_lab2.playground`.  In it you have been given a basic shell for a stack and some simple print tests that should help confirm if you set your stack up properly.  Add the code to the appropriate places and verify that everything is in working order.
 
 
-2. Finally, we'd like to be able to confirm our data structures with something more rigorous than just the informal testing of a playground. In the [starter files for lab2](https://github.com/iOS-updates-2018/Labs/tree/master/Lab%202/Starter) there is a folder called 'StackTests' - open `Tests.xcodeproj` with XCode and replace your code in the gaps of the `Stack.swift` file.  Then to run the tests, hover over the `Run` button in upper left corner of XCode until you see a little triangle appear; hold that down and the `test` option (with image of a wrench) will appear as the second option - select that option to run the tests.  Verify that all your tests passed. Looking at the test code (read it so you understand what is being tested and how) you see green checkmarks to passing tests. Change on the the tests so that it fails and rerun to see how XCode handles failing tests, but then revert it back so you can be checked off by the TAs.
+2. Finally, we'd like to be able to confirm our data structures with something more rigorous than just the informal testing of a playground. In the [starter files for lab2](https://github.com/iOS-updates-2018/Labs/tree/master/Lab%202/Starter) there is a folder called 'StackTests' - open `Tests.xcodeproj` with XCode and replace your code in the gaps of the `Stack.swift` file.  Then to run the tests, hover over the `Run` button in upper left corner of XCode until you see a little triangle appear; hold that down and the `test` option (with image of a wrench) will appear as the second option - select that option to run the tests.  Verify that all your tests passed. Looking at the test code (read it so you understand what is being tested and how) you see green checkmarks to passing tests. Change one of the tests so that it fails and rerun to see how XCode handles failing tests, but then revert it back so you can be checked off by the TAs.
 
 ### Queues
 

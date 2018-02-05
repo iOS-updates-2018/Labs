@@ -21,6 +21,9 @@
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YNy-7R-JWy">
                                 <rect key="frame" x="136" y="250" width="102" height="30"/>
                                 <state key="normal" title="Here's My Car!"/>
+                                <connections>
+                                    <action selector="saveCarWithButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="dLB-sd-pdn"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zFd-51-tnL">
                                 <rect key="frame" x="129" y="320" width="117" height="30"/>
