@@ -1,9 +1,9 @@
 OBJECTIVES
 ===
-- help students practice TDD in Swift
-- teach students how to build and use View Models
-- give students experience with table views
-- reinforce skills related to API handling and JSON
+- Help students practice TDD in Swift
+- Teach students how to build and use View Models
+- Give students experience with table views
+- Reinforce skills related to API handling and JSON
 
 
 CONTENTS
@@ -12,7 +12,7 @@ CONTENTS
 
   ![Final Product](https://i.imgur.com/MJevZif.jpg)
 
-1. Download the [starter files here](https://github.com/iOS-updates-2018/Labs/tree/master/Lab%207). This is an Xcode project with a testing suite and other key features in place.  Unzip and open this project in Xcode.
+1. Download the [starter files here](https://github.com/iOS-updates-2018/Labs/tree/master/Lab%207/StarterCodeAlamofire). This is an Xcode project with a testing suite and other key features in place.  Unzip and open this project in Xcode.
 
 Part 1: Building out models with TDD
 ---
