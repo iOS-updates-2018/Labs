@@ -1,0 +1,4 @@
+67-442 Repos (with Alamofire)
+===
+
+This is a revision of the Repos app that was developed in class with two major changes.  The first is that the code base was updated to Swift 3.  The second is that Alamofire was used to simplify the network service object and make the code easier to understand.  Alamofire was added directly to the project (not with cocoapods or carthage) following the manual instructions on the [Alamofire github page](https://github.com/Alamofire/Alamofire#installation). After that, the code in `SearchRepositoriesClient.swift` was scaled back and simplified after importing Alamofire. 
