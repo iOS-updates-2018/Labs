@@ -8,7 +8,9 @@ OBJECTIVES
 
 CONTENTS
 ===
-1. In this lab we will be building an application to look at the most popular Swift repositories on Github using the Github API and many of the skills we have learned in class. You are allowed and encouraged to use [Alamofire](https://alamofire.github.io/Alamofire/) and [SwiftyJSON](https://github.com/SwiftyJSON/SwiftyJSON) to make it easier to write this lab and to producer cleaner code.
+1. In this lab we will be building an application to look at the most popular Swift repositories on Github using the Github API and many of the skills we have learned in class. You are allowed and encouraged to use [Alamofire](https://alamofire.github.io/Alamofire/) and [SwiftyJSON](https://github.com/SwiftyJSON/SwiftyJSON) to make it easier to write this lab and to producer cleaner code. The Final Application will look like this:
+
+  ![Final Product](https://i.imgur.com/MJevZif.jpg)
 
 1. Download the [starter files here](https://github.com/iOS-updates-2018/Labs/tree/master/Lab%207). This is an Xcode project with a testing suite and other key features in place.  Unzip and open this project in Xcode.
 
