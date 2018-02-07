@@ -28,6 +28,7 @@ class ViewController: UIViewController {
     alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: { (action: UIAlertAction!) in
       print("Handle Ok logic here")
     }))
+    location.saveLocation()
     present(alert, animated: true, completion: nil)
   }
   

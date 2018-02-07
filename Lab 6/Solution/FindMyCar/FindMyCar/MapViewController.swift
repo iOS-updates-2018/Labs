@@ -17,7 +17,7 @@ class MapViewController: UIViewController {
 
   override func viewDidLoad() {
     super.viewDidLoad()
-    location.getCurrentLocation()
+    location.loadLocation()
     let initialLocation = CLLocation(latitude: location.latitude, longitude: location.longitude)
     centerMapOnLocation(location: initialLocation)
       // Do any additional setup after loading the view.

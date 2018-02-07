@@ -99,7 +99,7 @@ Part 2: Adding in current location
     ```
     Rerun the project to see the pin and the title beneath.
 
-6. Note the subtitle after you click on the pin. Now replace these five lines with a helper method within `MapViewController` which performs these pin-dropping lines and is called in `viewDidLoad()`.
+6. Note the subtitle after you click on the pin. Now replace these five lines with a helper method within `MapViewController` which performs this pin-dropping action and is called in `viewDidLoad()`.
 
 
 Part 3: Finding and mapping car location and current location
@@ -120,6 +120,122 @@ Part 3: Finding and mapping car location and current location
 
 3. Going back, we want to test that the location we saved is reflected upon pressing the "Where's my car?" button. The action associated with the button is just a segue to the `MapViewController`, so all we need to do is make sure in the `MapViewController` that the pin we dropped earlier on our current location is eliminated and a new pin is now dropped on the current car's location. Feel free to also change the Title/Subtitle of the pin accordingly. In addition, change the map to center to on the car's location and not the initial location as we did earlier.
 
-4. We know where our car is and there is a pin dropped on the map to make it clear, but it'd be nice if we knew that location relative to our current position. This is easy. Go to the attributes inspector for the map view object in our storyboards and the first (unchecked) item in the map view attributes is to show the user location. Check it now and rebuild. In the simulator, assuming the car is still parked in Morewood (40.4454261, -79.9437277), change the location to Wean Hall (40.4426092, -79.9454014). When you press on the show me the car button, the red pin drops on the car and your location has a blue glowing button.  In a real mobile device with GPS, this blue dot will readjust as you move. 
+4. We know where our car is and there is a pin dropped on the map to make it clear, but it'd be nice if we knew that location relative to our current position. This is easy. Go to the attributes inspector for the map view object in our storyboards and check the "User Location" item in the map view attributes. Check it now and rebuild. In the simulator, assuming the car is still parked in Morewood (40.4454261, -79.9437277), change the location to Wean Hall (40.4426092, -79.9454014). When you press on the show me the car button, the red pin drops on the car and your location has a blue glowing button.  In a real mobile device with GPS, this blue dot will readjust as you move. 
 
-5. **We will in future weeks tweak this lab and add some additional features (including saving the car data on the phone so it's not lost due to power failure, etc.) so be sure to save this code.**  (If you want to explore on your own and make sure the data is saved, feel free to do so; exploration is a great way to learn.)  In the meantime, get cracking on that midterm exam prep. Qapla'
+Part 4: Saving State
+---
+
+Now we will take a look at implementing a way to save our car's state no matter what may happen to our device: the app dies or the phone shuts down to name a few. We will do this for now by using a plist file, which is essentially writing some information to a file. In future weeks we will talk about using CoreData, which is an iOS framework for accessing internal memory similar to a database.
+
+You can see the [Contacts example from lecture](https://github.com/profh/67442_ContactsLite) as a means of implementing plists in an app to save state.
+
+For now, let's step through the steps to implement saving and loading our coordinates in the `Location` object.
+
+#### Augmenting the Location Class
+
+1. Let's begin by adding this string extension to the top of the `Location.swift` file (outside of the `Location` class):
+
+    ```swift
+    extension String {
+      // recreating a function that String class no longer supports in Swift 2.3
+      // but still exists in the NSString class. (This trick is useful in other
+      // contexts as well when moving between NS classes and Swift counterparts.)
+      
+      /**
+       Returns a new string made by appending to the receiver a given string.  In this case, a new string made by appending 'aPath' to the receiver, preceded if necessary by a path separator.
+       
+       - parameter aPath: The path component to append to the receiver. (String)
+       
+       - returns: A new string made by appending 'aPath' to the receiver, preceded if necessary by a path separator. (String)
+       
+      */
+      func stringByAppendingPathComponent(aPath: String) -> String {
+        let nsSt = self as NSString
+        return nsSt.appendingPathComponent(aPath)
+      }
+    }
+    ```
+
+    This extension allows us to append a filepath component to a given string, allowing us to create the filepath we will need to the plist file.
+
+2. Now, we must define the Swift functions *inside the `Location` class* to retrieve the appropriate directory for our plist file and the appropriate final filepath including our plist file in the device's memory:
+
+    ```swift
+    func documentsDirectory() -> String {
+      let paths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
+      return paths[0]
+    }
+    
+    func dataFilePath() -> String {
+      return documentsDirectory().stringByAppendingPathComponent(aPath: "Coordinates.plist")
+    }
+    ```
+
+    We should then print the dataFilePath out of the `init` function, so let's add that now as well.
+
+3. Now we are ready to write a function to save the location of the car which we will later call in several places around our app's files. This function will take our current latitude and longitude and save it to the plist. Add the `saveLocation` function in the `Location` class:
+
+    ```swift
+    func saveLocation() {
+      let data = NSMutableData()
+      let archiver = NSKeyedArchiver(forWritingWith: data)
+      archiver.encode(self.latitude, forKey: "latitude")
+      archiver.encode(self.longitude, forKey: "longitude")
+      archiver.finishEncoding()
+      data.write(toFile: dataFilePath(), atomically: true)
+    }
+    ```
+
+4. Similarily, below the `saveLocation` function, add the `loadLocation` function which we will call to retrieve the latitude and logitude from the plist and save them to our location object:
+
+    ```swift
+    func loadLocation() {
+      let path = dataFilePath()
+      if FileManager.default.fileExists(atPath: path) {
+        if let data = NSData(contentsOfFile: path) {
+          let unarchiver = NSKeyedUnarchiver(forReadingWith: data as Data)
+          self.latitude = unarchiver.decodeDouble(forKey: "latitude")
+          self.longitude = unarchiver.decodeDouble(forKey: "longitude") 
+          unarchiver.finishDecoding()
+        } else {
+          print("\nFILE NOT FOUND AT: \(path)")
+        }
+      }
+    }
+    ```
+
+5. We should also write a function to clear out our latitude and longitude before saving. Add the `clearCarLocation` file to the `Location` class:
+
+    ```swift
+    func clearCarLocation () {
+      self.latitude = 0.00
+      self.longitude = 0.00
+    }
+    ```
+
+6. The last thing we need to do is update our `getCurrentLocation` function in the `Location` class to clear the car's location and save the updated location to the plist. Call `clearCarLocation` to the beginning of this function, and call `saveLocation` right at the end.
+
+#### Augmenting the MapViewController
+
+The only thing that needs to be done is to switch the call to `getCurrentLocation` to `loadLocation` so we load from the plist.
+
+#### Augmenting the ViewController
+
+All that needs to be done here is to save the location of the car to our plist in the `saveCar` function attached to the button in the UI. Call the function to save to the plist at the end of this function.
+
+#### Augmenting the AppDelegate
+
+For `AppDelegate.swift` we must invoke our actions to save and load the location of the car on various triggers.
+
+The car's location should be saved in:
+
+* `applicationWillResignActive`
+* `applicationDidEnterBackground`
+* `applicationWillTerminate`
+
+While the car's location should be loaded in:
+
+* `application`
+* `applicationWillEnterForeground`
+
+Now the plist should be fully integrated into the app! Try adding location, killing the app, and checking to see it is there. If you are having issues with the plist, be sure it is being saved properly to the path printed when the `Location` object is initialized.
