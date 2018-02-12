@@ -14,7 +14,7 @@ public indirect enum BinaryTree<T> {
   public func count() -> Int {
     // Dynamically updated property: the number of non-empty nodes in the binary tree
     switch self {
-    case .Node(let left, let _, let right):
+    case .Node(let left, _, let right):
       return 1 + left.count() + right.count()
     default:
       return 0
@@ -25,7 +25,7 @@ public indirect enum BinaryTree<T> {
     // Returns a list of the objects in the tree in left subtree, current node, right subtree order
     switch self {
     case .Node(let left, let v, let right):
-      return left.traverseInOrder() + [v] as! [T] + right.traverseInOrder()
+      return (left.traverseInOrder() ) + ([v] as [T]) + (right.traverseInOrder() )
     default:
       return []
     }
