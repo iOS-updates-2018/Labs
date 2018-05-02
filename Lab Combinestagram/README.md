@@ -2,10 +2,11 @@
 *Note this lab is based off of chapter four of Ray Wenderlich's Book "RxSwift: Reactive Programming with Swift"*
 
 ## Combinestagram
-In this lab, we will be creating an application called "Combinestagram" which allows the user to create quick collages of their own pictures on their iOS device. We will be building off of the photo library usage content from the "ContactsAdvanced" lab as well to allow users to select photos. Of course, we will be wrapping the UI elements in the RxSwift framework using Observables and Subjects, before later being sure to remove unused resources properly in the back.
+In this lab, we will be creating an application called "Combinestagram" which allows the user to create quick collages of their own pictures on their iOS device. We will be building off of the photo library usage content from the "ContactsAdvanced" lab as well to allow users to select photos. Of course, we will be wrapping the UI elements in the RxSwift framework using Observables and Subjects, before later being sure to re
+move unused resources properly in the back.
 
 ## Part 1: Building the Initial ViewController
-1. You can find the starter code for the lab here. Clone it and perform a `pod install` from within this directory. Because we are using CocoaPods for this project, we should be sure to open the `Combinestagram.xcworkspace` file from within the project directory.
+1. You can find the starter code for the lab [here](https://github.com/iOS-updates-2018/Labs/tree/master/Lab%20Combinestagram/RxCombinestagram%20-%20starter). Clone it and perform a `pod install` from within this directory. Because we are using CocoaPods for this project, we should be sure to open the `Combinestagram.xcworkspace` file from within the project directory.
 
 2. The basic UI has been constructed for us in `Main.storyboard` (including wiring up variables), so take a quick look at it. Note the + in the top-right corner will eventually open a new ViewController for the user to select a new image for their collage, the "clear" button will erase the existing collage, and the "save" button will save the collage to the user's photo library. The collage implementation has also been completed for us, in `UIImage+Collage.swift`
 
