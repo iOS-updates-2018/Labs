@@ -1,5 +1,5 @@
 class TempConverter {
-  var temp: Int
+  private var temp: Int
   
   init(temp: Int) {
     self.temp = temp
@@ -13,11 +13,11 @@ class TempConverter {
   //    }
   //  }
   
-  class func tempBelowAbsoluteZero(temp: Int, unit: String) -> Bool {
+  static func tempBelowAbsoluteZero(temp: Int, unit: String) -> Bool {
     return (temp < -454 && unit == "F") || (temp < -270 && unit == "C")
   }
   
-  class func convert(temp: Int, unit: String = "F") -> Int {
+  static func convert(temp: Int, unit: String = "F") -> Int {
     if tempBelowAbsoluteZero(temp: temp, unit: unit) {
       return -1000
     }
