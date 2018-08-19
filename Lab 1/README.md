@@ -4,11 +4,11 @@
 
 2. In a separate window, open up the [Xcode Shortcuts Cheat Sheet](http://67442.cmuis.net/files/67442/XcodeShortcuts.pdf) by Yong Bakos. Refer to this cheat sheet throughout this lab to begin to learn the basic layout of Xcode as well as keyboard shortcuts that you may find useful.
 
-**Add in changing default indentation**
-
 ### Part 1: Temp Converter (Swift)
 
 1. Typically we will do the Swift exercise second, but since it's the first week and we want to keep this short we'll get started by going back to an old favorite from 67-272: Temp Converter. We'll start by creating a new Xcode playground named TempConverter (use the `File > New > Playground...` menu option) and save the playground in an appropriate place on your laptop.
+    
+  One quick tip before we continue, you may want to change the default indentation of the IDE in Xcode. To do this, click on "Xcode" in the top-left, then click on "preferences". Find the "Text Editing" pane and click on "indentation". Here, you can set the indentation to be anything you choose, but we recommend 2 spaces for everything.
 
 2. In this playground, remove the default code and create a class called TempConverter as follows:
   ```swift
@@ -302,7 +302,7 @@ Now that your app is working, it's time to add a little style to it.
 
   Go to your Main.storyboard file and add an Image Layout to the story board and resize it so that it fits the entire screen. You will also want to move it to the back so that you can still see and click on the buttons. In the Attributes Inspector for the Image Layout select your background image and you now have a nice background image. 
 
-![Asset Catalog](https://i.imgur.com/ymEH9Vu.png)
+  ![Asset Catalog](https://i.imgur.com/ymEH9Vu.png)
 
 19. Some experts say that rectangles with rounded corners are easier on the eyes than a rectangle with sharp edges. So let's now add some rounded corners to the buttons. First select a button and then go to the Identity Inspector and add the following two User Defined Runtime Attributes: 
     * ```layer.masksToBounds``` - Boolean - True
