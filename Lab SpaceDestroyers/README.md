@@ -572,35 +572,35 @@ Part 5: Finishing Up
 
 1. As a final step, we can add CoreMotion and use the accelerometer to move the player from side-to-side. As noted in class, the accelerometer doesn't work in the simulator -- this can only be used on a device.  First be sure to `import CoreMotion` in `GameScene` and then create a motionManager object and a variable to handle accelerometer data as follows:
 
-  ```swift
-  let motionManager: CMMotionManager = CMMotionManager()
-  var accelerationX: CGFloat = 0.0
-  ```
+    ```swift
+    let motionManager: CMMotionManager = CMMotionManager()
+    var accelerationX: CGFloat = 0.0
+    ```
 
-  Once that's done, the following method in `GameScene` will do the trick for us to actually set up the accelerometer: 
+    Once that's done, the following method in `GameScene` will do the trick for us to actually set up the accelerometer: 
 
-  ```swift
-  func setupAccelerometer(){
-    if motionManager.isAccelerometerAvailable {
-      motionManager.accelerometerUpdateInterval = 0.2
-      motionManager.startAccelerometerUpdates(to: OperationQueue.current!, withHandler: {
-        [weak self] (data: CMAccelerometerData?, error: NSError?) in
-        if let acceleration = data?.acceleration {
-          self!.accelerationX = CGFloat(acceleration.x)
-        }
-        } as! CMAccelerometerHandler)
+    ```swift
+    func setupAccelerometer(){
+      if motionManager.isAccelerometerAvailable {
+        motionManager.accelerometerUpdateInterval = 0.2
+        motionManager.startAccelerometerUpdates(to: OperationQueue.current!, withHandler: {
+          [weak self] (data: CMAccelerometerData?, error: NSError?) in
+          if let acceleration = data?.acceleration {
+            self!.accelerationX = CGFloat(acceleration.x)
+          }
+          } as! CMAccelerometerHandler)
+      }
     }
-  }
-  ```
+    ```
 
-  Also add the following code to override SpriteKit's `didSimulatePhysics()` method to make sure the player is moving accordingly:
+    Also add the following code to override SpriteKit's `didSimulatePhysics()` method to make sure the player is moving accordingly:
 
-  ```swift
-  override func didSimulatePhysics() {
-    player.physicsBody?.velocity = CGVector(dx: accelerationX * 600, dy: 0)
-  }
-  ```
+    ```swift
+    override func didSimulatePhysics() {
+      player.physicsBody?.velocity = CGVector(dx: accelerationX * 600, dy: 0)
+    }
+    ```
 
-  To make sure this functionality is applied, add `setupAccelerometer()` after the other setup methods in `didMoveToView`.  
+    To make sure this functionality is applied, add `setupAccelerometer()` after the other setup methods in `didMoveToView`.  
 
-  You can run your final build and play your own iOS game now.  Enjoy.
+    You can run your final build and play your own iOS game now.  Enjoy.
