@@ -13,43 +13,47 @@ CONTENTS
 Part 1: SimpleBrowser (iOS app)
 ---
 
-In this lab we will use WebKit to help us build our own browser for the iPhone.  It's a scaled down browser, but it should have a navigation bar so we can enter in URLs, have both a reload and a stop button, and have a set of back and forward buttons for simple navigation.  Below is a screenshot of what this app will look like when finished:
+In this lab we will use WebKit to help us build our own browser for the iPhone. It's a scaled down browser, but it should have a navigation bar so we can enter in URLs, have both a reload and a stop button, and have a set of back and forward buttons for simple navigation. Below is a screenshot of what this app will look like when finished:
 
   ![Final Product](https://i.imgur.com/X3xoC8J.jpg)
 
-1. Start a new project called 'SimpleBrowser' as a single page application. Once this is created, go to the main storyboard and drag in a navigation controller.  Keep the navigation controller but remove the root view controller completely. Right-click (press control first) on the navigation view controller and drag to the view controller; choose the root view controller. 
+1. Start a new project called 'SimpleBrowser' as a single view application. Once this is created, go to the main storyboard and drag in a navigation controller.  Keep the navigation controller but remove the root view controller completely from what was just dragged into the storyboard. Right-click (or press control first before clicking) on the navigation view controller and drag to the view controller that is there from the start; choose the `root view controller` for the relationship segue here. 
 
-2. Click on the navigation view controller, go to the attributes inspector and click on bar visibility, `Shows Toolbar`.  This will allow the toolbar at the bottom of the view controller storyboard to appear and for us to drag items over to it. Also, click the 'is initial view controller' option.
+2. Click on the navigation controller, go to the attributes inspector and click the checkbox on `Shows Toolbar` (under `Bar Visibility`) so it is checked.  This will allow the toolbar at the bottom of the view controller storyboard to appear and for us to drag items over to it. Also, click the `is initial view controller` option in the attributes inspector. At this point, your storyboard should look like the following:
 
     ![Navigation Controller](https://i.imgur.com/rKs3qEE.png)
 
 3. There are some [SimpleBrowser icons](http://67442.cmuis.net/files/67442/simple_browser_icons.zip) you can use or you are free to create your own.  The site [MakeAppicon](https://makeappicon.com/) is really nice for taking png, jpg and psd files and turning them into Appicons that can be easily integrated into our app (as we did in the first two labs).
 
-4. In the top nav bar, drag over a bar button item over to the right and set it to custom with the word 'Go'. After that, drag a text field into the middle of the nav bar and expand its size so that it takes up most of the remaining space (with a small buffer between the button, of course).  Make an outlet for the text field called `locationField` in the view controller and make sure it is properly connected. (You know the drill.)
+4. In the top nav bar of the view controller (not the navigation controller!), drag over a bar button item over to the right and set it to custom with the word 'Go'. After that, drag a text field into the middle of the nav bar and expand its size so that it takes up most of the remaining space (with a small buffer between the button, of course).  Make an outlet for the text field called `locationField` in the view controller and make sure it is properly connected. (You know the drill.) One other thing, to make life easier, in the attributes inspector for the text field, select the option `clear when editing begins` so the field is automatically cleared when a user wants to enter a new url.
 
-5. In the toolbar at the bottom, drag over 5 bar button items and 4 fixed space bar items. Give the first a title of `<`. Convert the second a title of `>`. The third should be the system item `Action`, the fourth `Refresh` and then the last to `Stop`. Note that you can manually adjust the fixed space bar button (experiment by expanding and contracting until it's the size you want; mine is very minimal in width). For each of the buttons make an outlet with an appropriate name.
+5. In the toolbar at the bottom, drag over 5 bar button items and 4 fixed space bar items. Give the first a title of `<` and the second a title of `>`. The third should be the system item `Action`, the fourth `Refresh` and then the last to `Stop`. Note that you can manually adjust the fixed space bar button (experiment by expanding and contracting until it's the size you want; mine is very minimal in width). For each of the buttons make an outlet with an appropriate name.
 
-6. Now we want to work with the view itself. We want the entire view (minus the nav bars) to be the web view in this case.  To do this, we start off by creating a web view object to work with. Drag into your storyboard a WebKit View.
+    Note that `System Item` refers to an option in a dropdown in the attributes inspector for a bar button second from the top. This refers to internal iOS icons, allowing us to remain consistent with Apple's design patterns!
+
+6. Now we want to work with the view itself. We want the entire view (minus the navbar and toolbar) to be the web view in this case.  To do this, we start off by creating a web view object to work with. Drag into your storyboard a WebKit View. At this point, your storyboard should look like below:
 
     ![Buttons](https://i.imgur.com/O95Yu6w.png)
 
-7. Now we are going to override the method `viewDidAppear()`. You will need to create this method yourself. Let's start by adding in a call to its super method. Following that we want to create a swift URL using the following code:
+7. Let's switch over to working with the view controller code. First, we need to `import WebKit` at the top of the view controller code (right after `import UIKit`) and then add to the `ViewController` class the protocol `WKNavigationDelegate`. After that, inside the class, add `var webView: WKWebView!` and make it an `IBOutlet`. Now connect the WebKit View to this new outlet.
+
+8. Now we are going to override the method `viewDidAppear()`. You will need to create this method yourself. Let's start by adding in a call to its super method. Following that we want to create a swift URL using the following code:
   ```swift
-        let urlString:String = "https://www.apple.com" // default page
-        let url:URL = URL(string: urlString)!
+  let urlString:String = "https://www.apple.com" // default page
+  let url:URL = URL(string: urlString)!
   ``` 
 
-8. The urlString will be the default page for your browser. (Choose your favorite site if you'd like; doesn't really matter.) The [URLRequest](https://developer.apple.com/library/mac/documentation/Cocoa/Reference/Foundation/Classes/NSURLRequest_Class/) object handles loading the resource from the URL we specified. Of course, the [URL](https://developer.apple.com/library/mac/documentation/Cocoa/Reference/Foundation/Classes/NSURL_Class/) object helps us construct proper URLs but doesn't actually load them into the web view; to do that we add the following code:
+9. The urlString will be the default page for your browser. (Choose your favorite site if you'd like; doesn't really matter.) The [URLRequest](https://developer.apple.com/library/mac/documentation/Cocoa/Reference/Foundation/Classes/NSURLRequest_Class/) object handles loading the resource from the URL we specified. Of course, the [URL](https://developer.apple.com/library/mac/documentation/Cocoa/Reference/Foundation/Classes/NSURL_Class/) object helps us construct proper URLs but doesn't actually load them into the web view; to do that we add the following code right after:
   ```swift
-        let urlRequest:URLRequest = URLRequest(url: url)
-        webView.load(urlRequest)
+  let urlRequest:URLRequest = URLRequest(url: url)
+  webView.load(urlRequest)
   ```
 
-9. There is just one more change we want to make to `viewDidAppear()`. We want the text box at the top of the page to be set to the initial URl that we provided. Set the ```.text``` attribute of the text box object equal to the URL string. 
+10. There is just one more change we want to make to `viewDidAppear()`. We want the text box at the top of the page to be set to the initial URL that we provided. Set the ```.text``` attribute of the text box object equal to the URL string. 
 
-Now build your project and you should see the default web page and the text box should display the correct URL.
+    Now build your project and you should see the default web page and the text box should display the correct URL.
 
-10. The problem with the app right now is that if you change the URL and click `Go`, nothing happens. To correct this we need to add some actions for our buttons.  The first will be to make the `Go` button go somewhere:
+11. The problem with the app right now is that if you change the URL and click `Go`, nothing happens. To correct this we need to add some actions for our buttons.  The first will be to make the `Go` button go somewhere:
   ```swift
   @IBAction func goTapped(_ sender: Any) {
     let url = URL(string: "https://" + locationField!.text)!
@@ -59,7 +63,7 @@ Now build your project and you should see the default web page and the text box 
 
   In this case we will append the https:// for the user and then load the new request.  Connect the button to this action, rebuild the app and see that it now works.
 
-11. We also need actions for back, forward, refresh and stop, luckily the `webView` object we created earlier makes this super easy with built-in methods for us to use.  Add to the view controller the following code:
+12. We also need actions for back, forward, refresh and stop, luckily the `webView` object we created earlier makes this super easy with built-in methods for us to use.  Add to the view controller the following code:
   ```swift
   @IBAction func refreshTapped(_ sender: Any) {
     webView.reload()
@@ -84,20 +88,23 @@ Now build your project and you should see the default web page and the text box 
 
   Wire these buttons up to their actions, rebuild and verify the app is working properly.
 
-12. Now this seems great, but what if the user adds an inappropriate URL, like 'george'. We need to tell the user this is not acceptable.  We've used alerts in past projects so we can easily add one here.  We will take advantage of the [WKNavigationDelegate](https://developer.apple.com/library/prerelease/ios/documentation/WebKit/Reference/WKNavigationDelegate_Ref/index.html) protocol to help us. Looking over the documentation, we see there is a webView method `didFail:withError` that seems to be exactly what we need.  We can implement that method and get it to add in our alert message: 
+13. Now this seems great, but what if the user adds an inappropriate URL, like 'george'. We need to tell the user this is not acceptable.  We've used alerts in past projects so we can easily add one here.  We will take advantage of the [WKNavigationDelegate](https://developer.apple.com/library/prerelease/ios/documentation/WebKit/Reference/WKNavigationDelegate_Ref/index.html) protocol to help us. Looking over the documentation, we see there is a webView method `webView(_:didFailProvisionalNavigation:withError:)` that seems to be exactly what we need.  We can implement that method and get it to add in our alert message: 
 
-```swift
-    func webView(_ webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError error: Error) {
-      let alert = UIAlertController(title: "Error", message: error.localizedDescription, preferredStyle: .alert)
-      alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
-      present(alert, animated: true, completion: nil)
-    }
-  ```
+  ```swift
+  func webView(_ webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError error: Error) {
+    let alert = UIAlertController(title: "Error", message: error.localizedDescription, preferredStyle: .alert)
+    alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
+    present(alert, animated: true, completion: nil)
+  }
+    ```
 
   If we build it again and run it, we see it works when we type in 'george' in the location field, but after dismissing the alert the invalid URL still appears with the old page and that could be confusing. To fix this, add some code to the method above so that it clears the location field and resets the focus to that field to accept user input right away.  Do this and rebuild to verify the app is working.
 
-13. We have a pretty nice browser, but one thing seems a little clunky about it (okay, probably several) that we want to fix.  After entering a new URL the user presses enter and expects to go to that page, but that won't happen until we move the cursor over and hit `Go`. We can make the browser reload upon hitting enter in the location field by taking advantage of the [UITextFieldDelegate](https://developer.apple.com/library/ios/documentation/UIKit/Reference/UITextFieldDelegate_Protocol/) that we also worked with in lab 2. Review those instructions and apply those ideas to this lab as well.  Once the the view controller adopts the `UITextFieldDelegate` protocol we have to let the location field know that by control-clicking on the location field and dragging over to the view controller; in the popup window choose `Outlet -delegate`.  Finally, implement the method from the `UITextFieldDelegate` protocol:
-  ```swift
+14. We have a pretty nice browser, but one thing seems a little clunky about it (okay, probably several) that we want to fix.  After entering a new URL the user presses enter and expects to go to that page, but that won't happen until we move the cursor over and hit `Go`. We can make the browser reload upon hitting enter in the location field by taking advantage of the [UITextFieldDelegate](https://developer.apple.com/library/ios/documentation/UIKit/Reference/UITextFieldDelegate_Protocol/) that we also worked with in lab 2. Review those instructions and apply those ideas to this lab as well.  
+
+    Once the the view controller adopts the `UITextFieldDelegate` protocol we have to let the location field know that by control-clicking on the location field and dragging over to the view controller; in the popup window choose `Outlet -delegate`.  Finally, implement the method from the `UITextFieldDelegate` protocol:
+
+    ```swift
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         let urlString:String = locationField.text!
         let url:URL = URL(string: urlString)!
@@ -107,30 +114,32 @@ Now build your project and you should see the default web page and the text box 
 
         locationField.resignFirstResponder()
         return true
-    }
-  ```
+      }
+    ```
 
-  Picking some nits here, we notice that the middle two lines are a repeat from the code in `viewDidLoad()`. Let's refactor this into a new method `goToPage()` and make both `viewDidLoad()` and `textFieldShouldReturn()` utilize this new method.
+    Picking some nits here, we notice that the middle two lines are a repeat from the code in `viewDidLoad()`. Let's refactor this into a new method `goToPage()` and make both `viewDidLoad()` and `textFieldShouldReturn()` utilize this new method.
 
-14. It would be nice if the user could see when the back button and forward buttons would actually take them somewhere. We can add the following method to set the backButton and forwardButton as enabled.
+15. It would be nice if the user could see when the back button and forward buttons would actually take them somewhere. We can add the following method to set the backButton and forwardButton as enabled.
+
   ```swift
-    func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
-        backButton.isEnabled = webView.canGoBack
-        // [Add Code for Forward Button]
-        
-        locationField.text = webView.url?.absoluteString
-    }
+  func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
+      backButton.isEnabled = webView.canGoBack
+      // [Add Code for Forward Button, its similar!]
+      
+      locationField.text = webView.url?.absoluteString
+  }
   ```
 
-15. Now we just have the Share button left. Apple makes sharing very easy for the developer to incorporate into their applications. The UIActivityViewController will take care of almost everything if you build it the proper way. 
+16. Now we just have the Share button left. Apple makes sharing very easy for the developer to incorporate into their applications. The `UIActivityViewController` will take care of almost everything if built properly.
+
   ```swift    
-     @IBAction func shareButtonTapped(_ sender: Any) {
-        let urlString:String = locationField.text!
-        let url:URL = URL(string: urlString)!
-        
-        let activityViewController = UIActivityViewController(activityItems: [url], applicationActivities: nil)
-        navigationController?.present(activityViewController, animated: true)
-    }
+  @IBAction func shareButtonTapped(_ sender: Any) {
+    let urlString:String = locationField.text!
+    let url:URL = URL(string: urlString)!
+    
+    let activityViewController = UIActivityViewController(activityItems: [url], applicationActivities: nil)
+    navigationController?.present(activityViewController, animated: true)
+  }
   ```
 
 There is much more you might choose to do with this app to really build out the browser now, but we have a basic functioning web browser for our mobile devices. There is a lot of more power in WebKit and in various iOS delegates that we can utilize on our own later. If you choose to experiment more (a great idea) I suggest doing so on a new branch so you can revert back easily if things go awry.  Time now, however, to do some functional programming exercises.
