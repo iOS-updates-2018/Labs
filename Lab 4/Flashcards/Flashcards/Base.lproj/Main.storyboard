@@ -6,6 +6,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -18,16 +19,11 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Rails Command Goes Here" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Z3W-iO-AY5">
-                                <rect key="frame" x="85" y="323" width="205" height="21"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Nof-WQ-Hn3">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Nof-WQ-Hn3">
                                 <rect key="frame" x="16" y="207" width="343" height="61"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="61" id="SKy-WT-7aE"/>
+                                </constraints>
                                 <attributedString key="attributedText">
                                     <fragment content="Rails Command">
                                         <attributes>
@@ -38,8 +34,23 @@
                                 </attributedString>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Rails Command Goes Here" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Z3W-iO-AY5">
+                                <rect key="frame" x="16" y="280" width="343" height="225"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="Nof-WQ-Hn3" firstAttribute="leading" secondItem="Z3W-iO-AY5" secondAttribute="leading" id="Pph-bF-XQD"/>
+                            <constraint firstItem="Nof-WQ-Hn3" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" id="SQf-ch-XPP"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="Z3W-iO-AY5" secondAttribute="bottom" constant="118" id="bbg-CQ-Pf8"/>
+                            <constraint firstItem="Nof-WQ-Hn3" firstAttribute="trailing" secondItem="Z3W-iO-AY5" secondAttribute="trailing" id="ccK-hE-frm"/>
+                            <constraint firstItem="Nof-WQ-Hn3" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="143" id="deo-xf-QFk"/>
+                            <constraint firstItem="Nof-WQ-Hn3" firstAttribute="trailing" secondItem="8bC-Xf-vdC" secondAttribute="trailingMargin" id="r6N-yp-xWa"/>
+                            <constraint firstItem="Z3W-iO-AY5" firstAttribute="top" secondItem="Nof-WQ-Hn3" secondAttribute="bottom" constant="12" id="tma-bd-ZfU"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <navigationItem key="navigationItem" title="Command" id="e3L-h7-O1u">
@@ -65,9 +76,11 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4bU-ok-kY0">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4bU-ok-kY0">
                                 <rect key="frame" x="16" y="211" width="343" height="61"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="61" id="52n-sd-I6z"/>
+                                </constraints>
                                 <attributedString key="attributedText">
                                     <fragment content="Rails Command Repeated">
                                         <attributes>
@@ -78,15 +91,23 @@
                                 </attributedString>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Definition Goes Here" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="raC-CO-Gxy">
-                                <rect key="frame" x="85" y="323" width="205" height="21"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Definition Goes Here" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="raC-CO-Gxy">
+                                <rect key="frame" x="16" y="280" width="343" height="225"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="4bU-ok-kY0" firstAttribute="trailing" secondItem="bSa-z1-Lu4" secondAttribute="trailingMargin" id="0F7-xN-6JZ"/>
+                            <constraint firstItem="4bU-ok-kY0" firstAttribute="leading" secondItem="raC-CO-Gxy" secondAttribute="leading" id="2Br-up-bWT"/>
+                            <constraint firstItem="raC-CO-Gxy" firstAttribute="top" secondItem="4bU-ok-kY0" secondAttribute="bottom" constant="8" symbolic="YES" id="IDA-rL-VZL"/>
+                            <constraint firstItem="4bU-ok-kY0" firstAttribute="trailing" secondItem="raC-CO-Gxy" secondAttribute="trailing" id="QOb-Qq-UuV"/>
+                            <constraint firstItem="4bU-ok-kY0" firstAttribute="top" secondItem="hLd-nr-b20" secondAttribute="top" constant="147" id="kN4-5k-lNi"/>
+                            <constraint firstItem="hLd-nr-b20" firstAttribute="bottom" secondItem="raC-CO-Gxy" secondAttribute="bottom" constant="118" id="rhx-43-jjK"/>
+                            <constraint firstItem="4bU-ok-kY0" firstAttribute="leading" secondItem="bSa-z1-Lu4" secondAttribute="leadingMargin" id="xOA-Uf-LYD"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="hLd-nr-b20"/>
                     </view>
                     <connections>
@@ -101,6 +122,7 @@
         <!--Navigation Controller-->
         <scene sceneID="zRC-hS-20B">
             <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Qf9-ul-C3b" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" toolbarHidden="NO" id="PNf-DD-C4A" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="FNP-cR-cld">
@@ -112,7 +134,6 @@
                         <segue destination="BYZ-38-t0r" kind="relationship" relationship="rootViewController" id="NcG-yU-IvS"/>
                     </connections>
                 </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Qf9-ul-C3b" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-254" y="133"/>
         </scene>
