@@ -63,10 +63,13 @@ extension BinaryTree: CustomStringConvertible {
 
 If you `print(tree)` you should see something like this:
 
-  value: +, left = [value: *, left = [value: 5, left = [], right = []], right = [value: -, left = [value: a, left = [], right = []], right = [value: 10, left = [], right = []]]], right = [value: *, left = [value: -, left = [], right = [value: 4, left = [], right = []]], right = [value: /, left = [value: 3, left = [], right = []], right = [value: b, left = [], right = []]]]
+```
+value: +, left = [value: *, left = [value: 5, left = [], right = []], right = [value: -, left = [value: a, left = [], right = []], right = [value: 10, left = [], right = []]]], right = [value: *, left = [value: -, left = [], right = [value: 4, left = [], right = []]], right = [value: /, left = [value: 3, left = [], right = []], right = [value: b, left = [], right = []]]]
+```
 
 With a bit of imagination, you can see the tree structure. ;-) It helps if you indent it:
 
+```
   value: +, 
     left = [value: *, 
       left = [value: 5, left = [], right = []], 
@@ -80,7 +83,7 @@ With a bit of imagination, you can see the tree structure. ;-) It helps if you i
       right = [value: /, 
         left = [value: 3, left = [], right = []], 
         right = [value: b, left = [], right = []]]]
-
+```
 Another useful method is counting the number of nodes in the tree:
 
 ```swift
@@ -134,18 +137,20 @@ As is common when working with tree structures, these functions call themselves 
 
 For example, if you traverse the tree of arithmetic operations in post-order, you'll see the values in this order:
 
-  5
-  a
-  10
-  -
-  *
-  4
-  -
-  3
-  b
-  /
-  *
-  +
+```
+5
+a
+10
+-
+*
+4
+-
+3
+b
+/
+*
++
+```
 
 The leaves appear first. The root node appears last.
 
