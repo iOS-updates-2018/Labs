@@ -1,3 +1,12 @@
+# Space Destroyers
+
+For the final lab, we will be making one of the classic arcade games on iOS, Space *Destroyers*! We will be using sprites, physics, and more. Here is a glimpse of the final app:
+
+<p align="center">
+  <img src="https://i.imgur.com/hOKHyf8.png" width="35%">
+</p>
+
+
 Part 1: Getting Started
 ---
 1. Open a new project in Xcode but choose `Game` rather than single-page app for your template. Call it "Space Destroyers" and feel free to include testing if you wish. **Be sure that the SpriteKit** is selected as well. 
@@ -399,10 +408,10 @@ Part 4: Adding Physics
 4. Now we have to add physics to the `GameScene` itself.  We will do this in two parts. To begin with, at the start of `didMove` we want to add gravity:
 
     ```swift
-        self.physicsWorld.gravity = CGVector(dx: 0, dy: 0)
-        self.physicsWorld.contactDelegate = self as SKPhysicsContactDelegate
-        self.physicsBody = SKPhysicsBody(edgeLoopFrom: frame)
-        self.physicsBody?.categoryBitMask = CollisionCategories.EdgeBody
+    self.physicsWorld.gravity = CGVector(dx: 0, dy: 0)
+    self.physicsWorld.contactDelegate = self as SKPhysicsContactDelegate
+    self.physicsBody = SKPhysicsBody(edgeLoopFrom: frame)
+    self.physicsBody?.categoryBitMask = CollisionCategories.EdgeBody
     ```
 
 5. The second part of adding physics to `GameScene` is implementing the `SKPhysicsContactDelegate` that we referenced earlier in `didMoveToView`. Add this protocol to the class declaration and then add the following method that is needed for this protocol:
@@ -506,19 +515,19 @@ Part 5: Finishing Up
 
     We want the respawn process to be delayed (in this case, the ship fades in and out). Note that the player is made invincible during the respawn process -- while the ship is fading in and out we don't want the invaders to be able to hit them. We might also disable the player's ability to fire; I've experimented with that but it found it makes it much harder to progress in the level so I didn't put it in here. (Feel free to add it in and experiment if you'd like.)
 
-1. Now for the die function, we can simply decrement the number of lives by one, but let's only make that possible if the player is not invincible. As noted above, we shouldn't let the player get hit again in the respawn process.
+2. Now for the die function, we can simply decrement the number of lives by one, but let's only make that possible if the player is not invincible. As noted above, we shouldn't let the player get hit again in the respawn process.
 
-1. For the `kill()` function, add in the following code:
+3. For the `kill()` function, add in the following code:
 
-    ```swift
-      levelNum = 1
-      let gameOverScene = StartGameScene(size: self.scene!.size)
-      gameOverScene.scaleMode = self.scene!.scaleMode
-      let transitionType = SKTransition.flipHorizontal(withDuration: 0.5)
-      self.scene!.view!.presentScene(gameOverScene,transition: transitionType)
-    ```
+  ```swift
+  levelNum = 1
+  let gameOverScene = StartGameScene(size: self.scene!.size)
+  gameOverScene.scaleMode = self.scene!.scaleMode
+  let transitionType = SKTransition.flipHorizontal(withDuration: 0.5)
+  self.scene!.view!.presentScene(gameOverScene,transition: transitionType)
+  ```
 
-1. To finish off a level, we need to add the following to the `Game Management Methods` section of `GameScene` and then add the function call to the appropriate place in `fireInvaderBullet`.
+4. To finish off a level, we need to add the following to the `Game Management Methods` section of `GameScene` and then add the function call to the appropriate place in `fireInvaderBullet`.
 
   ```swift
   // MARK: - Game Management Methods
@@ -537,29 +546,29 @@ Part 5: Finishing Up
 
   After that, we need to add in a new scene similar to what we did with `StartGameScene` called in this case `LevelCompleteScene` (new Cocoa Touch Class file, inheriting from SKscene).  For this new class, add the following code:
 
-    ```swift
-    override func didMove(to view: SKView) {
-      self.backgroundColor = SKColor.black
-      let startGameButton = SKSpriteNode(imageNamed: "nextlevelbtn")
-      startGameButton.position = CGPoint(x: size.width/2, y: size.height/2 - 100)
-      startGameButton.name = "nextlevel"
-      addChild(startGameButton)
+  ```swift
+  override func didMove(to view: SKView) {
+    self.backgroundColor = SKColor.black
+    let startGameButton = SKSpriteNode(imageNamed: "nextlevelbtn")
+    startGameButton.position = CGPoint(x: size.width/2, y: size.height/2 - 100)
+    startGameButton.name = "nextlevel"
+    addChild(startGameButton)
+  }
+  
+  override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+    let touch = touches.first! as UITouch
+    let touchLocation = touch.location(in: self)
+    let touchedNode = self.atPoint(touchLocation)
+    if(touchedNode.name == "nextlevel"){
+      let gameOverScene = GameScene(size: size)
+      gameOverScene.scaleMode = scaleMode
+      let transitionType = SKTransition.flipHorizontal(withDuration: 0.5)
+      view?.presentScene(gameOverScene,transition: transitionType)
     }
-    
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-      let touch = touches.first! as UITouch
-      let touchLocation = touch.location(in: self)
-      let touchedNode = self.atPoint(touchLocation)
-      if(touchedNode.name == "nextlevel"){
-        let gameOverScene = GameScene(size: size)
-        gameOverScene.scaleMode = scaleMode
-        let transitionType = SKTransition.flipHorizontal(withDuration: 0.5)
-        view?.presentScene(gameOverScene,transition: transitionType)
-      }
-    }
-    ```
+  }
+  ```
 
-1. Going back to `GameScene`, we need to add a method after `levelComplete` to start new games:
+5. Going back to `GameScene`, we need to add a method after `levelComplete` to start new games:
 
   ```swift
   func newGame(){
@@ -570,7 +579,7 @@ Part 5: Finishing Up
   }
   ```
 
-1. As a final step, we can add CoreMotion and use the accelerometer to move the player from side-to-side. As noted in class, the accelerometer doesn't work in the simulator -- this can only be used on a device.  First be sure to `import CoreMotion` in `GameScene` and then create a motionManager object and a variable to handle accelerometer data as follows:
+6. As a final step, we can add CoreMotion and use the accelerometer to move the player from side-to-side. As noted in class, the accelerometer doesn't work in the simulator -- this can only be used on a device.  First be sure to `import CoreMotion` in `GameScene` and then create a motionManager object and a variable to handle accelerometer data as follows:
 
     ```swift
     let motionManager: CMMotionManager = CMMotionManager()

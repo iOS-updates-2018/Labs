@@ -9,7 +9,7 @@ CONTENTS
 ===
 This week, we will be making an app that allows users to track where their car is parked, and where they are relative to the car. We will be using maps, location, and plists to save car data. Here is a sneak peek at the final app, but let's dive in!
 
-<p float="left">
+<p float="left" align="center">
   <img src="https://i.imgur.com/XN7zPNe.png" width="48%" />
   <img src="https://i.imgur.com/J72gI4C.png" width="48%" /> 
 </p>

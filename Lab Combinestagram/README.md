@@ -4,7 +4,9 @@
 ## Combinestagram
 In this lab, we will be creating an application called "Combinestagram" which allows the user to create quick collages of their own pictures on their iOS device. We will be building off of the photo library usage content from the "ContactsAdvanced" lab as well to allow users to select photos. Of course, we will be wrapping the UI elements in the RxSwift framework using Observables and Subjects, before later being sure to remove unused resources properly in the back. Here is a demo of the final app:
 
-<img src="https://i.imgur.com/Cto7Y8A.png" width="40%">
+<p align="center">
+  <img src="https://i.imgur.com/Cto7Y8A.png" width="40%">
+</p>
 
 ## Part 1: Building the Initial ViewController
 1. You can find the starter code for the lab [here](https://github.com/iOS-updates-2018/Labs/tree/master/Lab%20Combinestagram/RxCombinestagram%20-%20starter). Clone it and perform a `pod install` from within this directory. Because we are using CocoaPods for this project, we should be sure to open the `Combinestagram.xcworkspace` file from within the project directory.
