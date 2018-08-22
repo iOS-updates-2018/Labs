@@ -15,7 +15,7 @@ There is a flashcard app for Ruby on Rails developers at [https://www.brainscape
 
 Ours is much similar, with plenty of room for creative freedom. Here is a look at the project (two screens, one to show the command and the flipside to show the definition):
 
-<p float="left">
+<p float="left" align="center">
   <img src="https://i.imgur.com/eXT8Gx8.png" width="48%" />
   <img src="https://i.imgur.com/QgOM3aG.png" width="48%" /> 
 </p>
