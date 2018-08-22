@@ -7,19 +7,28 @@ OBJECTIVES
 
 CONTENTS
 ===
+This week, we will be making an app that allows users to track where their car is parked, and where they are relative to the car. We will be using maps, location, and plists to save car data. Here is a sneak peek at the final app, but let's dive in!
+
+<p float="left">
+  <img src="https://i.imgur.com/XN7zPNe.png" width="48%" />
+  <img src="https://i.imgur.com/J72gI4C.png" width="48%" /> 
+</p>
+
 Part 1: Creating a basic map
 ---
-1. Create a new "Single View App" project in Xcode called "FindMyCar". Once created, go to the main storyboard and on the first view add two buttons: "Here's My Car" and "Where's My Car?" This app is really designed for an iPhone, but you should still use Auto Layout constraints to make sure it works on different size phones (plus good practice).
+1. Create a new "Single View App" project in Xcode called "FindMyCar". Once created, go to the main storyboard and on the first view add two buttons: "Here's My Car" and "Where's My Car?" This app is really designed for an iPhone, but you should still use Auto Layout constraints to make sure it works on different size phones (plus good practice). At this point, your app should look like the left screen above.
 
-2. Create a new View Controller file called `MapViewController.swift` and drag a corresponding view onto the main storyboard.  Make sure you connect that view to the `MapViewController` class. Connect the "Where's My Car?" button from the previous view to this new view, creating a segue; be sure to give the segue an identifier in the Attributes inspector.
+2. Create a new View Controller file called `MapViewController.swift` and drag a corresponding map view controller onto the main storyboard.  Make sure you connect that view to the `MapViewController` class. Connect the "Where's My Car?" button from the previous view to this new view, creating a segue; be sure to give the segue an identifier in the Attributes inspector.
 
-3. In the new view, drag over a `MapKit View` (about halfway down the options in the Object Library) and have it fill the view.
+3. In the new view, drag over a `Map Kit View` (about halfway down the options in the Object Library) and have it fill the view. Don't forget about Auto Layout!
 
-4. In the `MapViewController.swift` file, add the directive `import MapKit` right after `import UIKit`. Go back to the Map storyboard and create an outlet called `mapView` for this MapKit View in the `MapViewController.swift` file (note this outlet should be of type `MKMapView`).
+4. Now we should add some navigation for a flow between the main title screen and the map. To do this, add in a `Navigation Controller`, remove its existing `Root View Controller`, and set the relationship to our main title screen view controller as `root view controller` (control-click and drag...). Be sure to set the navigation controller as the Initial View Controller!
 
-5. Now build the project and go to the map page in the simulator. Right now you are likely looking at a map of North America.  Glad that we got a map, but not all that helpful at the moment; not to worry, we will make it better soon.
+5. In the `MapViewController.swift` file, add the directive `import MapKit` right after `import UIKit`. Go back to the Map storyboard and create an outlet called `mapView` for this MapKit View in the `MapViewController.swift` file (note this outlet should be of type `MKMapView`).
 
-6. In the `MapViewController` file add in the following code after the `viewDidLoad()` function to help focus in on the area we really want to map:
+6. Now build the project and go to the map page in the simulator. Right now you are likely looking at a map of North America.  Glad that we got a map, but not all that helpful at the moment; not to worry, we will make it better soon.
+
+7. In the `MapViewController` file add in the following code after the end of the `viewDidLoad()` function to help focus in on the area we really want to map:
 
     ```swift
     let regionRadius: CLLocationDistance = 400
@@ -38,11 +47,13 @@ Part 1: Creating a basic map
     centerMapOnLocation(location: initialLocation)
     ```
 
-7. Build this project again and see the results on the map page. The revised map should put us a lot closer to our current location.  Feel free to experiment with the `regionRadius` property (measured in meters) to find a radius that you like best.
+8. Build this project again and see the results on the map page. The revised map should put us a lot closer to our current location.  Feel free to experiment with the `regionRadius` property (measured in meters) to find a radius that you like best. Also note you can hold down the `option` key in the simulator and drag around to perform a pinch-to-zoom effect.
 
 Part 2: Adding in current location
 ---
-1. Your simulator doesn't have GPS in it, but you can give it coordinates that it might have gotten from a GPS unit. To do this, go to your simulator and choose `Debug... Location...` and then choose the `Custom Location` option.  Add in the coordinates of (40.4454261, -79.9437277) for latitude and longitude, respectively.  These coordinates should put us in the Morewood parking lot. (A reasonable place to park one's car...)
+1. Your simulator doesn't have GPS in it, but you can give it coordinates that it might have gotten from a GPS unit. To do this, go to your simulator and choose `Debug... Location...` and then choose the `Custom Location` option.  Add in the coordinates of (40.4454261, -79.9437277) for latitude and longitude, respectively.  These coordinates should put us in the Morewood parking lot. (A reasonable place to park one's car, except for that Tepper building...)
+
+  ![Location](https://i.imgur.com/3PM6wJ7.png)
 
 2. Go into the `info.plist` file found in the file explorer and add a new property list item called `NSLocationWhenInUseUsageDescription` and add in the text "This app would like to use your location." (this can be done by clicking the + icon shown by hovering over "Information Property List"). This is the message that will be displayed when your app requests permission from the phone to use location services.
 
@@ -99,6 +110,8 @@ Part 2: Adding in current location
     ```
     Rerun the project to see the pin and the title beneath.
 
+    ![Pin](https://i.imgur.com/FJ8T2sc.png)
+
 6. Note the subtitle after you click on the pin. Now replace these five lines with a helper method within `MapViewController` which performs this pin-dropping action and is called in `viewDidLoad()`.
 
 
@@ -116,7 +129,9 @@ Part 3: Finding and mapping car location and current location
     }
     ```
 
-    Run your project and verify it is working as expected by tweaking the locations in the simulator to map to different locations.  FYI, the British Prime Minister's home is at (51.5034070, -0.1275920) and the White House is at (38.8976090, -77.0367350) if you want to try funky, non-Pittsburgh places to test. 
+    Run your project and verify it is working as expected by tweaking the locations in the simulator to map to different locations.  FYI, the British Prime Minister's home is at (51.5034070, -0.1275920) and the White House is at (38.8976090, -77.0367350) if you want to try funky, non-Pittsburgh places to test. Here is an example of the alert:
+
+    ![Alert](https://i.imgur.com/VRWeNxZ.png) 
 
 3. Going back, we want to test that the location we saved is reflected upon pressing the "Where's my car?" button. The action associated with the button is just a segue to the `MapViewController`, so all we need to do is make sure in the `MapViewController` that the pin we dropped earlier on our current location is eliminated and a new pin is now dropped on the current car's location. Feel free to also change the Title/Subtitle of the pin accordingly. In addition, change the map to center to on the car's location and not the initial location as we did earlier.
 
