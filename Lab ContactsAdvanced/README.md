@@ -1,15 +1,16 @@
 ## Using CoreData in Contacts App
 
-This lab is meant to introduce students to using iOS CoreData within an Application. The basis for this application will be the ContactsLite application shown in lecture, however it will be re-written from the ground-up using CoreData. Contacts Lite will be used as a reference for more of the visual aspects of the application (including storyboards and navigation), however the backend for loading/saving contacts will be re-written for CoreData use.
-
-
-### Part 0: Familiarizing with ContactsLite
-*In this section, students will be asked to clone the [ContactsLite Application](https://github.com/profh/67442_ContactsLite) and familiarize with how plists are used to manage information. This will also give students a chance to look at the visuals for ContactsLite to remember how it was set up.*
-
 This week for lab, we will be revisiting the ContactsLite application from lecture and changing the implementation of saving/loading state to run off of CoreData. CoreData is a means of interfacing with internal iOS device data that mimics the use of a SQLite database.
 
 In general, using CoreData to manage state is much preferred to plists, due to the allowance of relational entities and condensed code. You can learn more about CoreData [through the official Apple documentation](https://developer.apple.com/library/content/documentation/Cocoa/Conceptual/CoreData/index.html).
 
+<p float="left" align="center">
+  <img src="https://i.imgur.com/pXkwNSy.png" width="32%" />
+  <img src="https://i.imgur.com/PAcnVRB.png" width="32%" /> 
+  <img src="https://i.imgur.com/sOOGYOQ.png" width="32%" /> 
+</p>
+
+### Part 0: Familiarizing with ContactsLite
 First, we are going to take a look at the previous ContactsLite application to remember how we handled the saving/loading of data with plists, and how to interact with a `TableView`. **Please start by cloning the ContactsLite Application [here](https://github.com/profh/67442_ContactsLite)**.
 
 Take some time to go through the application and refresh yourself on some specific details, including:
@@ -20,14 +21,6 @@ Take some time to go through the application and refresh yourself on some specif
 * Loading contact data
 
 ### Part 1: Starting the ContactsAdvanced Application
-*In this section, students will be asked to set up a new Xcode project from scratch **being sure to check** `Use Core Data` **in the setup dialogs** and re-create the visuals for the application.*
-
-*The goal by the end of the section will be to launch a non-saving application that allows for a contact to be entered and the cells in the table view transitioning appropriately to the detail view.*
-
-*One feature to walkthrough would be uploading images of users for their contacts (such as a contact photo).*
-
-![Imgur](https://i.imgur.com/ELOqpSZ.png)
-![Imgur](https://i.imgur.com/I2ERGkB.png)
 
 Now, we will be setting up a new Xcode Single View App called "ContactsAdvanced". **Be sure to check the "Use CoreData" option** upon setup since this will create the necessary files for interfacing with CoreData.
 
@@ -125,6 +118,12 @@ Create a new entity named "People" with five attributes:
 * work_phone (String)
 * picture (Binary Data) *Note photo must be stored as raw data*
 
+Here is a picture of what your entity should look like, with the "Add Entity" button highlighted for you as well:
+
+<p align="center">
+  <img src="https://i.imgur.com/k1MLR6X.png" width="70%">
+</p>
+
 ##### Saving Contacts
 
 First `import CoreData` in the AddContactController.swift file.
@@ -193,3 +192,35 @@ func loadContacts(data: NSManagedObject){
 ```
 
 Now our contacts should be saving to and loading from CoreData! Try running the application multiple times to see this is the case :)
+
+##### Deleting Contacts
+
+Of course, sometimes friendships take a turn for the worst and we need to delete contacts from our device. After recovering from heartbreak we see that in our app right now it looks like we may be able to delete contacts from the list of all contacts by going to Edit > deleting one (if we are using the UI from ContactsLite!), but when we restart the app they are still there, causing more heartbreak. We need to put an end to this, but also give our application the ability to remove contacts from Core Data.
+
+Fortunately, there is already a spot in our code to add this logic in. It is in the ViewController file in the function `tableView(_:commit:editingStyle:forRowAt)`. Find this function, and replace the first conditional clause (for deletion), with the following:
+
+```swift
+if editingStyle == .delete {
+  let appDelegate = UIApplication.shared.delegate as! AppDelegate
+  let context = appDelegate.persistentContainer.viewContext
+  let request = NSFetchRequest<NSFetchRequestResult>(entityName: "Person")
+  request.returnsObjectsAsFaults = false
+  do {
+    let result = try context.fetch(request)
+    for data in result as! [NSManagedObject] {
+      // if the contact we are deleting is the same as this one in CoreData {
+        context.delete(data)
+        try context.save()
+      }
+    }
+  } catch {
+    print("Failed")
+  }
+  contacts.remove(at: indexPath.row)
+  tableView.deleteRows(at: [indexPath as IndexPath], with: .fade)
+}
+```
+
+All that remains here is for us to figure out how to delete the exact contact the user has requested from CoreData. Take a look at the logic and determine how to compare the CoreData entity with our object in `self.contacts`, then replace the commented out `if` statement above! Then our heartbreak will be eased, and the app completed.
+
+Qa'pla!
