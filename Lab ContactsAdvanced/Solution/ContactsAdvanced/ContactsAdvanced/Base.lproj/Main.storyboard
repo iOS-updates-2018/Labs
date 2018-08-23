@@ -57,9 +57,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="006-TA-eLC">
-                                <rect key="frame" x="67" y="91" width="240" height="128"/>
-                            </imageView>
                             <label clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" text="name goes here" lineBreakMode="tailTruncation" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="ehk-gh-pPC">
                                 <rect key="frame" x="109" y="268" width="104" height="17"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -118,6 +115,9 @@
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="006-TA-eLC">
+                                <rect key="frame" x="123" y="96" width="128" height="128"/>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -136,10 +136,10 @@
                             <constraint firstItem="w8m-xo-oWy" firstAttribute="leading" secondItem="wZ4-Vg-dAt" secondAttribute="leading" id="Tbg-Hx-2ik"/>
                             <constraint firstItem="U8f-v4-w0M" firstAttribute="baseline" secondItem="cWM-4V-Mnp" secondAttribute="baseline" id="X8i-Do-c03"/>
                             <constraint firstItem="wZ4-Vg-dAt" firstAttribute="baseline" secondItem="H4l-7D-VPQ" secondAttribute="baseline" id="aba-W5-nPz"/>
-                            <constraint firstItem="006-TA-eLC" firstAttribute="leading" secondItem="USR-CZ-1Ju" secondAttribute="leading" constant="67" id="bS2-Ap-87m"/>
-                            <constraint firstItem="006-TA-eLC" firstAttribute="top" secondItem="USR-CZ-1Ju" secondAttribute="top" constant="27" id="d5O-Qi-kyc"/>
+                            <constraint firstItem="006-TA-eLC" firstAttribute="leading" secondItem="USR-CZ-1Ju" secondAttribute="leading" constant="123" id="bS2-Ap-87m"/>
+                            <constraint firstItem="006-TA-eLC" firstAttribute="top" secondItem="USR-CZ-1Ju" secondAttribute="top" constant="32" id="d5O-Qi-kyc"/>
                             <constraint firstItem="3LN-20-6KS" firstAttribute="leading" secondItem="weB-Ee-o7s" secondAttribute="leadingMargin" id="hQZ-tH-eFZ"/>
-                            <constraint firstItem="w8m-xo-oWy" firstAttribute="top" secondItem="006-TA-eLC" secondAttribute="bottom" constant="45" id="mSW-MM-JRE"/>
+                            <constraint firstItem="w8m-xo-oWy" firstAttribute="top" secondItem="006-TA-eLC" secondAttribute="bottom" constant="40" id="mSW-MM-JRE"/>
                             <constraint firstItem="aNq-SU-f5G" firstAttribute="centerY" secondItem="vgZ-nH-1pf" secondAttribute="centerY" id="mfc-Dg-3J6"/>
                             <constraint firstItem="U8f-v4-w0M" firstAttribute="top" secondItem="aNq-SU-f5G" secondAttribute="bottom" constant="18" id="pu1-HQ-bnj"/>
                             <constraint firstItem="aNq-SU-f5G" firstAttribute="leading" secondItem="USR-CZ-1Ju" secondAttribute="leading" constant="39" id="wGx-81-dqQ"/>
@@ -283,11 +283,18 @@
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="137.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="lim-eY-0kd">
-                                                    <rect key="frame" x="67" y="4" width="240" height="128"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="lim-eY-0kd">
+                                                    <rect key="frame" x="123" y="4" width="128" height="128"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="128" id="ATG-mg-2Pc"/>
+                                                    </constraints>
                                                 </imageView>
                                             </subviews>
+                                            <constraints>
+                                                <constraint firstItem="lim-eY-0kd" firstAttribute="centerY" secondItem="MB8-3e-lXf" secondAttribute="centerY" id="1Vj-vo-YoA"/>
+                                                <constraint firstItem="lim-eY-0kd" firstAttribute="centerX" secondItem="MB8-3e-lXf" secondAttribute="centerX" id="2wH-nH-zV5"/>
+                                                <constraint firstItem="lim-eY-0kd" firstAttribute="top" secondItem="MB8-3e-lXf" secondAttribute="topMargin" constant="-7" id="DCN-8s-a8g"/>
+                                            </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                 </cells>

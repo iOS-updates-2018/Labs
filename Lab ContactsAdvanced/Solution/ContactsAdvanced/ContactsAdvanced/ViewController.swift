@@ -94,6 +94,24 @@ class ViewController: UITableViewController, AddContactControllerDelegate {
   
   override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
     if editingStyle == .delete {
+      let appDelegate = UIApplication.shared.delegate as! AppDelegate
+      let context = appDelegate.persistentContainer.viewContext
+      let request = NSFetchRequest<NSFetchRequestResult>(entityName: "Person")
+      request.returnsObjectsAsFaults = false
+      do {
+        let result = try context.fetch(request)
+        for data in result as! [NSManagedObject] {
+          if contacts[indexPath.row].name == (data.value(forKey: "name") as! String) &&
+            contacts[indexPath.row].email == (data.value(forKey: "email") as! String) &&
+            contacts[indexPath.row].homePhone == (data.value(forKey: "home_phone") as! String) &&
+            contacts[indexPath.row].workPhone == (data.value(forKey: "work_phone") as! String){
+            context.delete(data)
+            try context.save()
+          }
+        }
+      } catch {
+        print("Failed")
+      }
       contacts.remove(at: indexPath.row)
       tableView.deleteRows(at: [indexPath as IndexPath], with: .fade)
     } else if editingStyle == .insert {

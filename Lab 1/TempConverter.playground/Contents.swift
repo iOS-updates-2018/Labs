@@ -38,4 +38,3 @@ let t = TempConverter(temp: 10)
 print(TempConverter.convert(temp: 50))
 print(TempConverter.convert(temp: 10, unit: "C"))
 print(TempConverter.convert(temp: -460, unit: "F"))
-

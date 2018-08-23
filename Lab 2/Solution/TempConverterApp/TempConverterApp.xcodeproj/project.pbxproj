@@ -14,6 +14,7 @@
 		7B3908662013E818009F1AD5 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7B3908642013E818009F1AD5 /* LaunchScreen.storyboard */; };
 		7B39086E2013E840009F1AD5 /* TempConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B39086D2013E840009F1AD5 /* TempConverter.swift */; };
 		7B3908702013F52D009F1AD5 /* AboutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B39086F2013F52D009F1AD5 /* AboutViewController.swift */; };
+		7BA19EFC21299E450085525F /* andy-wright-332057-unsplash.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 7BA19EFB21299E450085525F /* andy-wright-332057-unsplash.jpg */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +27,7 @@
 		7B3908672013E818009F1AD5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7B39086D2013E840009F1AD5 /* TempConverter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TempConverter.swift; sourceTree = "<group>"; };
 		7B39086F2013F52D009F1AD5 /* AboutViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutViewController.swift; sourceTree = "<group>"; };
+		7BA19EFB21299E450085525F /* andy-wright-332057-unsplash.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = "andy-wright-332057-unsplash.jpg"; path = "../../../../../../andy-wright-332057-unsplash.jpg"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -60,6 +62,7 @@
 		7B39085A2013E818009F1AD5 /* TempConverterApp */ = {
 			isa = PBXGroup;
 			children = (
+				7BA19EFB21299E450085525F /* andy-wright-332057-unsplash.jpg */,
 				7B39085B2013E818009F1AD5 /* AppDelegate.swift */,
 				7B39085D2013E818009F1AD5 /* ViewController.swift */,
 				7B39085F2013E818009F1AD5 /* Main.storyboard */,
@@ -129,6 +132,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7BA19EFC21299E450085525F /* andy-wright-332057-unsplash.jpg in Resources */,
 				7B3908662013E818009F1AD5 /* LaunchScreen.storyboard in Resources */,
 				7B3908632013E818009F1AD5 /* Assets.xcassets in Resources */,
 				7B3908612013E818009F1AD5 /* Main.storyboard in Resources */,

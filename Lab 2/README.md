@@ -13,11 +13,13 @@ Part 1: Temp Converter (iOS app)
 ---
 This lab will build off our TempConverter that we have been working with in 67-272 and in the previous lab and turn it into a working iOS app. The app will take some user input, convert it (if valid) from either Celsius to Fahrenheit or Fahrenheit to Celsius. There will also be a toggle switch to change the direction of the conversion and a simple about page describing your app. A sample screenshot of the app can be seen below. (You are free to use different colors, etc.; I just like blue.) 
 
-![](http://67442.cmuis.net/screenshots/67442/lab4/lab4-1.png)
+<img src="https://i.imgur.com/tk5GBzl.jpg" width="350">
 
 1. Create a new project which is a "Single View App" and call it "TempConverterApp". After you have the basic project, add a new Swift file called `TempConverter.swift` to hold your model. At the end of the lab is a partial model file if you are completely stuck and need a jump start to get going, but given your previous experience you can probably figure out an appropriate model on your own and I strongly urge you to try as it will maximize your learning experience. 
 
     The model should be able to convert Fahrenheit temps to Celsius and likewise convert Celsius to Fahrenheit if the user wants to go the other way. The model should be sure to have a variable which will interact with the ViewController to display the temperature as a string. This variable should either be the final temperature after conversion, or should display 'N/A' if the temperature the user inputs is invalid because it is either below absolute zero or is not a number. Check the code at the bottom of the lab for a better idea on this (using the variable `convertedTempDisplay`).
+
+    After building up your model, check out the boilerplate code at the bottom of the instructions. This time, we are separating out the functions for Fahrenheit to Celsius and Celsius to Fahrenheit conversions, which allows for fewer conditionals in our code (and  abit more readable logic). You don't have to implement your model in this fashion, but at least take a look to get a sense of the differences in architecture between this model and the one we wrote last week.
 
 2. Now we will move to the storyboard to mock up the interface. Open the `Main.storyboard` file in the XCode file explorer to see a blank iPhone canvas. For now we will just assume all temp conversions are from Fahrenheit to Celsius (will add the switch later) but we want to be mindful when we build the storyboard that the switch is coming and labels will have to adjust. Below is a screenshot of the initial storyboard to help guide you:
 
@@ -29,7 +31,7 @@ This lab will build off our TempConverter that we have been working with in 67-2
 
 3. In `ViewController.swift`, create some outlets that can be used for views to hook into. As we've seen before, outlets that are labels are of type `UILabel!`, but the `tempInput` outlet, for the input text field, is of type `UITextField!`. Once you have these outlets, wire them up to the storyboard (control-click, drag from Referencing Outlets to View Controller on the left). If you are stuck on how to create new outlets, check out the `ViewController.swift` file in the slider game code on the lectures portion of the course site.
 
-4. In the view controller, create an instance of the TempConverter model that the controller can work with. In the function `viewDidLoad()` **be sure to set the initial tempLabel to "--"**. In the view controller you might also want to create a method called `updateLabels()` and another called `updateDisplay()` that other methods might call later, similar to what we did with the demo app in class. `updateLabels` will eventually update the temperature labels upon switching the input temperature (to be added later) while `updateDisplay` will update the final temperature label with the converted temperature, after converting the input temperature through the model.
+4. In the view controller, create an instance of the TempConverter model that the controller can work with. In the function `viewDidLoad()` **be sure to set the initial tempLabel to "--"** (to represent our starting state). In the view controller you might also want to create a method called `updateLabels()` and another called `updateDisplay()` that other methods might call later, similar to what we did with the demo app in class. `updateLabels` will eventually update the temperature labels upon switching the input temperature (to be added later) while `updateDisplay` will update the final temperature label with the converted temperature, after converting the input temperature through the model.
 
 5. Now we need to make an action in the View Controller that will convert the temperature when the button is pushed. My outlet for the text field is called `tempInput` and I can get the text from that outlet by typing `tempInput.text` If I just put in 
 
@@ -37,7 +39,7 @@ This lab will build off our TempConverter that we have been working with in 67-2
     let userData:String = tempInput.text
     ```
 
-    then I get an error because the text field might not have any value and is an optional. I can force unpack it with `.text!` but then the interesting thing is that a blank text field will now have the value "".  I can handle that case (set blank to -500 so the 'N/A' message appears) as follows:
+    then I get an error because the text field might not have any value and is an optional. I can force unpack it with `.text!` but then the interesting thing is that a blank text field will now have the value "". We can handle that case (set blank to -500 so the 'N/A' message appears) as follows:
 
     ```swift
     let userData:String = tempInput.text!
@@ -48,9 +50,11 @@ This lab will build off our TempConverter that we have been working with in 67-2
     else { ...
     ```
 
-    Now we just have to convert `userData` from the string with the user's input to an integer, which I could do with `Int(userData)`. But if the user puts in some nonsense text like 'tom brady', this method would return nil. How do I handle that? Treat it as an optional with `if let ...` and if it exists then just set the converter's input temp to that value; otherwise set to -500 as we did earlier.  Once the converter class instance's input temp is properly set in the ViewController, call the converter class instance's `convert()` method, update the temperature display in the View Controller and we are set.
+    Now we just have to convert `userData` from the string with the user's input to an int, which I could do with `Int(userData)`. But if the user puts in some nonsense text like 'tom brady', this method would return nil. How do we handle that? Treat it as an optional with `if let ...` and if it exists then just set the converter's input temp to that value; otherwise set to -500 as we did earlier.  Once the converter class instance's input temp is properly set in the ViewController, call the converter class instance's `convert()` method, update the temperature display in the View Controller and we are set.
 
-    Once you have this `@IBAction` function created, don't forget to wire it up to the storyboard. Build and run your app in the simulator to be sure it is working appropriately.
+    If you are stuck on this part, check out the [Swift Docs](https://docs.swift.org/swift-book/LanguageGuide/OptionalChaining.html) for help.
+
+    Once you have this `@IBAction` function created, **don't forget to wire it up to the storyboard**! Build and run your app in the simulator to be sure it is working appropriately.
 
 6. Now that this is working, we can go back to the storyboard and add a `UISwitch` element as well as some labels to indicate the direction of conversion. We can customize the switch using the attributes inspector on the right. We now need to create an action in the View Controller which will have the model toggle the units and then call our other View Controller method to update the temperature labels so we see the switch is working.  Below is a simple method to do so:
 
@@ -113,7 +117,11 @@ This lab will build off our TempConverter that we have been working with in 67-2
     }
     ```
 
-    Redeploy to your device and see that this now works fine.  Of course, we might want other things to happen too, such as the text field automatically clearing or being selected when the app opens or automatically convert the temp when return is hit and as we learn more about delegates and the UITextFieldDelegate we can go back and modify this app as we see fit.  But for now, onto a quick refresher of data structures so we can sharpen our Swift skills.
+    Redeploy to your device and see that this now works fine.  Of course, we might want other things to happen too, such as the text field automatically clearing or being selected when the app opens or automatically convert the temp when return is hit and as we learn more about delegates and the UITextFieldDelegate we can go back and modify this app as we see fit.  
+
+11. Our app works, but we can make it look prettier. This part is optional, but feel free to use the techniques introduced at the end of th elast lab to make our app more visually astonishing! The background photo used can be found [here](https://unsplash.com/photos/aQ0S_jhEm0w).
+
+Now, onto a quick refresher of data structures so we can sharpen our Swift skills.
 
 
 Part 2: Stacks and Queues (Swift)
@@ -227,28 +235,29 @@ Model starter code:
   import Foundation
 
   class TempConverter {
-  
     var inputTemp: Int = 0
     var convertedTemp: Int = 0
     var convertedTempDisplay: String = "0"
     var tempUnits: String = "°F"
     var newUnits: String = "°C"
-  
+
+    // Separated functions to check the absolute value cases, by unit
+    private func tempBelowAbsoluteZeroFtoC(temp: Int) -> Bool {
+    }
+    
+    private func tempBelowAbsoluteZeroCtoF(temp: Int) -> Bool {
+    }
+    
+    // Separated functions for temperature converstion, by unit
+    private func convertFtoC(temp: Int) -> Int {
+    }
+    
+    private func convertCtoF(temp: Int) -> Int {
+    }
+
+    // Call the appropriate conversion function based on unit and update display variables
     func convert() {
-      // Logic for converting the temperature
-      // must check that the temp is valid (above absolute zero)
-      // if temp is not valid, display string should be set to 'N/A'
     }
-  
-    func tempBelowAbsoluteZero() -> Bool {
-      // test to make sure above absolute zero for either Fahrenheit or Celsius
-      // Note testing for datatype correctness can happen in the ViewController
-    }
-  
-    func toggleUnits() {
-
-      // switch the state of tempUnits and newUnits
-
-    }  
+    
   }
   ```

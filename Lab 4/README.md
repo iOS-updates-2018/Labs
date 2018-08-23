@@ -11,23 +11,29 @@ OBJECTIVES
 
 CONTENTS
 ===
-There is a flashcard app for Ruby on Rails developers at [https://www.brainscape.com/learn/ruby-on-rails](https://www.brainscape.com/learn/ruby-on-rails) that we will replicate here in a much simpler fashion. 
+There is a flashcard app for Ruby on Rails developers at [https://www.brainscape.com/learn/ruby-on-rails](https://www.brainscape.com/learn/ruby-on-rails) that we will replicate here in a much simpler fashion.
+
+Ours is much similar, with plenty of room for creative freedom. Here is a look at the project (two screens, one to show the command and the flipside to show the definition):
+
+<p float="left" align="center">
+  <img src="https://i.imgur.com/eXT8Gx8.png" width="48%" />
+  <img src="https://i.imgur.com/QgOM3aG.png" width="48%" /> 
+</p>
 
 
 Flashcards Part 1: Representing, Creating, and Displaying Cards
 ---
 1. Create a new Single View App called "Flashcards".  If you want an AppIcon for this app, you can [get one here](http://67442.cmuis.net/files/67442/lab4/flashcard_images.zip) or [create one here](https://makeappicon.com/). Within the project, create a new, blank Swift file called `Flashcard.swift` and create a simple model named `Flashcard` within this file to represent the essence of a flashcard.  In this case, that means the model has the following:
-
     - an instance variable called `command` of type String (this is the front of the flashcard with the rails command).
     - an instance variable called `definition` also of type String (this is the back of the flashcard with what the rails command does).
     - a constructor method that takes a command string and a definition string as arguments and sets the appropriate instance variables. 
 
     In this case use a `struct` not a `class` for this model since this model has only state (properties) and not behavior (methods). (As discussed in class, this is not the primary distinction between structs and classes in Swift, but we will observe this practice here).
 
-2. Create another new file called `Deck.swift` that will help represent a series of flashcards. Within this file, we will define a new class called `Deck`. This will be a class since it will have both state and behavior.  For the state, create an instance variable called `cards` which will be an array of `Flashcard` objects (using the struct we created earlier). In the init method, add the following:
+2. Create another new file called `Deck.swift` that will help represent a series of flashcards. Within this file, we will define a new class called `Deck`. This will be a class since it will have both state and behavior.  For the state, create an instance variable called `cards` which will be an array of `Flashcard` objects (using the struct we created earlier). Afterwards, in the `init` method, set the body of the method to the following code:
   
     ```swift 
-      init() {
+    init() {
       let cardData = [
         "rails generate model ModelName" : "Creates a model with the specified model_name",
         "rails generate migration MigrationName" : "Creates a migration with the specified migration_name",
@@ -58,8 +64,8 @@ Flashcards Part 1: Representing, Creating, and Displaying Cards
       // for each card and add that object to the `cards` array we created as an instance variable.
       // This can be done in one line using a closure and I'd encourage you to do so.
 
-      }
-      ```
+    }
+    ```
 
     Replace the comment above with the appropriate closure.  After that add a method that draw a random card (see below):
 
@@ -74,18 +80,18 @@ Flashcards Part 1: Representing, Creating, and Displaying Cards
     }
     ```
 
-3. Now switch to the View Controller. Here, we are going to create a new deck as well as an optional to hold a flashcard object from that deck:
+3. Now switch to the `View Controller` code. Here, we are going to create a new deck as well as an optional to hold a flashcard object from that deck:
 
     ```swift
     let deck = Deck()
     var flashcard: Flashcard?
     ```
  
-4. We need some way to display this information. Add some labels to the main storyboard as seen below.  Then turn the second label into an outlet called `commandLabel`.
+4. We need some way to display this information. Add some labels to the main storyboard as seen below.  Then turn the lower label into an outlet called `commandLabel`.
 
     ![](http://67442.cmuis.net/screenshots/67442/lab5/lab5-2.png)
 
-    Note that you will need to tweak the label in the Identity inspector to allow for multiple lines.
+    Note that you will need to tweak the label in the Identity inspector to allow for multiple lines. To allow this, set the number of lines to 0 and then expand the size of the label box to allow for more content to be seen. Be sure to then center the text as well if you do so!
 
 5. Now we need to display the flashcard's `command` property in the in the `commandLabel`. To do that, add to the `viewDidLoad()` method this code that will draw and display a random flashcard.  Remember that flashcard is technically an optional, so we will safely unpack it with `if let ...`  
 
@@ -96,7 +102,9 @@ Flashcards Part 1: Representing, Creating, and Displaying Cards
       }
     ```
 
-    Build and run the app to see that it is randomly drawing and displaying the contents of a card. For now you should see the bottom portion of the flashcard upadting with a new rails command, with the top unchanged.
+    Build and run the app to see that it is randomly drawing and displaying the contents of a card. For now you should see the bottom portion of the flashcard upadting with a new rails command, with the top unchanged. It should look something like this (with a new command generated each time):
+
+      <img src="https://i.imgur.com/B4phCIl.png" width="50%"/>
 
     We will now work to make our flashcards flippable and add the definition to the cards as well.
 
@@ -106,7 +114,9 @@ Flashcards Part 2: Adding Navigation
 
     Then in the storyboard add a new view controller to the storyboard to the right of the current one.  Make sure that in the Identity inspector you set the class on the new view controller to `DefinitionViewController`. (In some cases you might have Xcode issue a warning after selecting the custom class; if so click into the module text box just below and just hit enter.)
 
-2. To add the navigation bar to the app, select the first view controller and then, on the top XCode menu, select the `Editor` option and select `Embed in...` > `Navigation Controller`.  This will add the navigation controller and a navbar to the View Controller.  In the Object Library select the `Bar Button Item` and drag it to the right side of the top navbar on the original View Controller.  Replace the button text of this new button with 'Definition' and set the navbar title to 'Command'.
+2. To add the navigation bar to the app, select the first view controller and then, on the top XCode menu, select the `Editor` option and select `Embed in...` > `Navigation Controller`.  This will add the navigation controller and a navbar to the View Controller.  In the Object Library select the `Bar Button Item` and drag it to the right side of the top navbar on the original View Controller.  Replace the button text of this new button with 'Definition' and set the navbar title to 'Command'. The navigation in the storyboard should now look like the following (minus the `DefinitionViewController`, which we will wire in shortly! It should be empty now):
+
+    <img src="https://i.imgur.com/RrZuf4c.png" width="75%">
 
 3. Now `control click` on the button and drag it to the definition view controller.  Choose the `show` option when creating the seque. Click on the seque in the storyboard and look at Attribute Inspector; change the identifier to `showDefinition`.  Build and run the app and see how the two pages are connected via the navbar. Also note how the title of the navbar in the first View Controller automatically set the back button in the second View Controller.
 

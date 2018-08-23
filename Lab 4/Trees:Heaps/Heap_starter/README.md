@@ -164,5 +164,3 @@ Let's say we want to see if the heap contains the value `8` (it doesn't). We sta
 Despite this small optimization, searching is still an **O(n)** operation.
 
 **Note:** There is away to turn lookups into a **O(1)** operation by keeping an additional dictionary that maps node values to indices. This may be worth doing if you often need to call `replace()` to change the "priority" of objects in a priority queue that's built on a heap.
-
-#### Putting heaps to the test

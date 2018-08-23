@@ -2,8 +2,11 @@
 *Note this lab is based off of chapter four of Ray Wenderlich's Book "RxSwift: Reactive Programming with Swift"*
 
 ## Combinestagram
-In this lab, we will be creating an application called "Combinestagram" which allows the user to create quick collages of their own pictures on their iOS device. We will be building off of the photo library usage content from the "ContactsAdvanced" lab as well to allow users to select photos. Of course, we will be wrapping the UI elements in the RxSwift framework using Observables and Subjects, before later being sure to re
-move unused resources properly in the back.
+In this lab, we will be creating an application called "Combinestagram" which allows the user to create quick collages of their own pictures on their iOS device. We will be building off of the photo library usage content from the "ContactsAdvanced" lab as well to allow users to select photos. Of course, we will be wrapping the UI elements in the RxSwift framework using Observables and Subjects, before later being sure to remove unused resources properly in the back. Here is a demo of the final app:
+
+<p align="center">
+  <img src="https://i.imgur.com/Cto7Y8A.png" width="40%">
+</p>
 
 ## Part 1: Building the Initial ViewController
 1. You can find the starter code for the lab [here](https://github.com/iOS-updates-2018/Labs/tree/master/Lab%20Combinestagram/RxCombinestagram%20-%20starter). Clone it and perform a `pod install` from within this directory. Because we are using CocoaPods for this project, we should be sure to open the `Combinestagram.xcworkspace` file from within the project directory.
@@ -77,7 +80,7 @@ move unused resources properly in the back.
     Now you can run the application to see a dynamically updating UI as well surrounding the collage.
 
 ## Part 2: Using Subjects for View Controller Communication
-Now, we are going to tackle the problem of adding in new user photos a bit differently from how we accessed the photos library in the ContactsAdvanced lab. We already have a basic `PhotosViewController` constructed, but now we have to work to have it interact with the `MainViewController`.
+Now, we are going to tackle the problem of adding in new user photos a bit differently from how we will access the photos library in the next lab. We already have a basic `PhotosViewController` constructed, but now we have to work to have it interact with the `MainViewController`.
 
 1. First, we will need to add this new View Controller to the UI when the user wishes to add a new photo to the collage. Let's go into the `MainViewController` and replace the code that adds the same stock image ("IMG_1907.jpg") with the following:
 
