@@ -43,10 +43,15 @@ public indirect enum BinaryTree<T> {
     }
   }
   
-  public func containsValue(t: T) -> T? {
+  public func containsValue(t: T, equals: (T, T) -> Bool) -> T? {
     // Returns an optional with some(t) if t is present in the Binary Tree, and
     // nil otherwise
-    return self.traverseInOrder().contains(where: t)
+    for e in self.traverseInOrder(){
+      if equals(e, t){
+        return t
+      }
+    }
+    return nil
   }
   
 }

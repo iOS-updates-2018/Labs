@@ -24,7 +24,7 @@ class BinaryTreeTests: XCTestCase {
   }
   
   func testContainsValue(){
-    XCTAssert((emptyTree.containsValue(t: 0)) == nil)
+    XCTAssert((emptyTree.containsValue(t: 0, equals: ==)) == nil)
   }
 
 }
