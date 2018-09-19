@@ -24,7 +24,7 @@ public indirect enum BinaryTree<T> {
     // Note that this is a more convenient way than switching on .Empty
   }
   
-  public func containsValue(t: T) -> T? {
+  public func containsValue(t: T, equals: (T, T) -> Bool) -> T? {
     // Returns an optional with some(t) if t is present in the Binary Tree, and
     // nil otherwise
   }
